@@ -4,9 +4,7 @@ SOUNDCLOWN_DOCKERFILE="."
 
 # NGL bash scripts suck. This is currently hack and we'll probably switch to python
 
-echo $@
-# uid=$(id -u)
-# gid=$(id -g)
+code=$(pwd)
 
 REBUILD=false
 
@@ -26,4 +24,5 @@ fi
 
 echo "Welcome to the SoundClown Dev Environment"
 docker run -it --rm     \
+    -v "${code}:/code"  \
     ${docker_image}  /bin/bash
