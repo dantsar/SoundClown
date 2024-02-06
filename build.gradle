@@ -17,16 +17,23 @@ plugins {
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    // jcenter()
+
+    mavenCentral()
 }
 
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
 
+    //  Java ffmpeg cli wrapper
+    implementation 'net.bramp.ffmpeg:ffmpeg:0.8.0'
+    implementation 'ch.qos.logback:logback-classic:1.4.9' // Check for the latest version
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
 }
+
 
 application {
     // Define the main class for the application.

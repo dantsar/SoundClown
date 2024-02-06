@@ -3,3 +3,6 @@
 
 # Ignore Gradle build output directory
 build
+
+*.mp3
+*.wav
