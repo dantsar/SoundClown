@@ -8,3 +8,5 @@
  */
 
 rootProject.name = 'SoundClown'
+include 'web-app'
+
