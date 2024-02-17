@@ -15,7 +15,7 @@ To install Gradle on Linux (make sure that the gradle version is >6.0)
 
 Run the following to enter the docker container:
 ```
-./docker_buiid.sh
+./init.sh
 ```
 
 Run the Java App using the following
