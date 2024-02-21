@@ -18,13 +18,13 @@ CREATE TABLE playlists (
     FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
-CREATE TABLE playlist_songs (
+CREATE TABLE playlist_tracks (
     id serial,
     playlist_id integer NOT NULL,
     song_id integer NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (playlist_id) REFERENCES playlists(id),
-    FOREIGN KEY (song_id) REFERENCES songs(id)
+    FOREIGN KEY (song_id) REFERENCES tracks(id)
 );
 
 CREATE TABLE genres (
