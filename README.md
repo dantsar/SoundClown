@@ -10,8 +10,8 @@ This project intends to use the following frameworks and techonologies:
 # MORE TO COME
 
 # Build System
-To start we're going to use Gradle.
-To install Gradle on Linux (make sure that the gradle version is >6.0)
+To start we're going to use Maven.
+To install Maven on Linux (make sure that the Maven version is >3.9.6)
 
 Run the following to enter the docker container:
 ```
@@ -20,5 +20,5 @@ Run the following to enter the docker container:
 
 Run the Java App using the following
 ```
-gradle run
+mvn compile exec:java -Dexec.mainClass="com.SoundClown.Main"
 ```
