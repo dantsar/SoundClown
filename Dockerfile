@@ -2,18 +2,16 @@ FROM eclipse-temurin:latest
 # ADD . /app
 WORKDIR /code
 
+ARG MAVEN_VERSION=3.9.6
+
 RUN set -x \
     && apt-get update \
-    && apt-get install unzip \
-    && VERSION=8.5 \
-    && wget https://services.gradle.org/distributions/gradle-${VERSION}-bin.zip -P /tmp \
-    && unzip -d /opt/gradle /tmp/gradle-${VERSION}-bin.zip \
-    && ln -s /opt/gradle/gradle-${VERSION} /opt/gradle/latest \
-    && rm /tmp/gradle-${VERSION}-bin.zip
+    && wget https://downloads.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -P /tmp \
+    && tar -zxvf /tmp/apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt/ \
+    && rm /tmp/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
-ENV GRADLE_HOME=/opt/gradle/latest/bin/
-ENV PATH=$PATH:$GRADLE_HOME
-
+ENV M2_HOME=/opt/apache-maven-3.9.6/bin
+ENV PATH=$PATH:$M2_HOME
 
 VOLUME /code
 CMD ["/bin/bash"]
