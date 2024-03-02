@@ -22,3 +22,25 @@ Run the Java App using the following
 ```
 mvn compile exec:java -Dexec.mainClass="com.SoundClown.Main"
 ```
+
+# Database
+I'll put the maven setup into the docker-compose.yml file soon.
+
+To build the db in docker
+
+```
+docker compose up -d
+```
+
+Starts the container up in a detached mode and initializes it with the contents of `init_tables.sql`
+
+```
+docker compose exec postgres psql -U clown -d clown_db
+```
+Lets you access the tables.
+
+```
+docker compose down 
+```
+To close the container
+
