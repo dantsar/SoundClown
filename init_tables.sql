@@ -11,7 +11,7 @@ CREATE TABLE playlists (
     description varchar(500),
     creator_id integer NOT NULL,
     creation_date timestamp DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
     FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
@@ -20,8 +20,8 @@ CREATE TABLE playlist_tracks (
     playlist_id integer NOT NULL,
     song_id integer NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (playlist_id) REFERENCES playlists(id),
-    FOREIGN KEY (song_id) REFERENCES tracks(id)
+    FOREIGN KEY (playlist_id) REFERENCES playlists(id)
+    --FOREIGN KEY (song_id) REFERENCES tracks(id) tracks doesnt exist
 );
 
 CREATE TABLE genres (
