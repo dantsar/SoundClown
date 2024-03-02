@@ -1,3 +1,5 @@
+CREATE DATABASE soundclown;
+
 CREATE TABLE users (
     id serial,
     user_name varchar(50) NOT NULL UNIQUE,
@@ -69,3 +71,4 @@ CREATE TABLE comments (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (track_id) REFERENCES tracks(id) ON DELETE CASCADE
 );
+

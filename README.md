@@ -10,37 +10,31 @@ This project intends to use the following frameworks and techonologies:
 # MORE TO COME
 
 # Build System
-To start we're going to use Maven.
-To install Maven on Linux (make sure that the Maven version is >3.9.6)
-
-Run the following to enter the docker container:
+You first need to create location to store database data
 ```
-./docker_buiid.sh
+mkdir -p $HOME/srv/postgres
 ```
 
-Run the Java App using the following
+Then run 
 ```
-mvn compile exec:java -Dexec.mainClass="com.SoundClown.Main"
-```
-
-# Database
-I'll put the maven setup into the docker-compose.yml file soon.
-
-To build the db in docker
-
-```
-docker compose up -d
+docker run --rm --name lil-postgres -e POSTGRES_PASSWORD=password -d -v $HOME/srv/postgres:/var/lib/postgresql/data -p 5432:5432 postgres
 ```
 
-Starts the container up in a detached mode and initializes it with the contents of `init_tables.sql`
+Connect to the database using 
+```
+psql -h localhost -U postgres
+```
 
+Create the database
 ```
-docker compose exec postgres psql -U clown -d clown_db
+CREATE DATABASE soundclown;
+\c soundclown
 ```
-Lets you access the tables.
+From there populate the database
 
-```
-docker compose down 
-```
-To close the container
 
+Run 
+```
+docker compose up
+```
+start the db and run JDBCExecutor
