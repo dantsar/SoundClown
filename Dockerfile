@@ -11,4 +11,4 @@ RUN mvn -e package
 
 FROM eclipse-temurin:latest
 COPY --from=build /project/target /app/target
-#ENTRYPOINT java -jar /app/target/jdbc_prep-1.0-SNAPSHOT.jar
+RUN java -jar /app/target/clown-app.jar
