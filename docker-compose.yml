@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: ${PGDATA}
     volumes:
-       - $HOME/srv/postgres:/var/lib/postgresql/data
+       - clown-vol:${PGDATA}
     ports:
       - 5432:5432
     expose:
@@ -19,13 +19,17 @@ services:
     restart: unless-stopped
 
   app:
-      build: 
-        context: .
-        dockerfile: Dockerfile
-      image: "soundclown-app"
-      container_name: ${APP_CONTAINER_NAME}
-      environment:
-        - POSTGRES_DB=${POSTGRES_DB}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      depends_on:
-        - postgres 
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: "soundclown-app"
+    container_name: ${APP_CONTAINER_NAME}
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - postgres 
+
+volumes:
+  clown-vol:
+    external: true
