@@ -1,19 +1,11 @@
+FROM postgres
+#COPY *.sql /docker-entrypoint-initdb.d/
+
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+ADD . /project
+WORKDIR /project
+RUN mvn -e package
+
 FROM eclipse-temurin:latest
-# ADD . /app
-WORKDIR /code
-
-RUN set -x \
-    && apt-get update \
-    && apt-get install unzip \
-    && VERSION=8.5 \
-    && wget https://services.gradle.org/distributions/gradle-${VERSION}-bin.zip -P /tmp \
-    && unzip -d /opt/gradle /tmp/gradle-${VERSION}-bin.zip \
-    && ln -s /opt/gradle/gradle-${VERSION} /opt/gradle/latest \
-    && rm /tmp/gradle-${VERSION}-bin.zip
-
-ENV GRADLE_HOME=/opt/gradle/latest/bin/
-ENV PATH=$PATH:$GRADLE_HOME
-
-
-VOLUME /code
-CMD ["/bin/bash"]
+COPY --from=build /project/target /app/target
+ENTRYPOINT java -jar /app/target/SoundClown-1.0-SNAPSHOT.jar
