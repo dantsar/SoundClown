@@ -16,5 +16,9 @@ services:
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=password
+    expose:
+      - 8080:8080
+    ports:
+      - 8080:8080
     depends_on:
       - db
