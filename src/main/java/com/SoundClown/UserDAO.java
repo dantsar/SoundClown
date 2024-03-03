@@ -9,10 +9,9 @@ import java.sql.SQLException;
 
 public class UserDAO extends DataAccessObject<User> {
     
-    private static final String GET_ONE = "SELECT id, user_name, password " + 
-        "FROM user WHERE user_name=?";
+    private static final String GET_ONE = "SELECT id, user_name, password FROM users WHERE user_name = ?";
 
-    private static final String INSERT = "INSERT INTO user (id, user_name, password) " + 
+    private static final String INSERT = "INSERT INTO users (id, user_name, password) " + 
         " VALUES(?, ?, ?)";
 
     public UserDAO(Connection connection) {
@@ -24,6 +23,7 @@ public class UserDAO extends DataAccessObject<User> {
         User user = new User();
         try(PreparedStatement statement = this.connection.prepareStatement(GET_ONE);) {
             statement.setString(1, dto.get_user_name());
+            System.out.println(dto.get_user_name());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 user.set_id(rs.getInt("id"));
