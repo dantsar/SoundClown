@@ -45,16 +45,18 @@ public class App {
 		}
 	}
 
-    @GetMapping("/getByUserName/{user_name}")
-	public User getByUserName(@PathVariable("user_name") String user_name) {
+    // User
+
+    @GetMapping("/user/getByUserName/{user_name}")
+	public Users getByUserName(@PathVariable("user_name") String user_name) {
 		System.out.println(user_name);
 		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
 				"soundclown", "postgres", "password");
-		User user = new User();
+		Users user = new Users();
 		user.set_user_name(user_name);
 		try {
 			Connection connection = dcm.getConnection();
-			UserDAO userDAO = new UserDAO(connection);
+			UsersDAO userDAO = new UsersDAO(connection);
 
 			user = userDAO.find_by_user_name(user);
 			System.out.println(user);
@@ -65,17 +67,17 @@ public class App {
 		return user;
 	}
 
-    @PostMapping("/createNewUser")
-    public User createNewUser(@RequestBody String json) throws JsonProcessingException {
+    @PostMapping("/user/createNewUser")
+    public Users createNewUser(@RequestBody String json) throws JsonProcessingException {
 		System.out.println(json);
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
 				"soundclown", "postgres", "password");
-		User user = new User();
+		Users user = new Users();
 		try {
 			Connection connection = dcm.getConnection();
-			UserDAO userDAO = new UserDAO(connection);
+			UsersDAO userDAO = new UsersDAO(connection);
             user.set_id(Integer.parseInt(inputMap.get("id")));
             user.set_user_name(inputMap.get("user_name"));
             user.set_password(inputMap.get("password"));
@@ -86,6 +88,36 @@ public class App {
 			e.printStackTrace();
 		}
 		return user;
+	}
+
+    @PostMapping("/tracks/createNewTrack")
+    public Tracks createNewTrack(@RequestBody String json) throws JsonProcessingException {
+		System.out.println(json);
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
+				"soundclown", "postgres", "password");
+		Tracks track = new Tracks();
+		try {
+			Connection connection = dcm.getConnection();
+			TracksDAO trackDAO = new TracksDAO(connection);
+
+            track.set_id(Integer.parseInt(inputMap.get("id")));
+            track.set_track_name(inputMap.get("track_name"));
+            track.set_description(inputMap.get("description"));
+            track.set_artist_id(Integer.parseInt(inputMap.get("artist_id")));
+            track.set_genre_id(Integer.parseInt(inputMap.get("genre_id")));
+            track.set_plays(Integer.parseInt(inputMap.get("plays")));
+            track.set_track_path(inputMap.get("track_path"));
+            track.set_art_path(inputMap.get("art_path"));
+            track = trackDAO.create(track);
+
+			System.out.println(track);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return track;
 	}
 
 	public static void main(String[] args) {
