@@ -45,8 +45,50 @@ public class App {
 		}
 	}
 
-	public static void main(String[] args) {
+    @GetMapping("/getByUserName/{user_name}")
+	public User getByUserName(@PathVariable("user_name") String user_name) {
+		System.out.println(user_name);
+		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
+				"soundclown", "postgres", "password");
+		User user = new User();
+		user.set_user_name(user_name);
+		try {
+			Connection connection = dcm.getConnection();
+			UserDAO userDAO = new UserDAO(connection);
 
+			user = userDAO.find_by_user_name(user);
+			System.out.println(user);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+
+    @PostMapping("/createNewUser")
+    public User createNewUser(@RequestBody String json) throws JsonProcessingException {
+		System.out.println(json);
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
+				"soundclown", "postgres", "password");
+		User user = new User();
+		try {
+			Connection connection = dcm.getConnection();
+			UserDAO userDAO = new UserDAO(connection);
+            user.set_id(Integer.parseInt(inputMap.get("id")));
+            user.set_user_name(inputMap.get("user_name"));
+            user.set_password(inputMap.get("password"));
+            user = userDAO.create(user);
+			System.out.println(user);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+
+	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
 

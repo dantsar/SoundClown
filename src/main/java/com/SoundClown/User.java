@@ -1,33 +1,28 @@
-package User;
+package com.SoundClown;
 
-public class User {
+import com.SoundClown.util.DataTransferObject;
 
-    private String id;
-    private String username;
+public class User implements DataTransferObject {
+
+    private int    id;
+    private String user_name;
     private String password;
 
-    public void set_id(String id) {
-        this.id = id;
-    }
+    public void set_id(int id)                  { this.id = id; }
+    public void set_user_name(String user_name) { this.user_name = user_name; }
+    public void set_password(String password)   { this.password = password; }
 
-    public void set_username(String name) {
-        this.username = name;
-    }
 
-    public void set_password(String password) {
-        this.password = password;
-    }
+    public int    get_id()        { return id; }
+    @Override
+    public String get_user_name() { return user_name; }
+    public String get_password()  { return password; }
 
-    public String get_id() {
-        return id;
+    public String to_string() {
+        return "User{" + 
+               "id=" + id +
+               ", user_name=" + user_name +
+               ", password=" + password + '\'' +
+               '}';
     }
-
-    public String get_username() {
-        return username;
-    }
-
-    public String get_password() {
-        return password;
-    }
-
 }
