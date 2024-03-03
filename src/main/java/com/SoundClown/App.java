@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,10 +15,12 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 @SpringBootApplication
 @RestController
 public class App {
+
+	@Autowired
+    private DatabaseConnectionManager dcm;
 
 	@GetMapping("/helloClass")
 	public String helloClass() {
@@ -26,12 +30,10 @@ public class App {
 
 	@GetMapping("/getTable")
 	public String getTable() {
-		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
-				"soundclown", "postgres", "password");
 		try {
 			Connection connection = dcm.getConnection();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM users;");
             String result = "";
             while(resultSet.next()){
                 result += resultSet.getString(1) + " " + resultSet.getString(2);
@@ -46,12 +48,9 @@ public class App {
 	}
 
     // User
-
     @GetMapping("/user/getByUserName/{user_name}")
 	public Users getByUserName(@PathVariable("user_name") String user_name) {
 		System.out.println(user_name);
-		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
-				"soundclown", "postgres", "password");
 		Users user = new Users();
 		user.set_user_name(user_name);
 		try {
@@ -67,27 +66,31 @@ public class App {
 		return user;
 	}
 
-    @PostMapping("/user/createNewUser")
-    public Users createNewUser(@RequestBody String json) throws JsonProcessingException {
+
+	@PostMapping("/user/createNewUser")
+	public ResponseEntity<?> createNewUser(@RequestBody String json) {
 		System.out.println(json);
 		ObjectMapper objectMapper = new ObjectMapper();
-		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
-				"soundclown", "postgres", "password");
-		Users user = new Users();
 		try {
+			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+			Users user = new Users();
 			Connection connection = dcm.getConnection();
 			UsersDAO userDAO = new UsersDAO(connection);
-            user.set_id(Integer.parseInt(inputMap.get("id")));
-            user.set_user_name(inputMap.get("user_name"));
-            user.set_password(inputMap.get("password"));
-            user = userDAO.create(user);
+			user.set_id(Integer.parseInt(inputMap.get("id")));
+			user.set_user_name(inputMap.get("user_name"));
+			user.set_password(inputMap.get("password"));
+			user = userDAO.create(user);
 			System.out.println(user);
-		}
-		catch(SQLException e) {
+			return new ResponseEntity<>(user, HttpStatus.CREATED);
+		} catch (JsonProcessingException e) {
+			return new ResponseEntity<>("Invalid JSON format", HttpStatus.BAD_REQUEST);
+		} catch (SQLException e) {
+			if (e.getSQLState().equals("23505")) {
+				return new ResponseEntity<>("Duplicate user name", HttpStatus.CONFLICT);
+			}
 			e.printStackTrace();
+			return new ResponseEntity<>("Database error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return user;
 	}
 
     @PostMapping("/tracks/createNewTrack")
@@ -95,8 +98,6 @@ public class App {
 		System.out.println(json);
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		DatabaseConnectionManager dcm = new DatabaseConnectionManager("db",
-				"soundclown", "postgres", "password");
 		Tracks track = new Tracks();
 		try {
 			Connection connection = dcm.getConnection();
