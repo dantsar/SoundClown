@@ -10,7 +10,6 @@ CREATE TABLE playlists (
     playlist_name varchar(50) NOT NULL,
     description varchar(500),
     creator_id integer NOT NULL,
-    creation_date timestamp DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (creator_id) REFERENCES users(id)
 );
@@ -28,7 +27,6 @@ CREATE TABLE albums (
     artist_id integer NOT NULL,
     genre_id integer NOT NULL,
     art_path varchar(500),
-    creation_date timestamp DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (artist_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
@@ -44,7 +42,6 @@ CREATE TABLE tracks (
     plays integer NOT NULL,
     track_path varchar(500) NOT NULL,
     art_path varchar(500),
-    creation_date timestamp DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (artist_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
@@ -64,7 +61,6 @@ CREATE TABLE comments (
     user_id integer NOT NULL,
     track_id integer NOT NULL,
     content varchar(500),
-    creation_date timestamp DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (track_id) REFERENCES tracks(id) ON DELETE CASCADE
