@@ -10,7 +10,6 @@ public class Users {
     public void set_user_name(String user_name) { this.user_name = user_name; }
     public void set_password(String password)   { this.password = password; }
 
-
     public int    get_id()        { return id; }
     public String get_user_name() { return user_name; }
     public String get_password()  { return password; }

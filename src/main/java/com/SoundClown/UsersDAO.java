@@ -9,19 +9,15 @@ public class UsersDAO {
     
     private final Connection connection;
 
-    private static final String GET_ONE = "SELECT id, user_name, password FROM users WHERE user_name = ?";
+    private static final String GET_USER    = "SELECT * FROM users WHERE user_name = ?";
 
-    private static final String INSERT = "INSERT INTO users (id, user_name, password) " + 
-        " VALUES(?, ?, ?)";
+    private static final String INSERT_USER = "INSERT INTO users (user_name, password) VALUES(?, ?)";
 
-    public UsersDAO(Connection connection) {
-        super();
-        this.connection = connection;
-    }
+    public UsersDAO(Connection connection) { this.connection = connection; }
 
     public Users find_by_user_name(Users dto) {
         Users user = new Users();
-        try(PreparedStatement statement = this.connection.prepareStatement(GET_ONE);) {
+        try (PreparedStatement statement = this.connection.prepareStatement(GET_USER)) {
             statement.setString(1, dto.get_user_name());
             System.out.println(dto.get_user_name());
             ResultSet rs = statement.executeQuery();
@@ -38,10 +34,9 @@ public class UsersDAO {
     }
 
     public Users create(Users dto) {
-        try(PreparedStatement statement = this.connection.prepareStatement(INSERT);) {
-            statement.setInt(1, dto.get_id());
-            statement.setString(2, dto.get_user_name());
-            statement.setString(3, dto.get_password());
+        try (PreparedStatement statement = this.connection.prepareStatement(INSERT_USER)) {
+            statement.setString(1, dto.get_user_name());
+            statement.setString(2, dto.get_password());
             statement.execute();
             return this.find_by_user_name(dto);
         } catch (SQLException e) {
@@ -49,5 +44,5 @@ public class UsersDAO {
             throw new RuntimeException(e);
         }
     }
-
 }
+

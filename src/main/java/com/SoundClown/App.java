@@ -76,7 +76,6 @@ public class App {
 			Users user = new Users();
 			Connection connection = dcm.getConnection();
 			UsersDAO userDAO = new UsersDAO(connection);
-			user.set_id(Integer.parseInt(inputMap.get("id")));
 			user.set_user_name(inputMap.get("user_name"));
 			user.set_password(inputMap.get("password"));
 			user = userDAO.create(user);
