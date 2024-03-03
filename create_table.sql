@@ -14,6 +14,7 @@ CREATE TABLE playlists (
     FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
+/*
 CREATE TABLE genres (
     id serial,
     genre_name varchar(50) NOT NULL,
@@ -31,20 +32,21 @@ CREATE TABLE albums (
     FOREIGN KEY (artist_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
 );
+*/
 
 CREATE TABLE tracks (
     id serial,
     track_name varchar(50) NOT NULL,
     description varchar(500),
-    artist_id integer NOT NULL,
-    genre_id integer NOT NULL,
-    album_id integer,
-    plays integer NOT NULL,
+--    artist_id integer NOT NULL,
+--    genre_id integer NOT NULL,
+--    album_id integer,
+    plays integer DEFAULT 0 NOT NULL,
     track_path varchar(500) NOT NULL,
     art_path varchar(500),
-    PRIMARY KEY (id),
-    FOREIGN KEY (artist_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
+    PRIMARY KEY (id)
+--  FOREIGN KEY (artist_id) REFERENCES users(id) ON DELETE CASCADE,
+--  FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
 );
 
 CREATE TABLE playlist_tracks (
@@ -56,6 +58,7 @@ CREATE TABLE playlist_tracks (
     FOREIGN KEY (song_id) REFERENCES tracks(id)
 );
 
+/*
 CREATE TABLE comments (
     id serial,
     user_id integer NOT NULL,
@@ -65,3 +68,4 @@ CREATE TABLE comments (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (track_id) REFERENCES tracks(id) ON DELETE CASCADE
 );
+*/
