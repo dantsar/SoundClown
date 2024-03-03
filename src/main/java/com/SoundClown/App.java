@@ -102,12 +102,8 @@ public class App {
 			Connection connection = dcm.getConnection();
 			TracksDAO trackDAO = new TracksDAO(connection);
 
-            track.set_id(Integer.parseInt(inputMap.get("id")));
             track.set_track_name(inputMap.get("track_name"));
             track.set_description(inputMap.get("description"));
-            track.set_artist_id(Integer.parseInt(inputMap.get("artist_id")));
-            track.set_genre_id(Integer.parseInt(inputMap.get("genre_id")));
-            track.set_plays(Integer.parseInt(inputMap.get("plays")));
             track.set_track_path(inputMap.get("track_path"));
             track.set_art_path(inputMap.get("art_path"));
             track = trackDAO.create(track);
