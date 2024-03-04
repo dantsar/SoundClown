@@ -19,6 +19,22 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/*
+	Current behavior that I'm looking to implement:
+		* allTracks:
+			- List all tracks (each track redirects to /track/{filename:.+} which will give you the option to play or download the track
+			- when I play the track, I want to dynamicaslly load the track and play it (I don't want to download everything because it's not scalable)
+		* track/{filename:.+}
+			- Play or download the track, this is loosly based on the example that I saw
+
+
+	The behavior that I'm looking to implement is the following:
+	* /allTracks: I want this page to list all the saved tracks. The list includes a link to /track/{filename:+} and the audio file in the browser (I want this to serve allTracks.html)
+	* /track/{filename+}: I want this page to provide a link to download the audio file as well as play the audio file in the browser. (I want this to serve playTrack.html)
+
+	my biggest confusion is how do I manage the Thymeleaf model. serveFile (which is \@GetMapping ("/track/{filename:+}" is used to render everything in allTracks/.
+*/
+
 @Controller
 public class AudioFileUploadController {
 
@@ -29,41 +45,65 @@ public class AudioFileUploadController {
 		this.storageService = storageService;
 	}
 
-	@GetMapping("/allTracks")
-	public String listUploadedFiles(Model model) throws IOException {
-		System.out.println("(listUploadedFiles) REQUESTED TO LIST ALL TRACKS");
+	// @GetMapping("/allTracks")
+	// public String listUploadedFiles(Model model) throws IOException {
+	// 	System.out.println("(listUploadedFiles) REQUESTED TO LIST ALL TRACKS");
 
-		// I'm going to need to modify this because serveFile refers to something else now...
-		// The problem is that I'm using Thymeleaf and it expects serveFile to map a HTTP request
-		model.addAttribute("files", storageService.loadAll().map(
-				path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
-						"serveFile", path.getFileName().toString()).build().toUri().toString())
-				.collect(Collectors.toList()));
+    //     model.addAttribute("files", storageService.loadAll().map(
+    //             path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
+    //                     "listTracks", path.getFileName().toString()).build().toUri().toString())
+    //             .collect(Collectors.toList()));
 
-		return "allTracks"; // this refers to allTracks.html in resources/templates
-	}
+	// 	return "allTracks"; // this refers to allTracks.html in resources/templates
+	// }
 
-	// Copilot output (to be deleted)
-	// public String playTrack(Model model) {
-	// 	System.out.println("REQUESTED TO PLAY TRACK");
+	// @GetMapping("/track/{filename:.+}")
+	// @ResponseBody
+	// public String listTracks(@PathVariable String filename) {
+	// 	System.out.println("(listTracks) REQUESTING TO DOWNLOAD TRACK: " + filename);
 
-	// 	// Modify to refer to the right requesteTrack!
-	// 	model.addAttribute("requestdTrack", storageService.loadAll().map(
-	// 			path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
-	// 					"serveFile", path.getFileName().toString()).build().toUri().toString())
-	// 			.collect(Collectors.toList()));
+    //     Resource file = storageService.loadAsResource(filename);
+    //     if (file != null) {
 
-	// 	return "playTrack"; // this refers to playTrack.html in resources/templates
+    //         return "playTrack"; // Uses playTrack.html
+    //     }
+    //     return "redirect:/allTracks"; // File not found, redirect to all tracks
+	// }
+
+	// @PostMapping("/uploadTrack")
+	// public String handleFileUpload(@RequestParam("file") MultipartFile file,
+	// 		RedirectAttributes redirectAttributes) {
+	// 	System.out.println("REQUESTED TO UPLOAD TRACK: " + file.getOriginalFilename());
+
+	// 	storageService.store(file);
+	// 	redirectAttributes.addFlashAttribute("message",
+	// 			"You successfully uploaded " + file.getOriginalFilename() + "!");
+
+	// 	return "redirect:/allTracks";
 	// }
 
 
-	// Note to self, it's failing because I don't have the @GetMapping("/track/{filename:.+}") annotation
-	// @GetMapping("/track/{filename:.+}")
+    // this is the page for playing a selected track
+    @GetMapping("/track/{filename:.+}")
+    public String serveTrack(Model model, @PathVariable String filename) {
+        System.out.println("(serveTrack) REQUESTING TO PLAY TRACK: " + filename);
 
-	@GetMapping("/track/{filename:.+}")
+        Resource file = storageService.loadAsResource(filename);
+        if (file != null) {
+            model.addAttribute("filename", filename);
+            return "playTrack"; // Uses playTrack.html
+        }
+
+        return "redirect:/helloClasss"; // File not found, redirect to all tracks "you fucked up..."
+
+        // return "redirect:/allTracks"; // File not found, redirect to all tracks
+
+    }
+
+    @GetMapping("download/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-		System.out.println("(serveFile) REQUESTING TO DOWNLOAD TRACK: " + filename);
+	public ResponseEntity<Resource> downloadTrack(@PathVariable String filename) {
+		System.out.println("REQUESTING TO DOWNLOAD TRACK: " + filename);
 		Resource file = storageService.loadAsResource(filename);
 
 		if (file == null)
@@ -73,47 +113,8 @@ public class AudioFileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-	// @GetMapping("/track/{filename:.+}")
-	// @ResponseBody
-	// public String playTrack(@PathVariable String filename) {
 
-	// // public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-	// 	System.out.println("(playTrack) REQUESTING TO PLAY TRACK: " + filename);
-
-
-	// 	// // Add another html page to display and allow the track to be downloaded
-	// 	// System.out.println("REQUESTING TO DOWNLOAD TRACK: " + filename);
-	// 	// Resource file = storageService.loadAsResource(filename);
-
-	// 	// if (file == null) {
-	// 	// 	return ResponseEntity.notFound().build();
-	// 	// }
-
-	// 	// return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-	// 	// 		"attachment; filename=\"" + file.getFilename() + "\"").body(file);
-
-	// 	// System.out.println("REQUESTED TO LIST ALL TRACKS");
-
-	// 	// // Modify to refer to the right requesteTrack!
-	// 	// model.addAttribute("requestdTrack", storageService.loadAll().map(
-	// 	// 		path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
-	// 	// 				"serveFile", path.getFileName().toString()).build().toUri().toString())
-	// 	// 		.collect(Collectors.toList()));
-
-	// 	return "playTrack"; // this refers to playTrack.html in resources/templates
-	// }
-
-	@PostMapping("/uploadTrack")
-	public String handleFileUpload(@RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
-		System.out.println("REQUESTED TO UPLOAD TRACK: " + file.getOriginalFilename());
-
-		storageService.store(file);
-		redirectAttributes.addFlashAttribute("message",
-				"You successfully uploaded " + file.getOriginalFilename() + "!");
-
-		return "redirect:/allTracks";
-	}
+	// Fuck it, just add a download/{filename:+} or whatever...
 
 	@ExceptionHandler(AudioStorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(AudioStorageFileNotFoundException exc) {

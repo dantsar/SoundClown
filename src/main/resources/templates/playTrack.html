@@ -2,8 +2,13 @@
 <body>
 	<figure>
 		<figcaption>Listen to requested Track:</figcaption>
-		<audio controls src="${requestedTrack}"></audio>
-		<a href="${requestedTrack}"> Download audio </a>
+		<a href="@{|/download/${filename}|}"> Download audio (${filename}) </a>
+		<br>
+
+		<audio th:src="${filename}" controls="controls">
+			<source th:src="${filename}" type="audio/mpeg" />
+			Your browser does not support the audio element.
+		</audio>
 	</figure>
 
 	<!-- <div>

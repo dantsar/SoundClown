@@ -58,6 +58,7 @@ public class AudioFileSystemStorageService implements AudioStorageService {
 
 	@Override
 	public Stream<Path> loadAll() {
+		// Create a stream of file paths of all the tracks in "./audio_files"
 		try {
 			return Files.walk(this.rootLocation, 1)
 				.filter(path -> !path.equals(this.rootLocation))
