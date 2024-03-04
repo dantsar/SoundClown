@@ -1,9 +1,9 @@
 CREATE TABLE users (
-    user_id serial,
-    user_name varchar(50) NOT NULL,
+    id serial,
+    username varchar(50) NOT NULL,
     password varchar(50) NOT NULL,
-    PRIMARY KEY (user_id),
-    UNIQUE(user_name, password)
+    PRIMARY KEY (id),
+    UNIQUE(username, password)
 );
 
 CREATE TABLE artists ( 
