@@ -1,0 +1,23 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+	<figure>
+		<figcaption>Listen to requested Track:</figcaption>
+		<audio controls src="${requestedTrack}"></audio>
+		<a href="${requestedTrack}"> Download audio </a>
+	</figure>
+
+	<!-- <div>
+		<ul>
+			<li th:each="file : ${files}">
+				<a th:href="${file}" th:text="${file}" />
+				<br>
+				<audio th:src="${file}" controls="controls">
+					<source th:src="${file}" type="audio/mpeg" />
+					Your browser does not support the audio element.
+				</audio>
+			</li>
+		</ul>
+	</div> -->
+
+</body>
+</html>
