@@ -108,6 +108,7 @@ public class App {
 		}
 	}
 
+	/*
     @GetMapping("/get/artist/{artist_name}")
 	public Artists getByArtistName(@PathVariable("artist_name") String artist_name) {
 		Artists artist = new Artists();
@@ -185,6 +186,7 @@ public class App {
 			return new ResponseEntity<>("Database error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	*/
 
     @GetMapping("/get/track/{track_name}")
 	public Tracks getByTrackName(@PathVariable("track_name") String track_name) {
@@ -267,100 +269,9 @@ public class App {
 		}
 	}
 
-
-    /*
-    @GetMapping("/play/{artist_name}/{track_name}")
-	public Tracks getByTrackName(@PathVariable("artist_name") String artist_name,
-                                 @PathVariable("track_name") String track_name) {
-
-        // We are trying to play the song!
-		Tracks track = new Tracks();
-		track.set_track_name(track_name);
-		try {
-			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
-
-			track = trackDAO.find_by_track_name(track);
-			System.out.println(track);
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return track;
-	}
-    */
-
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 		// SpringApplication.run(UploadingFilesApplication.class, args);
 	}
 
 }
-
-    /*
-
-    @GetMapping("/user/{user_name}/{track_name}")
-	public void getTrackForUser(@PathVariable("user_name")  String user_name,
-                                 @PathVariable("track_name") String track_name) {
-        System.out.println("Starting query");
-		try {
-            Connection connection = dcm.getConnection();
-            Statement statement = connection.createStatement();
-
-            // Check to see id associated with user exists
-            String get_user_id = "SELECT id FROM users WHERE user_name = '" +
-								   user_name + "';";
-            ResultSet user_id_result = statement.executeQuery(get_user_id);
-            String str_user_id_result = "";
-
-            if(!user_id_result.next()) {
-                System.out.println("Username doesn't exist");
-                return;
-            } else {
-				str_user_id_result = user_id_result.getString(1);
-			}
-
-			// Check to see if id associated with track exists
-            String get_track_id= "SELECT id FROM tracks WHERE track_name = '" + track_name + "';";
-            ResultSet track_id_result = statement.executeQuery(get_track_id);
-			String str_track_id_result;
-
-            if(!track_id_result.next()) {
-                System.out.println("Track name doesn't exist");
-                return;    
-			} else {
-				str_track_id_result = track_id_result.getString(1);
-			}
-            // If they both exist, create an the media element and begin playing song
-            System.out.println("Both exist, creating media element now");
-			System.out.println(str_user_id_result);
-			System.out.println(str_track_id_result);
-
-			// First try to update existing media
-			String update_media = "UPDATE media " +
-					              "SET track_id = '" + str_track_id_result + "' " +
-					              "WHERE user_id = '" + str_user_id_result + "';";
-
-			int update_result = statement.executeUpdate(update_media);
-			// If media doesn't exist, try to insert it
-			if (update_result == 0) {
-					System.out.println("No results!!!!!!!!!!!!!!!!!!!!!!");
-					String insert_media = "INSERT INTO media (user_id, track_id) " +
-							"VALUES(" + str_user_id_result + ", " + str_track_id_result + ");";
-
-					ResultSet insert_result = statement.executeQuery(insert_media);
-			}
-			// Check to see if update result was valid
-			String insert_into_media = "INSERT into media (user_id, track_id) " +
-        							   "SELECT users.id, tracks.id " +
-        							   "FROM users, tracks " +
-        							   "WHERE users.user_name = '" + str_username_result + "' " +
-        							   "AND tracks.track_name = '" + str_trackname_result + "';";
-
-			ResultSet insert_result = statement.executeQuery(insert_into_media);
-        } catch(SQLException e) {
-            e.printStackTrace();
-            //return "execption";
-        }
-	}
-    */

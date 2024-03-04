@@ -1,25 +1,19 @@
 CREATE TABLE users (
     user_id serial,
-    user_name varchar(50) NOT NULL,
+    user_name varchar(50) UNIQUE NOT NULL,
     password varchar(50) NOT NULL,
     PRIMARY KEY (user_id)
 );
 
-CREATE TABLE artists ( 
-    artist_id serial,
-    artist_name varchar(50) UNIQUE NOT NULL,
-    PRIMARY KEY(artist_id)
-);
-
 CREATE TABLE tracks (
     track_id serial,
-    track_name varchar(50) UNIQUE NOT NULL,
+    track_name varchar(50)  NOT NULL,
     description varchar(500),
-    artist_name varchar(50) NOT NULL,
+    artist_name varchar(50) UNIQUE NOT NULL,
     plays integer DEFAULT 0 NOT NULL,
     track_path varchar(500) NOT NULL,
     PRIMARY KEY (track_id),
-    FOREIGN KEY (artist_name) REFERENCES artists(artist_name)
+    FOREIGN KEY (artist_name) REFERENCES users(user_name)
 --  genre_id integer NOT NULL,
 --  album_id integer,
 --  art_path varchar(500),

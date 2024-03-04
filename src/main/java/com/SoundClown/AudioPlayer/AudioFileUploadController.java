@@ -2,6 +2,11 @@ package com.SoundClown;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -29,6 +34,9 @@ public class AudioFileUploadController {
 		this.storageService = storageService;
 	}
 
+    @Autowired
+    private DatabaseConnectionManager dcm;
+
     @GetMapping("/allTracks")
     public String listUploadedFiles(Model model) throws IOException {
         System.out.println("(listUploadedFiles) REQUESTED TO LIST ALL TRACKS");
@@ -52,6 +60,32 @@ public class AudioFileUploadController {
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
+		Users user   = new Users();
+		Tracks track = new Tracks();
+		try {
+			Connection connection = dcm.getConnection();
+			UsersDAO userDAO = new UsersDAO(connection);
+			user.set_user_name(artist);
+			user.set_password("123");
+			user = userDAO.create(user);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			Connection connection = dcm.getConnection();
+			TracksDAO trackDAO = new TracksDAO(connection);
+			track.set_track_name(track_name);
+			track.set_track_path(file.getOriginalFilename());
+			track.set_description("test");
+			track.set_artist_name(artist);
+			track = trackDAO.create(track);
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("added user and track");
 		return "redirect:/allTracks";
 	}
 
