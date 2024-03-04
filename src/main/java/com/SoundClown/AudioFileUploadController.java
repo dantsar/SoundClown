@@ -34,6 +34,7 @@ public class AudioFileUploadController {
 
 	@GetMapping("/allTracks")
 	public String listUploadedFiles(Model model) throws IOException {
+		System.out.println("REQUESTED TO LIST ALL TRACKS");
 
 		model.addAttribute("files", storageService.loadAll().map(
 				path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
@@ -46,7 +47,7 @@ public class AudioFileUploadController {
 	@GetMapping("/track/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-
+		System.out.println("REQUESTING TO DOWNLOAD TRACK: " + filename);
 		Resource file = storageService.loadAsResource(filename);
 
 		if (file == null)

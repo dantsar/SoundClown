@@ -17,8 +17,6 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-// @EnableConfigurationProperties(AudioStorageProperties.class)
-
 @Service
 public class AudioFileSystemStorageService implements AudioStorageService {
 
