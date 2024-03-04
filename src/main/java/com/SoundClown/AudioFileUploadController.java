@@ -60,12 +60,13 @@ public class AudioFileUploadController {
 	@PostMapping("/uploadTrack")
 	public String handleFileUpload(@RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
+		System.out.println("REQUESTED TO UPLOAD TRACK: " + file.getOriginalFilename());
 
 		storageService.store(file);
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
-		return "redirect:/";
+		return "redirect:/allTracks";
 	}
 
 	@ExceptionHandler(AudioStorageFileNotFoundException.class)
