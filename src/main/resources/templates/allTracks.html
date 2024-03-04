@@ -8,6 +8,8 @@
 	<div>
 		<form method="POST" enctype="multipart/form-data" action="/uploadTrack">
 			<table>
+				<tr><td>Artist:</td><td><input type="text" name="artist" /></td></tr>
+				<tr><td>Title:</td><td><input type="text" name="title" /></td></tr>
 				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
 				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
 			</table>
@@ -17,10 +19,10 @@
 	<div>
 		<ul>
 			<li th:each="file : ${files}">
-				<a th:href="${file}" th:text="${file}" />
+				<a th:href="@{|/track/${file}|}" th:text="@{|/track/${file}|}" />
 				<br>
-				<audio th:src="${file}" controls="controls">
-					<source th:src="${file}" type="audio/mpeg" />
+				<audio th:src="@{|/download/${file}|}" controls="controls">
+					<source th:src="@{|/download/${file}|}" type="audio/mpeg" />
 					Your browser does not support the audio element.
 				</audio>
 			</li>
