@@ -9,7 +9,7 @@ public class AudioStorageProperties {
 	/**
 	 * Folder location for storing files
 	 */
-	private String location = "audio_files";
+	private String location = "/tmp/audio_files";
 
 	public String getLocation() {
 		return location;
