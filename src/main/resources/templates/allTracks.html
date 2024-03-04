@@ -16,18 +16,52 @@
 		</form>
 	</div>
 
+
 	<div>
+		<a1>All uploaded Tracks:</a1>
 		<ul>
+			<!-- <li th:each="file : ${files}"> -->
+                <!-- <a th:href="@{|/track/${file}|}" th:text="${file}">Download Link</a>
+                <br>
+                <audio controls>
+                    <source th:src="@{|/track/${file}|}" type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                </audio> -->
+
+
+
 			<li th:each="file : ${files}">
 				<a th:href="@{|/track/${file}|}" th:text="@{|/track/${file}|}" />
 				<br>
-				<audio th:src="@{|/download/${file}|}" controls="controls">
-					<source th:src="@{|/download/${file}|}" type="audio/mpeg" />
+				<!-- <audio th:src="@{|/download/${file}|}" controls="controls">
+					s<source th:src="@{|/download/${file}|}" type="audio/mpeg" />
 					Your browser does not support the audio element.
-				</audio>
+				</audio> -->
+
+
+
 			</li>
 		</ul>
 	</div>
 
+<!--
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	// This script will load the audio file when the play button is pressed
+	document.querySelectorAll('audio').forEach(function(audio) {
+		var source = audio.querySelector('source');
+		audio.addEventListener('play', function(e) {
+			if (!source.src) {
+				// Use the th:src attribute value as the source URL
+				source.src = source.getAttribute('th:src');
+				audio.load();
+			}
+		});
+	});
+	/*]]>*/
+</script> -->
+
+
 </body>
 </html>
+
