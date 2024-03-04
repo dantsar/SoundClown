@@ -1,23 +1,32 @@
 package com.SoundClown;
 
-public class Users {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    private int    user_id;
-    private String user_name;
+@Entity
+public class Users {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    private String username;
     private String password;
 
-    public void set_user_id(int user_id)        { this.user_id = user_id;     }
-    public void set_user_name(String user_name) { this.user_name = user_name; }
-    public void set_password(String password)   { this.password = password;   }
+    public void set_id(int id)                { this.id = id;             }
+    public void set_username(String username) { this.username = username; }
+    public void set_password(String password) { this.password = password; }
 
-    public int    get_user_id()   { return user_id;   }
-    public String get_user_name() { return user_name; }
-    public String get_password()  { return password;  }
+    public int get_id()           { return id;       }
+    public String get_username()  { return username; }
+    public String get_password()  { return password; }
 
     public String to_string() {
         return "User{" + 
-               "user_id=" + user_id +
-               ", user_name=" + user_name +
+               "id=" + id +
+               ", username=" + username +
                ", password=" + password + '\'' +
                '}';
     }
