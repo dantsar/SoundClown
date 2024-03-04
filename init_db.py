@@ -1,6 +1,8 @@
 import psycopg2
 from psycopg2 import sql
 
+#python3 -m pip install psycopg2-binary
+
 import random
 
 def create_db(db_name, user, password, host, port):
@@ -10,8 +12,10 @@ def create_db(db_name, user, password, host, port):
     connection.autocommit = True # Allows us to operate outside of a transaction (basically create database)
     cursor = connection.cursor()
 
+    # Remove existing DB if exists
     # Switch to db to soundclown and create it
     db_name = "soundclown"
+    cursor.execute(sql.SQL(f"DROP DATABASE IF EXISTS {db_name}"))
     cursor.execute(sql.SQL(f"CREATE DATABASE {db_name}"))
     connection.close()
     connection = psycopg2.connect(dbname=db_name, user=user, password=password, host=host, port=port)
@@ -69,5 +73,6 @@ if __name__ == "__main__":
     port     = "5432"
     connection, cursor = create_db(db_name, user, password, host, port)
     create_table(cursor)
+    insert_items(cursor)
     connection.close()
     print("Done")
