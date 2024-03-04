@@ -17,13 +17,15 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+// @EnableConfigurationProperties(AudioStorageProperties.class)
+
 @Service
 public class AudioFileSystemStorageService implements AudioStorageService {
 
 	private final Path rootLocation;
 
 	@Autowired
-	public AudioFileSystemStorageService(StorageProperties properties) {
+	public AudioFileSystemStorageService(AudioStorageProperties properties) {
 
         if(properties.getLocation().trim().length() == 0){
             throw new AudioStorageException("File upload location can not be Empty.");
@@ -83,13 +85,13 @@ public class AudioFileSystemStorageService implements AudioStorageService {
 				return resource;
 			}
 			else {
-				throw new StorageFileNotFoundException(
+				throw new AudioStorageFileNotFoundException(
 						"Could not read file: " + filename);
 
 			}
 		}
 		catch (MalformedURLException e) {
-			throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+			throw new AudioStorageFileNotFoundException("Could not read file: " + filename, e);
 		}
 	}
 

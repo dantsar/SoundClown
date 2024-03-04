@@ -19,16 +19,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.uploadingfiles.storage.StorageFileNotFoundException;
-import com.example.uploadingfiles.storage.StorageService;
+import com.SoundClown.AudioStorageFileNotFoundException;
+import com.SoundClown.AudioStorageService;
 
 @Controller
-public class FileUploadController {
+public class AudioFileUploadController {
 
-	private final StorageService storageService;
+	private final AudioStorageService storageService;
 
 	@Autowired
-	public FileUploadController(StorageService storageService) {
+	public AudioFileUploadController(AudioStorageService storageService) {
 		this.storageService = storageService;
 	}
 
@@ -36,7 +36,7 @@ public class FileUploadController {
 	public String listUploadedFiles(Model model) throws IOException {
 
 		model.addAttribute("files", storageService.loadAll().map(
-				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+				path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
 						"serveFile", path.getFileName().toString()).build().toUri().toString())
 				.collect(Collectors.toList()));
 
@@ -67,8 +67,8 @@ public class FileUploadController {
 		return "redirect:/";
 	}
 
-	@ExceptionHandler(StorageFileNotFoundException.class)
-	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+	@ExceptionHandler(AudioStorageFileNotFoundException.class)
+	public ResponseEntity<?> handleStorageFileNotFound(AudioStorageFileNotFoundException exc) {
 		return ResponseEntity.notFound().build();
 	}
 
