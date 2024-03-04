@@ -86,9 +86,6 @@ public class App {
 		} catch (JsonProcessingException e) {
 			return new ResponseEntity<>("Invalid JSON format", HttpStatus.BAD_REQUEST);
 		} catch (SQLException e) {
-			if (e.getSQLState().equals("23505")) {
-				return new ResponseEntity<>("Duplicate user name", HttpStatus.CONFLICT);
-			}
 			e.printStackTrace();
 			return new ResponseEntity<>("Database error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -143,7 +140,7 @@ public class App {
 			return new ResponseEntity<>("Invalid JSON format", HttpStatus.BAD_REQUEST);
 		} catch (SQLException e) {
 			if (e.getSQLState().equals("23505")) {
-				return new ResponseEntity<>("Duplicate user name", HttpStatus.CONFLICT);
+				return new ResponseEntity<>("Duplicate artist name", HttpStatus.CONFLICT);
 			}
 			e.printStackTrace();
 			return new ResponseEntity<>("Database error", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -167,9 +164,6 @@ public class App {
 		} catch (JsonProcessingException e) {
 			return new ResponseEntity<>("Invalid JSON format", HttpStatus.BAD_REQUEST);
 		} catch (SQLException e) {
-			if (e.getSQLState().equals("23505")) {
-				return new ResponseEntity<>("Duplicate user name", HttpStatus.CONFLICT);
-			}
 			e.printStackTrace();
 			return new ResponseEntity<>("Database error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -251,9 +245,6 @@ public class App {
 		} catch (JsonProcessingException e) {
 			return new ResponseEntity<>("Invalid JSON format", HttpStatus.BAD_REQUEST);
 		} catch (SQLException e) {
-			if (e.getSQLState().equals("23505")) {
-				return new ResponseEntity<>("Duplicate user name", HttpStatus.CONFLICT);
-			}
 			e.printStackTrace();
 			return new ResponseEntity<>("Database error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -273,6 +264,29 @@ public class App {
 			return new ResponseEntity<>("Database error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+
+    /*
+    @GetMapping("/play/{artist_name}/{track_name}")
+	public Tracks getByTrackName(@PathVariable("artist_name") String artist_name,
+                                 @PathVariable("track_name") String track_name) {
+
+        // We are trying to play the song!
+		Tracks track = new Tracks();
+		track.set_track_name(track_name);
+		try {
+			Connection connection = dcm.getConnection();
+			TracksDAO trackDAO = new TracksDAO(connection);
+
+			track = trackDAO.find_by_track_name(track);
+			System.out.println(track);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return track;
+	}
+    */
 
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
