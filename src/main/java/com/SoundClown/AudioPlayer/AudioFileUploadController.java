@@ -45,42 +45,26 @@ public class AudioFileUploadController {
 		this.storageService = storageService;
 	}
 
-	// @GetMapping("/allTracks")
-	// public String listUploadedFiles(Model model) throws IOException {
-	// 	System.out.println("(listUploadedFiles) REQUESTED TO LIST ALL TRACKS");
+    // This is such a stuuupid way of going about this
+    @GetMapping("/allTracks")
+    public String listUploadedFiles(Model model) throws IOException {
+        System.out.println("(listUploadedFiles) REQUESTED TO LIST ALL TRACKS");
 
-    //     model.addAttribute("files", storageService.loadAll().map(
-    //             path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
-    //                     "listTracks", path.getFileName().toString()).build().toUri().toString())
-    //             .collect(Collectors.toList()));
+        model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
+                        "listTrack", path.getFileName().toString()).build().toUri().toString())
+                .collect(Collectors.toList()));
 
-	// 	return "allTracks"; // this refers to allTracks.html in resources/templates
-	// }
+        return "allTracks"; // this refers to allTracks.html in resources/templates
+    }
 
-	// @GetMapping("/track/{filename:.+}")
-	// @ResponseBody
-	// public String listTracks(@PathVariable String filename) {
-	// 	System.out.println("(listTracks) REQUESTING TO DOWNLOAD TRACK: " + filename);
+    @GetMapping("/track/{filename:.+}")
+    public String listTrack(Model model, @PathVariable String filename) {
+        System.out.println("(listTrack) REQUESTED TO LIST TRACK: " + filename);
 
-    //     Resource file = storageService.loadAsResource(filename);
-    //     if (file != null) {
-
-    //         return "playTrack"; // Uses playTrack.html
-    //     }
-    //     return "redirect:/allTracks"; // File not found, redirect to all tracks
-	// }
-
-	// @PostMapping("/uploadTrack")
-	// public String handleFileUpload(@RequestParam("file") MultipartFile file,
-	// 		RedirectAttributes redirectAttributes) {
-	// 	System.out.println("REQUESTED TO UPLOAD TRACK: " + file.getOriginalFilename());
-
-	// 	storageService.store(file);
-	// 	redirectAttributes.addFlashAttribute("message",
-	// 			"You successfully uploaded " + file.getOriginalFilename() + "!");
-
-	// 	return "redirect:/allTracks";
-	// }
+        model.addAttribute("filename", filename);
+        return "playTrack"; // this refers to playTrack.html in resources/templates
+    }
 
 
     // this is the page for playing a selected track
@@ -94,10 +78,8 @@ public class AudioFileUploadController {
             return "playTrack"; // Uses playTrack.html
         }
 
-        return "redirect:/helloClasss"; // File not found, redirect to all tracks "you fucked up..."
-
-        // return "redirect:/allTracks"; // File not found, redirect to all tracks
-
+        // return "redirect:/helloClasss"; // File not found, redirect to all tracks "you fucked up..."
+        return "redirect:/allTracks"; // File not found, redirect to all tracks
     }
 
     @GetMapping("download/{filename:.+}")
@@ -112,9 +94,6 @@ public class AudioFileUploadController {
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
-
-
-	// Fuck it, just add a download/{filename:+} or whatever...
 
 	@ExceptionHandler(AudioStorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(AudioStorageFileNotFoundException exc) {
