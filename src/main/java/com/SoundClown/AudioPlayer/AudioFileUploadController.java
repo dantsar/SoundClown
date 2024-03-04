@@ -35,6 +35,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 	my biggest confusion is how do I manage the Thymeleaf model. serveFile (which is \@GetMapping ("/track/{filename:+}" is used to render everything in allTracks/.
 */
 
+// AudioFileUploadController.class, "serveTrack", path.getFileName().toString()).build().toUri().toString()
+
 @Controller
 public class AudioFileUploadController {
 
@@ -51,20 +53,51 @@ public class AudioFileUploadController {
         System.out.println("(listUploadedFiles) REQUESTED TO LIST ALL TRACKS");
 
         model.addAttribute("files", storageService.loadAll().map(
-                path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
-                        "listTrack", path.getFileName().toString()).build().toUri().toString())
-                .collect(Collectors.toList()));
+                path -> path.getFileName().toString()));
+
+
+        // model.addAttribute("files", storageService.loadAll().map(
+        //         path -> MvcUriComponentsBuilder.fromMethodName(AudioFileUploadController.class,
+        //                 "downloadTrack", path.getFileName().toString()).build().toUri().toString())
+        //         .collect(Collectors.toList()),
+        //         "filenames", storageService.loadAll().map(
+        //             path -> path.getFileName().toString()).collect(Collectors.toList());
+
+
+        // model.addAttribute("files", storageService.loadAll().map(
+        //     path -> path.getFileName().toString().collect(Collectors.toList()));
 
         return "allTracks"; // this refers to allTracks.html in resources/templates
     }
 
-    @GetMapping("/track/{filename:.+}")
-    public String listTrack(Model model, @PathVariable String filename) {
-        System.out.println("(listTrack) REQUESTED TO LIST TRACK: " + filename);
 
-        model.addAttribute("filename", filename);
-        return "playTrack"; // this refers to playTrack.html in resources/templates
-    }
+
+    // @GetMapping("/listTrack/{filename:.+}")
+    // @ResponseBody
+    // public String listTrack(@PathVariable String filename) {
+    //     System.out.println("(listTrack) REQUESTED TO LIST TRACK: " + filename);
+
+    //     // model.addAttribute("filename", filename);
+    //     return "playTrack"; // this refers to playTrack.html in resources/templates
+    // }
+
+
+	@PostMapping("/uploadTrack")
+	public String handleFileUpload(@RequestParam("file") MultipartFile file,
+        @RequestParam("title") String track_name,
+        @RequestParam("artist") String artist,
+		RedirectAttributes redirectAttributes) {
+
+		System.out.println("REQUESTED TO UPLOAD TRACK: " + file.getOriginalFilename());
+        System.out.println("Other info: " + track_name + " " + artist);
+
+		storageService.store(file);
+		redirectAttributes.addFlashAttribute("message",
+				"You successfully uploaded " + file.getOriginalFilename() + "!");
+
+		return "redirect:/allTracks";
+	}
+
 
 
     // this is the page for playing a selected track
@@ -82,7 +115,7 @@ public class AudioFileUploadController {
         return "redirect:/allTracks"; // File not found, redirect to all tracks
     }
 
-    @GetMapping("download/{filename:.+}")
+    @GetMapping("/download/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> downloadTrack(@PathVariable String filename) {
 		System.out.println("REQUESTING TO DOWNLOAD TRACK: " + filename);
