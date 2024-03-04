@@ -1,8 +1,6 @@
 import psycopg2
 from psycopg2 import sql
 
-#python3 -m pip install psycopg2-binary
-
 import random
 
 def create_db(db_name, user, password, host, port):
