@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootApplication
 @RestController
+@EnableConfigurationProperties(AudioStorageProperties.class)
 public class App {
 
 	@Autowired
@@ -118,6 +120,7 @@ public class App {
 
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
+		// SpringApplication.run(UploadingFilesApplication.class, args);
 	}
 
 }
