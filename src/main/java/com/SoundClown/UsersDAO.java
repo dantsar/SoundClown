@@ -13,6 +13,11 @@ public class UsersDAO {
 
     private static final String INSERT_USER = "INSERT INTO users (user_name, password) VALUES(?, ?)";
 
+    private static final String UPDATE_USER = "UPDATE users SET user_name=?, password=? " +
+                                              "WHERE user_id=?";
+
+    private static final String DELETE_USER = "DELETE FROM users WHERE user_name=?";
+
     public UsersDAO(Connection connection) { this.connection = connection; }
 
     public Users find_by_user_name(Users dto) {
@@ -22,7 +27,7 @@ public class UsersDAO {
             System.out.println(dto.get_user_name());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                user.set_id(rs.getInt("id"));
+                user.set_user_id(rs.getInt("user_id"));
                 user.set_user_name(rs.getString("user_name"));
                 user.set_password(rs.getString("password"));
             }
@@ -39,6 +44,30 @@ public class UsersDAO {
             statement.setString(2, dto.get_password());
             statement.execute();
             return this.find_by_user_name(dto);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Users update(Users dto) {
+        try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_USER)) {
+            statement.setString(1, dto.get_user_name());
+            statement.setString(2, dto.get_password());
+            statement.setInt(3, dto.get_user_id());
+            statement.execute();
+            return this.find_by_user_name(dto);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void delete(Users dto) {
+        System.out.println(dto.get_user_name());
+        try (PreparedStatement statement = this.connection.prepareStatement(DELETE_USER)) {
+            statement.setString(1, dto.get_user_name());
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
