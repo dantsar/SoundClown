@@ -1,7 +1,7 @@
 FROM postgres
 #COPY *.sql /docker-entrypoint-initdb.d/
 
-# Credit: James Ryan for maven caching
+# Attempting to add caching 
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 ADD pom.xml /project/pom.xml
 WORKDIR /project
