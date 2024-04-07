@@ -30,18 +30,12 @@ public class TracksDAO {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-
                 track.set_track_id(rs.getInt("track_id"));
                 track.set_track_name(rs.getString("track_name"));
-                track.set_description(rs.getString("description"));
                 track.set_artist_name(rs.getString("artist_name"));
-                /*
-                track.set_genre_id(rs.getInt("genre_id"));
-                track.set_album_id(rs.getInt("ablum_id"));
-                */
-                track.set_plays(rs.getInt("plays"));
                 track.set_track_path(rs.getString("track_path"));
-                //track.set_art_path(rs.getString("art_path"));
+                track.set_plays(rs.getInt("plays"));
+                track.set_description(rs.getString("description"));
             }
 
         } catch (SQLException e) {
@@ -55,14 +49,9 @@ public class TracksDAO {
         try (PreparedStatement statement = this.connection.prepareStatement(INSERT_TRACK)) {
 
             statement.setString(1, dto.get_track_name());
-            statement.setString(2, dto.get_description());
             statement.setString(3, dto.get_artist_name());
-            /*
-            statement.setInt(5, dto.get_genre_id());
-            statement.setInt(6, dto.get_album_id());
-            */
             statement.setString(4, dto.get_track_path());
-            //statement.setString(4, dto.get_art_path());
+            statement.setString(2, dto.get_description());
             statement.execute();
 
             return this.find_by_track_name(dto);
@@ -79,10 +68,6 @@ public class TracksDAO {
             statement.setString(1, dto.get_track_name());
             statement.setString(2, dto.get_description());
             statement.setString(3, dto.get_artist_name());
-            /*
-            statement.setInt(5, dto.get_genre_id());
-            statement.setInt(6, dto.get_album_id());
-            */
             statement.setString(4, dto.get_track_path());
             statement.setInt(5, dto.get_track_id());
             statement.execute();
