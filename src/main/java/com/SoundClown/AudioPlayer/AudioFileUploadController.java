@@ -61,7 +61,7 @@ public class AudioFileUploadController {
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
 		User user   = new User();
-		Tracks track = new Tracks();
+		Track track = new Track();
 		try {
 			Connection connection = dcm.getConnection();
 			UserDAO userDAO = new UserDAO(connection);
@@ -74,7 +74,7 @@ public class AudioFileUploadController {
 
 		try {
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
 			track.set_track_name(track_name);
 			track.set_track_path(file.getOriginalFilename());
 			track.set_description("test");

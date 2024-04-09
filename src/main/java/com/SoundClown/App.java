@@ -189,12 +189,12 @@ public class App {
 	*/
 
     @GetMapping("/get/track/{track_name}")
-	public Tracks getByTrackName(@PathVariable("track_name") String track_name) {
-		Tracks track = new Tracks();
+	public Track getByTrackName(@PathVariable("track_name") String track_name) {
+		Track track = new Track();
 		track.set_track_name(track_name);
 		try {
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
 
 			track = trackDAO.find_by_track_name(track);
 			System.out.println(track);
@@ -206,14 +206,14 @@ public class App {
 	}
 
     @PostMapping("/create/track")
-    public Tracks createNewTrack(@RequestBody String json) throws JsonProcessingException {
+    public Track createNewTrack(@RequestBody String json) throws JsonProcessingException {
 		System.out.println(json);
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		Tracks track = new Tracks();
+		Track track = new Track();
 		try {
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
 
             track.set_track_name(inputMap.get("track_name"));
             track.set_description(inputMap.get("description"));
@@ -235,9 +235,9 @@ public class App {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Tracks track = new Tracks();
+			Track track = new Track();
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
             track.set_track_name(inputMap.get("track_name"));
             track.set_description(inputMap.get("description"));
 			track.set_artist_name(inputMap.get("artist_name"));
@@ -256,11 +256,11 @@ public class App {
 
 	@PostMapping("/delete/track/{track_name}")
 	public ResponseEntity<?> deleteTrack(@PathVariable String track_name) {
-		Tracks track = new Tracks();
+		Track track = new Track();
 		track.set_track_name(track_name);
 		try {
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
 			trackDAO.delete(track);
 			return new ResponseEntity<>(track, HttpStatus.CREATED);
 		} catch (SQLException e) {
