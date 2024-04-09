@@ -28,12 +28,12 @@ public class App {
 
     // User
     @GetMapping("/get/user/{user_name}")
-	public Users getByUserName(@PathVariable("user_name") String user_name) {
-		Users user = new Users();
+	public User getByUserName(@PathVariable("user_name") String user_name) {
+		User user = new User();
 		user.set_user_name(user_name);
 		try {
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 
 			user = userDAO.find_by_user_name(user);
 			System.out.println(user);
@@ -51,9 +51,9 @@ public class App {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Users user = new Users();
+			User user = new User();
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 			user.set_user_name(inputMap.get("user_name"));
 			user.set_password(inputMap.get("password"));
 			user = userDAO.create(user);
@@ -76,9 +76,9 @@ public class App {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Users user = new Users();
+			User user = new User();
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 			user.set_user_name(inputMap.get("user_name"));
 			user.set_password(inputMap.get("password"));
 			user.set_user_id(Integer.parseInt(inputMap.get("user_id")));
@@ -95,11 +95,11 @@ public class App {
 
 	@PostMapping("/delete/user/{user_name}")
 	public ResponseEntity<?> deleteUser(@PathVariable String user_name) {
-		Users user = new Users();
+		User user = new User();
 		user.set_user_name(user_name);
 		try {
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 			userDAO.delete(user);
 			return new ResponseEntity<>(user, HttpStatus.CREATED);
 		} catch (SQLException e) {
