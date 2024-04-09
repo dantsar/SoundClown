@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ArtistsDAO {
+public class ArtistDAO {
     
     private final Connection connection;
 
@@ -18,10 +18,10 @@ public class ArtistsDAO {
 
     private static final String DELETE_ARTIST = "DELETE FROM artists WHERE artist_name=?";
 
-    public ArtistsDAO(Connection connection) { this.connection = connection; }
+    public ArtistDAO(Connection connection) { this.connection = connection; }
 
-    public Artists find_by_artist_name(Artists dto) {
-        Artists artist = new Artists();
+    public Artist find_by_artist_name(Artist dto) {
+        Artist artist = new Artist();
         try (PreparedStatement statement = this.connection.prepareStatement(GET_ARTIST)) {
             statement.setString(1, dto.get_artist_name());
             System.out.println(dto.get_artist_name());
@@ -37,7 +37,7 @@ public class ArtistsDAO {
         return artist;
     }
 
-    public Artists create(Artists dto) {
+    public Artist create(Artist dto) {
         try (PreparedStatement statement = this.connection.prepareStatement(INSERT_ARTIST)) {
             statement.setString(1, dto.get_artist_name());
             statement.execute();
@@ -48,7 +48,7 @@ public class ArtistsDAO {
         }
     }
 
-    public Artists update(Artists dto) {
+    public Artist update(Artist dto) {
         System.out.println(dto.get_artist_name());
         try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_ARTIST)) {
             statement.setString(1, dto.get_artist_name());
@@ -60,7 +60,7 @@ public class ArtistsDAO {
         }
     }
 
-    public void delete(Artists dto) {
+    public void delete(Artist dto) {
         System.out.println(dto.get_artist_name());
         try (PreparedStatement statement = this.connection.prepareStatement(DELETE_ARTIST)) {
             statement.setString(1, dto.get_artist_name());

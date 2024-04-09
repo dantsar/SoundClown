@@ -1,6 +1,6 @@
 package com.SoundClown;
 
-public class Artists {
+public class Artist {
 
     private int    artist_id;
     private String artist_name;

@@ -110,12 +110,12 @@ public class App {
 
 	/*
     @GetMapping("/get/artist/{artist_name}")
-	public Artists getByArtistName(@PathVariable("artist_name") String artist_name) {
-		Artists artist = new Artists();
+	public Artist getByArtistName(@PathVariable("artist_name") String artist_name) {
+		Artist artist = new Artist();
 		artist.set_artist_name(artist_name);
 		try {
 			Connection connection = dcm.getConnection();
-			ArtistsDAO artistDAO = new ArtistsDAO(connection);
+			ArtistDAO artistDAO = new ArtistDAO(connection);
 
 			artist = artistDAO.find_by_artist_name(artist);
 			System.out.println(artist);
@@ -132,9 +132,9 @@ public class App {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Artists artist = new Artists();
+			Artist artist = new Artist();
 			Connection connection = dcm.getConnection();
-			ArtistsDAO artistDAO = new ArtistsDAO(connection);
+			ArtistDAO artistDAO = new ArtistDAO(connection);
 			artist.set_artist_name(inputMap.get("artist_name"));
 			artist = artistDAO.create(artist);
 			System.out.println(artist);
@@ -156,9 +156,9 @@ public class App {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Artists artist = new Artists();
+			Artist artist = new Artist();
 			Connection connection = dcm.getConnection();
-			ArtistsDAO artistDAO = new ArtistsDAO(connection);
+			ArtistDAO artistDAO = new ArtistDAO(connection);
 			artist.set_artist_name(inputMap.get("artist_name"));
 			artist.set_artist_id(Integer.parseInt(inputMap.get("artist_name")));
 			artist = artistDAO.update(artist);
@@ -174,11 +174,11 @@ public class App {
 
 	@PostMapping("/delete/artist/{artist_name}")
 	public ResponseEntity<?> deleteArtist(@PathVariable String artist_name) {
-		Artists artist = new Artists();
+		Artist artist = new Artist();
 		artist.set_artist_name(artist_name);
 		try {
 			Connection connection = dcm.getConnection();
-			ArtistsDAO artistDAO = new ArtistsDAO(connection);
+			ArtistDAO artistDAO = new ArtistDAO(connection);
 			artistDAO.delete(artist);
 			return new ResponseEntity<>(artist, HttpStatus.CREATED);
 		} catch (SQLException e) {
