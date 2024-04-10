@@ -51,28 +51,28 @@ public class App {
 		return usersAPI.delete_user(user_name, dcm);
 	}
 
-	// Tracks
+	// Track
 	@GetMapping("/get/track/{track_name}")
 	public ResponseEntity<?> getByTrackName(@PathVariable("track_name") String track_name) {
-		TracksAPI tracksAPI = new TracksAPI();
+		TrackAPI tracksAPI = new TrackAPI();
 		return tracksAPI.get_track(track_name, dcm);
 	}
 
 	@PostMapping("/create/track")
 	public ResponseEntity<?> createNewTrack(@RequestBody String json) throws JsonProcessingException {
-		TracksAPI tracksAPI = new TracksAPI();
+		TrackAPI tracksAPI = new TrackAPI();
 		return tracksAPI.create_track(json, dcm);
 	}
 
 	@PostMapping("/update/track")
 	public ResponseEntity<?> updateTrack(@RequestBody String json) {
-		TracksAPI tracksAPI = new TracksAPI();
+		TrackAPI tracksAPI = new TrackAPI();
 		return tracksAPI.update_track(json, dcm);
 	}
 
 	@PostMapping("/delete/track/{track_name}")
 	public ResponseEntity<?> deleteTrack(@PathVariable String track_name) {
-		TracksAPI tracksAPI = new TracksAPI();
+		TrackAPI tracksAPI = new TrackAPI();
 		return tracksAPI.delete_track(track_name, dcm);
 	}
 

@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TracksDAO {
+public class TrackDAO {
 
     protected final Connection connection;
     private static final String GET_TRACK    = "SELECT * FROM tracks WHERE track_name = ?";
@@ -20,10 +20,10 @@ public class TracksDAO {
     private static final String DELETE_TRACK = "DELETE FROM tracks WHERE track_name=?";
 
 
-    public TracksDAO(Connection connection) { this.connection = connection; }
+    public TrackDAO(Connection connection) { this.connection = connection; }
 
-    public Tracks find_by_track_name(Tracks dto) {
-        Tracks track = new Tracks();
+    public Track find_by_track_name(Track dto) {
+        Track track = new Track();
         try(PreparedStatement statement = this.connection.prepareStatement(GET_TRACK)) {
 
             statement.setString(1, dto.get_track_name());
@@ -45,7 +45,7 @@ public class TracksDAO {
         return track;
     }
 
-    public Tracks create(Tracks dto) {
+    public Track create(Track dto) {
         try (PreparedStatement statement = this.connection.prepareStatement(INSERT_TRACK)) {
 
             statement.setString(1, dto.get_track_name());
@@ -62,7 +62,7 @@ public class TracksDAO {
         }
     }
 
-    public Tracks update(Tracks dto) {
+    public Track update(Track dto) {
         try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_TRACK)) {
 
             statement.setString(1, dto.get_track_name());
@@ -80,7 +80,7 @@ public class TracksDAO {
         }
     }
 
-    public void delete(Tracks dto) {
+    public void delete(Track dto) {
         System.out.println(dto.get_track_name());
         try (PreparedStatement statement = this.connection.prepareStatement(DELETE_TRACK)) {
             statement.setString(1, dto.get_track_name());

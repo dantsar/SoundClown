@@ -2,7 +2,7 @@ package com.SoundClown;
 
 import java.sql.Timestamp;
 
-public class Tracks {
+public class Track {
 
     private int    track_id;
     private String track_name;

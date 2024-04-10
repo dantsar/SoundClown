@@ -18,13 +18,13 @@ import org.postgresql.util.PSQLException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class TracksAPI{
+public class TrackAPI{
 	public ResponseEntity<?> get_track(String track_name, DatabaseConnectionManager dcm) {
-		Tracks track = new Tracks();
+		Track track = new Track();
 		track.set_track_name(track_name);
 		try {
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
 
 			track = trackDAO.find_by_track_name(track);
 			if (track.get_track_name() != null) {
@@ -41,14 +41,14 @@ public class TracksAPI{
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Tracks track = new Tracks();
+			Track track = new Track();
 			track.set_track_name(inputMap.get("track_name"));
 			track.set_description(inputMap.get("description"));
 			track.set_artist_name(inputMap.get("artist_name"));
 			track.set_track_path(inputMap.get("track_path"));
 
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
 			track = trackDAO.create(track);
 
 			System.out.println(track);
@@ -70,7 +70,7 @@ public class TracksAPI{
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Tracks track = new Tracks();
+			Track track = new Track();
 			track.set_track_name(inputMap.get("track_name"));
 			track.set_description(inputMap.get("description"));
 			track.set_artist_name(inputMap.get("artist_name"));
@@ -78,7 +78,7 @@ public class TracksAPI{
 			track.set_track_id(Integer.parseInt(inputMap.get("track_id")));
 
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
 			track = trackDAO.update(track);
 
 			System.out.println(track);
@@ -94,11 +94,11 @@ public class TracksAPI{
 	}
 
 	public ResponseEntity<?> delete_track(String track_name, DatabaseConnectionManager dcm) {
-		Tracks track = new Tracks();
+		Track track = new Track();
 		track.set_track_name(track_name);
 		try {
 			Connection connection = dcm.getConnection();
-			TracksDAO trackDAO = new TracksDAO(connection);
+			TrackDAO trackDAO = new TrackDAO(connection);
 			trackDAO.delete(track);
 
 			return new ResponseEntity<>("Track " + track.get_track_name() + " deleted", HttpStatus.CREATED);
