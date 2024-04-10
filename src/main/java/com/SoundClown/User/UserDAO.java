@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UsersDAO {
+public class UserDAO {
     
     private final Connection connection;
 
@@ -18,10 +18,10 @@ public class UsersDAO {
 
     private static final String DELETE_USER = "DELETE FROM users WHERE user_name=?";
 
-    public UsersDAO(Connection connection) { this.connection = connection; }
+    public UserDAO(Connection connection) { this.connection = connection; }
 
-    public Users find_by_user_name(Users dto) {
-        Users user = new Users();
+    public User find_by_user_name(User dto) {
+        User user = new User();
         try (PreparedStatement statement = this.connection.prepareStatement(GET_USER)) {
             statement.setString(1, dto.get_user_name());
             System.out.println(dto.get_user_name());
@@ -38,7 +38,7 @@ public class UsersDAO {
         return user;
     }
 
-    public Users create(Users dto) {
+    public User create(User dto) {
         try (PreparedStatement statement = this.connection.prepareStatement(INSERT_USER)) {
             statement.setString(1, dto.get_user_name());
             statement.setString(2, dto.get_password());
@@ -50,7 +50,7 @@ public class UsersDAO {
         }
     }
 
-    public Users update(Users dto) {
+    public User update(User dto) {
         try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_USER)) {
             statement.setString(1, dto.get_user_name());
             statement.setString(2, dto.get_password());
@@ -63,7 +63,7 @@ public class UsersDAO {
         }
     }
 
-    public void delete(Users dto) {
+    public void delete(User dto) {
         System.out.println(dto.get_user_name());
         try (PreparedStatement statement = this.connection.prepareStatement(DELETE_USER)) {
             statement.setString(1, dto.get_user_name());

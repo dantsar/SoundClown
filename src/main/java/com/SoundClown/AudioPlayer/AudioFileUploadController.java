@@ -60,11 +60,11 @@ public class AudioFileUploadController {
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
-		Users user   = new Users();
+		User user   = new User();
 		Tracks track = new Tracks();
 		try {
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 			user.set_user_name(artist);
 			user.set_password("123");
 			user = userDAO.create(user);

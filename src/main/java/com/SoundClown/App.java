@@ -26,28 +26,28 @@ public class App {
 	@Autowired
     private DatabaseConnectionManager dcm;
 
-    // Users
+    // User
     @GetMapping("/get/user/{user_name}")
 	public ResponseEntity<?> getByUserName(@PathVariable("user_name") String user_name) {
-		UsersAPI usersAPI = new UsersAPI();
+		UserAPI usersAPI = new UserAPI();
 		return usersAPI.get_user(user_name, dcm);
 	}
 
 	@PostMapping("/create/user")
 	public ResponseEntity<?> createNewUser(@RequestBody String json) {
-		UsersAPI usersAPI = new UsersAPI();
+		UserAPI usersAPI = new UserAPI();
 		return usersAPI.create_user(json, dcm);
 	}
 
 	@PostMapping("/update/user")
 	public ResponseEntity<?> updateUser(@RequestBody String json) {
-		UsersAPI usersAPI = new UsersAPI();
+		UserAPI usersAPI = new UserAPI();
 		return usersAPI.update_user(json, dcm);
 	}
 
 	@PostMapping("/delete/user/{user_name}")
 	public ResponseEntity<?> deleteUser(@PathVariable String user_name) {
-		UsersAPI usersAPI = new UsersAPI();
+		UserAPI usersAPI = new UserAPI();
 		return usersAPI.delete_user(user_name, dcm);
 	}
 

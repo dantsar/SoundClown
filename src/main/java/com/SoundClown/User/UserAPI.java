@@ -18,14 +18,14 @@ import org.postgresql.util.PSQLException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class UsersAPI{
+public class UserAPI{
 
     public ResponseEntity<?> get_user(String user_name, DatabaseConnectionManager dcm) {
-        Users user = new Users();
+        User user = new User();
 		user.set_user_name(user_name);
 		try {
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 
 			user = userDAO.find_by_user_name(user);
 			if (user.get_user_name() != null) {
@@ -43,12 +43,12 @@ public class UsersAPI{
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Users user = new Users();
+			User user = new User();
 			user.set_user_name(inputMap.get("user_name"));
 			user.set_password(inputMap.get("password"));
 
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 			user = userDAO.create(user);
 
 			System.out.println(user);
@@ -70,13 +70,13 @@ public class UsersAPI{
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-			Users user = new Users();
+			User user = new User();
 			user.set_user_name(inputMap.get("user_name"));
 			user.set_password(inputMap.get("password"));
 			user.set_user_id(Integer.parseInt(inputMap.get("user_id")));
 
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 			user = userDAO.update(user);
 
 			System.out.println(user);
@@ -92,11 +92,11 @@ public class UsersAPI{
 	}
 
 	public ResponseEntity<?> delete_user(String user_name, DatabaseConnectionManager dcm) {
-		Users user = new Users();
+		User user = new User();
 		user.set_user_name(user_name);
 		try {
 			Connection connection = dcm.getConnection();
-			UsersDAO userDAO = new UsersDAO(connection);
+			UserDAO userDAO = new UserDAO(connection);
 			userDAO.delete(user);
 			return new ResponseEntity<>("User " + user.get_user_name() + " deleted", HttpStatus.CREATED);
 		} catch (SQLException e) {
