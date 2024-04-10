@@ -27,6 +27,7 @@ public class App {
     private DatabaseConnectionManager dcm;
 
     // User
+    @CrossOrigin
     @GetMapping("/get/user/{user_name}")
 	public User getByUserName(@PathVariable("user_name") String user_name) {
 		User user = new User();
@@ -45,6 +46,7 @@ public class App {
 	}
 
 
+    @CrossOrigin
 	@PostMapping("/create/user")
 	public ResponseEntity<?> createNewUser(@RequestBody String json) {
 		System.out.println(json);
@@ -70,6 +72,7 @@ public class App {
 		}
 	}
 
+    @CrossOrigin
 	@PostMapping("/update/user")
 	public ResponseEntity<?> updateUser(@RequestBody String json) {
 		System.out.println(json);
@@ -93,6 +96,7 @@ public class App {
 		}
 	}
 
+    @CrossOrigin
 	@PostMapping("/delete/user/{user_name}")
 	public ResponseEntity<?> deleteUser(@PathVariable String user_name) {
 		User user = new User();
