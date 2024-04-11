@@ -44,7 +44,7 @@ public class AudioFileUploadController {
         model.addAttribute("files", storageService.loadAll().map(
                 path -> path.getFileName().toString()));
 
-        return "allTracks"; // this refers to allTracks.html in resources/templates
+        return "allTracks"; // this refers to allTrack.html in resources/templates
     }
 
 	@PostMapping("/uploadTrack")
@@ -86,7 +86,7 @@ public class AudioFileUploadController {
 		}
 
 		System.out.println("added user and track");
-		return "redirect:/allTracks";
+		return "redirect:/allTrack";
 	}
 
     // this is the page for playing a selected track
