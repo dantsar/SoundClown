@@ -27,6 +27,7 @@ public class App {
     private DatabaseConnectionManager dcm;
 
     // User
+    @CrossOrigin
     @GetMapping("/get/user/{user_name}")
 	public ResponseEntity<?> getByUserName(@PathVariable("user_name") String user_name) {
 		UserAPI userAPI = new UserAPI();

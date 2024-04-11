@@ -7,3 +7,7 @@ build
 target
 
 audio_files/*
+
+.envrc
+
+.venv
