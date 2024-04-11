@@ -18,7 +18,7 @@ import org.postgresql.util.PSQLException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class TrackAPI{
+public class TrackAPI {
 	public ResponseEntity<?> get_track(String track_name, DatabaseConnectionManager dcm) {
 		Track track = new Track();
 		track.set_track_name(track_name);
