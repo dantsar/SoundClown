@@ -41,11 +41,18 @@ public class TrackAPI {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+
+			// Ensure track doesn't already exist
+			if (TrackUtil.track_exists(inputMap.get("track_name"))) {
+				return new ResponseEntity<>("Duplicate track name", HttpStatus.CONFLICT);
+			}
+
 			Track track = new Track();
 			track.set_track_name(inputMap.get("track_name"));
 			track.set_description(inputMap.get("description"));
 			track.set_artist_name(inputMap.get("artist_name"));
 			track.set_track_path(inputMap.get("track_path"));
+
 
 			Connection connection = dcm.getConnection();
 			TrackDAO trackDAO = new TrackDAO(connection);
@@ -64,6 +71,10 @@ public class TrackAPI {
 			e.printStackTrace();
 			return new ResponseEntity<>("Database error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	public ResponseEntity<?> rename_track(String track_name) {
+		
 	}
 
 	public ResponseEntity<?> update_track(String json, DatabaseConnectionManager dcm) {
