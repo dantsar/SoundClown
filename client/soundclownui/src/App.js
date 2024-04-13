@@ -1,42 +1,39 @@
 import "./App.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+function links(text) {
+    return (
+      <div>
+        <nav>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+        </nav>
+        <h1>{text}</h1>
+      </div>
+    );
+}
 
 function Home() {
+   const navigate = useNavigate();
     return (
-        <div>
-            <nav>
-                <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
-            </nav>
-            <h1>My Website</h1>
-        </div>
+      <div>
+        <nav>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <button onClick={() => {
+                navigate('/create-user')
+            }}>Create User</button>
+        </nav>
+        <h1>Welcome to SoundClown</h1>
+      </div>
     );
 }
 
 export function About() {
-    return (
-        <div>
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
-            </nav>
-            <h1>About Us</h1>
-        </div>
-    );
-}
-
-export function Contact() {
-    return (
-        <div>
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
-            </nav>
-            <h1>Contact Us</h1>
-        </div>
-    );
+    return links("About SoundClown");
 }
 
 export function App() {
