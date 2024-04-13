@@ -27,15 +27,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AudioFileUploadController {
 
-	private final AudioStorageService storageService;
+    private final AudioStorageService storageService;
 
 	@Autowired
 	public AudioFileUploadController(AudioStorageService storageService) {
 		this.storageService = storageService;
 	}
 
-    @Autowired
-    private DatabaseConnectionManager dcm;
 
     @GetMapping("/allTracks")
     public String listUploadedFiles(Model model) throws IOException {
@@ -60,32 +58,6 @@ public class AudioFileUploadController {
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
-		User user   = new User();
-		Track track = new Track();
-		try {
-			Connection connection = dcm.getConnection();
-			UserDAO userDAO = new UserDAO(connection);
-			user.set_user_name(artist);
-			user.set_password("123");
-			user = userDAO.create(user);
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			Connection connection = dcm.getConnection();
-			TrackDAO trackDAO = new TrackDAO(connection);
-			track.set_track_name(track_name);
-			track.set_track_path(file.getOriginalFilename());
-			track.set_description("test");
-			track.set_artist_name(artist);
-			track = trackDAO.create(track);
-
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("added user and track");
 		return "redirect:/allTrack";
 	}
 
