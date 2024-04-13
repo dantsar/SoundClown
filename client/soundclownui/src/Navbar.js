@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Navbar = () => {
     return (
         <nav className="navbar">
@@ -5,10 +7,10 @@ const Navbar = () => {
                 <a style={{
                     backgroundColor: "black",
                 }}>SoundClown</a>
-                <a href="/" style={{
+                <Link to="/" style={{
                     backgroundColor: "#232323",
-                }}>Home</a>
-                <a href="/create-user">Create User</a>
+                }}>Home</Link>
+                <Link to="/create-user">Create User</Link>
             </div>
         </nav>
     );
