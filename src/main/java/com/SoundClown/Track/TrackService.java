@@ -20,13 +20,13 @@ public class TrackService {
     }
 
     public boolean create_track(String track_name,
-                                String artist_name,
+                                Long artist_id,
                                 String track_path,
                                 String description ) {
 
         Track track = new Track();
         track.set_track_name(track_name);
-        track.set_artist_name(artist_name);
+        track.set_artist_id(artist_id);
         track.set_track_path(track_path);
         track.set_description(description);
         System.out.println(track);

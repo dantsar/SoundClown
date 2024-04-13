@@ -8,11 +8,11 @@ CREATE TABLE users (
 CREATE TABLE tracks (
     track_id    serial PRIMARY KEY,
     track_name  varchar(50)  NOT NULL,
-    artist_name varchar(50) NOT NULL,
+    artist_id   serial,
     track_path  varchar(500) NOT NULL,
     plays       INT DEFAULT 0 NOT NULL,
     description varchar(500),
-    FOREIGN KEY (artist_name) REFERENCES users(user_name) ON UPDATE CASCADE
+    FOREIGN KEY (artist_id) REFERENCES users(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE playlists (

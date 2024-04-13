@@ -98,7 +98,7 @@ public class App {
 
         return this.trackService.create_track(
                 inputMap.get("track_name"),
-                inputMap.get("artist_name"),
+                Long.parseLong(inputMap.get("artist_id")),
                 inputMap.get("track_path"),
                 inputMap.get("description")
         );
