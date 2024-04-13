@@ -1,16 +1,14 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="links">
-                <a style={{
+                <NavLink to="/" style={{
                     backgroundColor: "black",
-                }}>SoundClown</a>
-                <Link to="/" style={{
-                    backgroundColor: "#232323",
-                }}>Home</Link>
-                <Link to="/create-user">Create User</Link>
+                }}>SoundClown</NavLink>
+                <NavLink to="/">Home</NavLink>
+                <NavLink to="/login">Login</NavLink>
             </div>
         </nav>
     );
