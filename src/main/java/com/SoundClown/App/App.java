@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootApplication
 @RestController
 @EnableConfigurationProperties(AudioStorageProperties.class)
+@CrossOrigin
 public class App {
 
 	@Autowired
