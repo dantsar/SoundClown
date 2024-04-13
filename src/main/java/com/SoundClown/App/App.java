@@ -43,11 +43,10 @@ public class App {
 		// This returns a JSON or XML with the users
 		return this.userService.get_users();
 	}
-
-	@GetMapping("/get/user/{user_name}")
-	public List<User> findUser(@PathVariable("user_name") String user_name) {
-		return userRepository.findByUserName(user_name);
-	}
+    @GetMapping("/get/user_id/{user_id}")
+    public User findUserById(@PathVariable("user_id") Long user_id) {
+        return userRepository.getUserByUserId(user_id);
+    }
 
 	@PostMapping("/create/user")
     public boolean createNewPlayer(@RequestBody String json) throws JsonProcessingException {
@@ -86,9 +85,9 @@ public class App {
 		return this.trackService.get_tracks();
 	}
 
-	@GetMapping("/get/track/{track_name}")
-	public List<Track> findtrack(@PathVariable("track_name") String track_name) {
-		return trackRepository.findByTrackName(track_name);
+	@GetMapping("/get/track/{track_id}")
+	public Track findtrack(@PathVariable("track_id") Long track_id) {
+		return trackRepository.getTrackByTrackId(track_id);
 	}
 
     @PostMapping("/create/track")
@@ -119,9 +118,9 @@ public class App {
 		return this.playlistService.get_playlists();
 	}
 
-	@GetMapping("/get/playlist/{playlist_name}")
-	public List<Playlist> findPlaylist(@PathVariable("playlist_name") String playlist_name) {
-		return playlistRepository.findByPlaylistName(playlist_name);
+	@GetMapping("/get/playlist/{playlist_id}")
+	public Playlist findPlaylist(@PathVariable("playlist_id") Long playlist_id) {
+		return playlistRepository.getPlaylistByPlaylistId(playlist_id);
 	}
 
     @PostMapping("/create/playlist")
