@@ -1,41 +1,28 @@
-import "./App.css";
-import { Link, useNavigate } from "react-router-dom";
+import Navbar from './Navbar';
+import Home from './Home';
+import CreateUser from './CreateUser';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { useState, useEffect } from "react";
-import axios from "axios";
-
-function links(text) {
+function App() {
     return (
-      <div>
-        <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-        </nav>
-        <h1>{text}</h1>
-      </div>
+        <Router>
+            <div className="App">
+                <Navbar />
+                <div className="content">
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={<Home />}
+                        />
+                        <Route
+                            path="create-user"
+                            element={<CreateUser />}
+                        />
+                    </Routes>
+                </div>
+            </div>
+        </Router>
     );
 }
 
-function Home() {
-   const navigate = useNavigate();
-    return (
-      <div>
-        <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <button onClick={() => {
-                navigate('/create-user')
-            }}>Create User</button>
-        </nav>
-        <h1>Welcome to SoundClown</h1>
-      </div>
-    );
-}
-
-export function About() {
-    return links("About SoundClown");
-}
-
-export function App() {
-    return <Home />;
-}
+export default App;
