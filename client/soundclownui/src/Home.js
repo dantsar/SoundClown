@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import UserList from './UserList';
+import useFetch from './useFetch';
  
 const Home = () => {
-    const [users, setUsers] = useState([
-        {_user_name: "andy", _password: "mypassword", _user_id: 1},
-        {_user_name: "fred", _password: "mypassword", _user_id: 34},
-    ]);
+    const { data: users, isPending, error } = useFetch('http://localhost:8080/get/allusers');
+
     return (
         <div className="home">
-            <UserList users={users} />
+            { error && <div>{ error }</div> }
+            { isPending && <div>Loading...</div> }
+            {users && <UserList users={users} title="User List"/>}
         </div>
     );
 }

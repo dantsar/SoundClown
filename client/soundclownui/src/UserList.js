@@ -1,12 +1,15 @@
-const UserList = (props) => {
-    const users = props.users;
+import { Link } from 'react-router-dom';
 
+const UserList = ({users, title}) => {
     return (
         <div className="user-list">
+            <h2>{ title }</h2>
             {users.map((user) => (
                 <div className="user-preview" key={user._user_id}>
-                    <h2>Username: { user._user_name }</h2>
-                    <h2>Password: { user._password }</h2>
+                    <Link to ={`/user/${user._user_id}`}>
+                        <p>Username: { user._user_name }</p>
+                        <p>Password: { user._password }</p>
+                    </Link>
                 </div>
             ))}
         </div>
