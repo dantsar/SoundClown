@@ -1,16 +1,16 @@
 package com.SoundClown.Controllers;
 
+import com.SoundClown.AudioStorageProperties;
 import com.SoundClown.User.*;
 import com.SoundClown.Track.*;
 import com.SoundClown.Playlist.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class  WebController {
 	@GetMapping(path="/get/allusers")
 	public List<User> getAllUsers() {
 		// This returns a JSON or XML with the users
-		return this.userService.get_users();
+		return this.userService.getAllUsers();
 	}
 
 	@GetMapping("/get/user/{user_name}")
@@ -91,12 +91,15 @@ public class  WebController {
         System.out.println(json);
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		User artist = this.userRepository.findUser("andy");
+		Long artist_id = artist.get_user_id();
 
         return this.trackService.create_track(
                 inputMap.get("track_name"),
-                inputMap.get("artist_name"),
                 inputMap.get("track_path"),
-                inputMap.get("description")
+                inputMap.get("description"),
+				artist_id,
+				artist
         );
     }
 
@@ -125,13 +128,35 @@ public class  WebController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 
+		Long user_id =  Long.parseLong(inputMap.get("user_id"));
+		User user = this.userRepository.findUserId(user_id);
+
+		/*
+		Long track_id =  Long.parseLong(inputMap.get("track_id"));
+		Track track = this.trackRepository.findTrackId(track_id);
+		 */
+
         return this.playlistService.create_playlist(
-                Long.parseLong(inputMap.get("user_id")),
-                Long.parseLong(inputMap.get("track_id")),
+				user,
                 inputMap.get("playlist_name")
         );
     }
 
+	@PostMapping("/addsong/playlist")
+	public boolean addToPlaylist(@RequestBody String json) throws JsonProcessingException {
+		System.out.println(json);
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		Long playlist_id = Long.parseLong(inputMap.get("playlist_id"));
+		String track_name = inputMap.get("track_name");
+
+		Playlist playlist = this.playlistRepository.findByPlaylistId(playlist_id);
+
+		Track track = this.trackRepository.byTrackName(track_name);
+		playlist.add_track(track);
+
+		return this.playlistService.update_playlist(playlist);
+	}
 
 	@PostMapping("/delete/playlist/{playlist_id}")
     public void deletePlaylist(@PathVariable("playlist_id") Long playlist_id) throws JsonProcessingException {
