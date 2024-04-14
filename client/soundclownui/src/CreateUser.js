@@ -30,7 +30,7 @@ const CreateUser = () => {
                 <label htmlFor="username">
                     Username:
                 </label>
-                <input type="username"
+                <input type="text"
                     id="username"
                     name="username"
                     placeholder="Enter your Username"
