@@ -1,28 +1,24 @@
-package com.SoundClown;
+package com.SoundClown.Controllers;
+
+import com.SoundClown.User.*;
+import com.SoundClown.Track.*;
+import com.SoundClown.Playlist.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Map;
 import java.util.List;
 
-import org.postgresql.util.PSQLException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootApplication
 @RestController
 @EnableConfigurationProperties(AudioStorageProperties.class)
-public class App {
+public class  WebController {
 
 	@Autowired
 	private UserService userService;
@@ -142,9 +138,4 @@ public class App {
         System.out.println(playlist_id);
         this.playlistService.delete_playlist(playlist_id);
     }
-
-	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
-	}
-
 }
