@@ -3,7 +3,7 @@ import useFetch from './useFetch';
 
 const UserDetails = () => {
     const { user_id } = useParams();
-    const { data: user, error, isPending } = useFetch("http://localhost:8080/get/user_id/" + user_id);
+    const { data: user, error, isPending } = useFetch("http://localhost:8080/get/user/" + user_id);
     const navigate = useNavigate();
 
     const handleClick = () => {

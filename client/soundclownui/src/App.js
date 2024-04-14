@@ -3,6 +3,7 @@ import Home from './Home';
 import Login from './Login';
 import CreateUser from './CreateUser';
 import UserDetails from './UserDetails';
+import TrackDetails from './TrackDetails';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -27,6 +28,10 @@ function App() {
                         <Route
                             path="user/:user_id"
                             element={<UserDetails />}
+                        />
+                        <Route
+                            path="track/:track_id"
+                            element={<TrackDetails />}
                         />
                     </Routes>
                 </div>

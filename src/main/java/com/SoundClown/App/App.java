@@ -43,7 +43,7 @@ public class App {
 		// This returns a JSON or XML with the users
 		return this.userService.get_users();
 	}
-    @GetMapping("/get/user_id/{user_id}")
+    @GetMapping("/get/user/{user_id}")
     public User findUserById(@PathVariable("user_id") Long user_id) {
         return userRepository.getUserByUserId(user_id);
     }

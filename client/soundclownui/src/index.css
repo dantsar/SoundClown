@@ -20,4 +20,10 @@
 .navbar a.active {
     background-color:#000;
 }
+.user-list a {
+    text-decoration: none;
+}
 
+.track-list a {
+    text-decoration: none;
+}

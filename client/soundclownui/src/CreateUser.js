@@ -27,7 +27,7 @@ const CreateUser = () => {
         <div className="createuser">
             <h1>Create a New SoundClown User</h1>
             <form onSubmit={handleSubmit}>
-                <label for="username">
+                <label htmlFor="username">
                     Username:
                 </label>
                 <input type="username"
@@ -39,7 +39,7 @@ const CreateUser = () => {
                     onChange={(e) => setUsername(e.target.value)}
                 />
 
-                <label for="password">
+                <label htmlFor="password">
                     Password:
                 </label>
                 <input type="password"

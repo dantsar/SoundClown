@@ -6,7 +6,7 @@ const Login = () => {
             <h1>SoundClown</h1>
             <h3>Enter your login credentials</h3>
             <form>
-                <label for="username">
+                <label htmlFor="username">
                     Username:
                 </label>
                 <input type="username"
@@ -16,7 +16,7 @@ const Login = () => {
                     required
                 />
 
-                <label for="password">
+                <label htmlFor="password">
                     Password:
                 </label>
                 <input type="password"

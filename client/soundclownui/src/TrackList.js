@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import User from './User';
 
 const TrackList = ({tracks, title}) => {
     return (
@@ -8,7 +9,9 @@ const TrackList = ({tracks, title}) => {
                 <div className="track-preview" key={track._track_id}>
                     <Link to ={`/track/${track._track_id}`}>
                         <p>Track Name: { track._track_name }</p>
-                        <p>Track Path: { track._track_path }</p>
+                        <p style={{
+                            float: "left",
+                        }}>Track Artist:&nbsp;</p> <User user_id={track._artist_id} />
                     </Link>
                 </div>
             ))}
@@ -16,4 +19,4 @@ const TrackList = ({tracks, title}) => {
     );
 }
 
-export default UserList;
+export default TrackList;
