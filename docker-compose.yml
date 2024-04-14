@@ -20,6 +20,7 @@ services:
       - 8080:8080
     ports:
       - 8080:8080
+      - 5005:5005 # for debugging
     volumes:
       - ./audio_files:/tmp/audio_files
     depends_on:
