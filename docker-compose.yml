@@ -24,9 +24,10 @@ services:
       - ./audio_files:/tmp/audio_files
     depends_on:
       - db
-  ui:
-    build: client/soundclownui
-    ports:
-      - 3000:3000
-    depends_on:
-      - app
+  #
+  #ui:
+    #  build: client/soundclownui
+    #ports:
+      #  - 3000:3000
+    # depends_on:
+      #  - app
