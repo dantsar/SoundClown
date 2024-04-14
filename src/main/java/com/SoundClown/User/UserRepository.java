@@ -1,4 +1,4 @@
-package com.SoundClown;
+package com.SoundClown.User;
 
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +13,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      @Query("select u from #{#entityName} u where u.user_name = ?1")
      List<User> findByUserName(String user_name);
 
+     @Query("select u from #{#entityName} u where u.user_name = ?1")
+     User findUser(String user_name);
+
      @Query("select u from #{#entityName} u where u.user_id = ?1")
      List<User> findByUserId(Long user_id);
+
+     @Query("select u from #{#entityName} u where u.user_id = ?1")
+     User findUserId(Long user_id);
 }

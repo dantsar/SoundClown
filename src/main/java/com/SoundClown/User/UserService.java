@@ -1,4 +1,4 @@
-package com.SoundClown;
+package com.SoundClown.User;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +9,17 @@ import java.util.List;
 @Service
 public class UserService {
 
+    // Removed autowired here : might not work anymore
     @Autowired
     private UserRepository userRepository;
 
-    public List get_users() {
+    public List<User> getAllUsers() {
         Iterable users = this.userRepository.findAll();
         List userList = new ArrayList<>();
         users.forEach(user->{userList.add(user);});
         return userList;
     }
+
 
     public boolean create_user(String user_name, String password) {
         User user = new User();

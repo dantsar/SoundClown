@@ -1,4 +1,4 @@
-package com.SoundClown;
+package com.SoundClown.User;
 
 import jakarta.persistence.*;
 import org.springframework.data.domain.Persistable;
