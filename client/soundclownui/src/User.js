@@ -6,8 +6,8 @@ const User = ({user_id}) => {
     return(
         <div className="user">
             { isPending && <div>Loading...</div> }
-            { error && <div>{ error }</div> }
-            { user && <p>{user._user_name}</p>}
+            { error && <div>Artist Not Found</div> }
+            { user && <div>{user._user_name}</div> }
         </div>
     );
 }

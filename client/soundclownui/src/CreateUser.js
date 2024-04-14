@@ -15,7 +15,7 @@ const CreateUser = () => {
 
         fetch('http://localhost:8080/create/user', {
             method: 'POST',
-            headers: { "Content-Type": "application/json" },
+            headers: { "dataType": "text" },
             body: JSON.stringify(user)
         }).then(() => {
             setIsPending(false);
