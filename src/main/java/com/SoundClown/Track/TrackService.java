@@ -1,5 +1,6 @@
-package com.SoundClown;
+package com.SoundClown.Track;
 
+import com.SoundClown.User.User;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,15 +21,17 @@ public class TrackService {
     }
 
     public boolean create_track(String track_name,
-                                String artist_name,
                                 String track_path,
-                                String description ) {
+                                String description,
+                                Long   artist_id,
+                                User   artist) {
 
         Track track = new Track();
         track.set_track_name(track_name);
-        track.set_artist_name(artist_name);
+        track.set_artist_id(artist_id);
         track.set_track_path(track_path);
         track.set_description(description);
+        track.set_artist(artist);
         System.out.println(track);
         this.trackRepository.save(track);
         return true;
