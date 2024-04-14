@@ -93,8 +93,6 @@ public class App {
 		return trackList;
 	}
 
-
-    // Think of a better way to do this (We can't just pass the track_id as a parameter)
 	@GetMapping("/get/track/{track_id}")
 	public Track findtrack(@PathVariable("track_id") Long track_id) {
         System.out.println("(/get/track/" + track_id + ")");
