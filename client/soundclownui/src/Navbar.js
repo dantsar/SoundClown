@@ -4,11 +4,16 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="links">
-                <NavLink to="/" style={{
-                    backgroundColor: "black",
-                }}>SoundClown</NavLink>
-                <NavLink to="/">Home</NavLink>
-                <NavLink to="/login">Login</NavLink>
+                <div className="navbar-left">
+                    <NavLink to="/" style={{
+                        backgroundColor: "black",
+                    }}>SoundClown</NavLink>
+                    <NavLink to="/">Home</NavLink>
+                </div>
+                <div className="navbar-right">
+                    <NavLink to="/upload">Upload</NavLink>
+                    <NavLink to="/login">Login</NavLink>
+                </div>
             </div>
         </nav>
     );

@@ -8,24 +8,53 @@
 .navbar {
     background-color: #333;
     overflow: hidden;
+    padding: 20px;
 }
 
 .navbar a {
-    float: left;
     color: #FFF;
-    padding: 20px 20px;
+    padding: 20px;
     text-decoration: none;
 }
 
 .navbar a.active {
     background-color:#000;
 }
+
+.navbar-left {
+    float: left;
+    padding-left: 15%;
+}
+
+.navbar-right {
+    float: right;
+    padding-right: 15%;
+}
+
 .user-list a {
     text-decoration: none;
 }
 
+.track-wrapper {
+    display: flex;
+    justifycontent: center;
+    align-items: center;
+    height: 75vh;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.track-list {
+    display: flex;
+    flex-warp: wrap;
+    gap: 20px;
+}
 .track-list a {
     text-decoration: none;
+}
+
+.track-preview {
+
 }
 
 .audioplayer {
@@ -34,3 +63,4 @@
     bottom: 0;
     width: 100%;
 }
+

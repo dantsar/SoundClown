@@ -17,6 +17,7 @@ const TrackDetails = (props) => {
                         float: "left",
                     }}>Artist:&nbsp;</p>
                     <User user_id={track._artist_id} />
+                    <p>Description: {track._description}</p>
                     <button onClick={() => props.setTrack(track._track_path)}>Play</button>
                 </article>
             )}
