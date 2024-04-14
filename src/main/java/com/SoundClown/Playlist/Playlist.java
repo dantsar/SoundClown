@@ -29,12 +29,12 @@ public class Playlist {
     )
     private List<Track> tracks;
 
-//    public void set_playlist_id(Long playlist_id)       { this.playlist_id   = playlist_id;   }
+    public void set_playlist_id(Long playlist_id)       { this.playlist_id   = playlist_id;   }
     public void set_user(User user)                     { this.user          = user;          }
     public void add_track(Track track)                  { this.tracks.add(track);             }
     public void set_playlist_name(String playlist_name) { this.playlist_name = playlist_name; }
 
-   // public Long get_playlist_id()     { return playlist_id;   }
+    public Long get_playlist_id()     { return playlist_id;   }
     public User get_user()            { return user;          }
     public List<Track> get_tracks()   { return tracks;        }
     public String get_playlist_name() { return playlist_name; }
