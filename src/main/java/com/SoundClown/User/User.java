@@ -1,4 +1,4 @@
-package com.SoundClown;
+package SoundClown.User;
 
 import jakarta.persistence.*;
 import org.springframework.data.domain.Persistable;
@@ -6,7 +6,7 @@ import org.springframework.data.domain.Persistable;
 @Entity
 @Table(name="users")
 public class User {
-    
+
     @Id
     @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + 
+        return "User{" +
                "user_id=" + user_id +
                ", user_name=" + user_name +
                ", password=" + password + '\'' +

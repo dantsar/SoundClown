@@ -1,4 +1,4 @@
-package com.SoundClown;
+package SoundClown.Track;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class TrackService {
         this.trackRepository.save(track);
         return true;
     }
-    
+
     public boolean update_track(Track track) {
         this.trackRepository.save(track);
         return true;

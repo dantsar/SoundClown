@@ -1,4 +1,4 @@
-package com.SoundClown;
+package SoundClown.User;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class UserService {
         this.userRepository.save(user);
         return true;
     }
-    
+
     public boolean update_user(User user) {
         this.userRepository.save(user);
         return true;

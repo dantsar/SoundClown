@@ -1,4 +1,4 @@
-package com.SoundClown;
+package SoundClown.Playlist;
 
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;

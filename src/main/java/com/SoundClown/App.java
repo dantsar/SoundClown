@@ -1,4 +1,9 @@
-package com.SoundClown;
+package SoundClown;
+
+import SoundClown.User.*;
+import SoundClown.Track.*;
+import SoundClown.Playlist.*;
+import SoundClown.AudioPlayer.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.SpringApplication;
@@ -81,13 +86,21 @@ public class App {
 	// Track
 	@GetMapping(path="/get/alltracks")
 	public List<Track> getAllTracks() {
+        System.out.println("(/get/alltracks)");
 		// This returns a JSON or XML with the tracks
-		return this.trackService.get_tracks();
+        List trackList = this.trackService.get_tracks();
+        System.out.println(trackList);
+		return trackList;
 	}
 
+
+    // Think of a better way to do this (We can't just pass the track_id as a parameter)
 	@GetMapping("/get/track/{track_id}")
 	public Track findtrack(@PathVariable("track_id") Long track_id) {
-		return trackRepository.getTrackByTrackId(track_id);
+        System.out.println("(/get/track/" + track_id + ")");
+		Track track = trackRepository.getTrackByTrackId(track_id);
+        System.out.println("got track");
+        return track;
 	}
 
     @PostMapping("/create/track")
@@ -111,7 +124,7 @@ public class App {
     }
 
 
-	// Playlist 
+	// Playlist
 	@GetMapping(path="/get/allplaylists")
 	public List<Playlist> getAllPlaylists() {
 		// This returns a JSON or XML with the playlists
