@@ -1,5 +1,7 @@
-package com.SoundClown;
+package com.SoundClown.Playlist;
 
+import com.SoundClown.Track.Track;
+import com.SoundClown.User.User;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,13 +21,11 @@ public class PlaylistService {
         return playlistList;
     }
 
-    public boolean create_playlist(Long user_id,
-                                   Long track_id,
+    public boolean create_playlist(User user,
                                    String playlist_name) {
 
         Playlist playlist = new Playlist();
-        playlist.set_user_id(user_id);
-        playlist.set_track_id(track_id);
+        playlist.set_user(user);
         playlist.set_playlist_name(playlist_name);
         System.out.println(playlist);
         this.playlistRepository.save(playlist);
