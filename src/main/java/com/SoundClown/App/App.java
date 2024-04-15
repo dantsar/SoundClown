@@ -90,8 +90,9 @@ public class App {
 		return trackRepository.getTrackByTrackId(track_id);
 	}
 
+    // will return id of the track created
     @PostMapping("/create/track")
-    public boolean createTrack(@RequestBody String json) throws JsonProcessingException {
+    public Long createTrack(@RequestBody String json) throws JsonProcessingException {
         System.out.println(json);
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
@@ -99,7 +100,6 @@ public class App {
         return this.trackService.create_track(
                 inputMap.get("track_name"),
                 Long.parseLong(inputMap.get("artist_id")),
-                inputMap.get("track_path"),
                 inputMap.get("description")
         );
     }

@@ -19,19 +19,20 @@ public class TrackService {
         return trackList;
     }
 
-    public boolean create_track(String track_name,
+    public Long create_track(String track_name,
                                 Long artist_id,
-                                String track_path,
                                 String description ) {
 
         Track track = new Track();
         track.set_track_name(track_name);
         track.set_artist_id(artist_id);
-        track.set_track_path(track_path);
         track.set_description(description);
         System.out.println(track);
-        this.trackRepository.save(track);
-        return true;
+        Track savedTrack = this.trackRepository.save(track);
+        savedTrack.set_track_path("download/track_"+savedTrack.get_track_id()+".mp3");
+        this.trackRepository.save(savedTrack);
+        System.out.println(savedTrack);
+        return savedTrack.get_track_id();
     }
     
     public boolean update_track(Track track) {
@@ -42,5 +43,4 @@ public class TrackService {
     public void delete_track(Long track_id){
         this.trackRepository.deleteById(track_id);
     }
-
 }

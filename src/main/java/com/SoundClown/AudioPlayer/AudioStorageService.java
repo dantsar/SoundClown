@@ -11,6 +11,7 @@ public interface AudioStorageService {
 	void init();
 
 	void store(MultipartFile file);
+	void storeId(MultipartFile file, Long track_id);
 
 	Stream<Path> loadAll();
 

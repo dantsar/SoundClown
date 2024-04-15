@@ -63,6 +63,22 @@ public class AudioFileUploadController {
 		return "redirect:/allTrack";
 	}
 
+    //alternative upload
+	@PostMapping("/upload")
+	public boolean handleFileUpload(@RequestParam("file") MultipartFile file,
+        @RequestParam("track_id") Long track_id,
+		RedirectAttributes redirectAttributes) {
+
+		System.out.println("REQUESTED TO UPLOAD TRACK: " + file.getOriginalFilename());
+        System.out.println("Other info: " + track_id);
+
+		storageService.storeId(file, track_id);
+		redirectAttributes.addFlashAttribute("message",
+				"You successfully uploaded " + file.getOriginalFilename() + "!");
+
+		return true;
+	}
+
     // this is the page for playing a selected track
     @GetMapping("/track/{filename:.+}")
     public String serveTrack(Model model, @PathVariable String filename) {
