@@ -1,35 +1,38 @@
 import { useState, useEffect } from 'react';
 
 const useFetchAudio = (url) => {
-  const [audioSrc, setAudioSrc] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+    const [audioSrc, setAudioSrc] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchAudio = async () => {
-      setIsLoading(true);
-
-      try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+    useEffect(() => {
+        if (!url)
+        {
+            return;
         }
+        const fetchAudio = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch(url);
 
-        const blob = await response.blob();
-        const audioUrl = URL.createObjectURL(blob);
-        setAudioSrc(audioUrl);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
 
-    fetchAudio();
-  }, [url]);
+                const blob = await response.blob();
+                const audioUrl = URL.createObjectURL(blob);
+                setAudioSrc(audioUrl);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-  return { audioSrc, isLoading, error };
+        fetchAudio();
+    }, [url]);
+
+    return { audioSrc, isLoading, error };
 };
 
 export default useFetchAudio;
