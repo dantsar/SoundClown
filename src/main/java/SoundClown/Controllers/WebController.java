@@ -52,8 +52,7 @@ public class  WebController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	// Becuase we changed from RestController to just a controller, we need to change these interfaces
-	// from JSON/XML based returns, to Views
+	// Test to see if working
 
 	@GetMapping("/")
 	public String first() {
@@ -61,37 +60,8 @@ public class  WebController {
 		return "registration.html";
 	}
 
-	// Register a user
-	// What im implementing
-	// - Verify user doesn't already exist
 	/*
-	@PostMapping("/register")
-	public String register (@RequestParam("username") String username,
-							@RequestParam("password") String password,
-							Model model) {
-		System.out.println(username);
-		System.out.println(password);
-
-		try {
-			this.userRepository.findByUsername(username).get_user_name();
-			System.out.println(username + " already exists, go to login page.");
-			return "redirect:/exists";
-
-			// We actually want this to be null (means user doesn't already exist)
-		} catch (NullPointerException e) {
-			// Stores version of username and password to session of controller (keeps track across requests)
-			model.addAttribute("username", username);
-			model.addAttribute("password", password);
-
-			User user = new User();
-			user.set_user_name(username);
-			user.set_password(encoder.encode(password));
-			this.userRepository.save(user);
-
-			return "redirect:/loginPage.html";
-		}
-	}
-
+	 User Functions
 	 */
 
 	@PostMapping("/register")
@@ -122,8 +92,7 @@ public class  WebController {
 
 	@PostMapping("/login")
 	@ResponseBody
-	public ResponseEntity login(@RequestBody String json,
-								Model model ) throws JsonProcessingException {
+	public ResponseEntity login(@RequestBody String json, Model model ) throws JsonProcessingException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
@@ -146,22 +115,6 @@ public class  WebController {
 		return ResponseEntity.ok().build();
 	}
 
-	/*
-	@PostMapping("/logout")
-	@ResponseBody
-	public ResponseEntity logout(@RequestBody String json, Model model) throws JsonProcessingException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		String username = inputMap.get("user_name");
-		String password = inputMap.get("password");
-
-		model.addAttribute("username", null);
-		System.out.println("Logging out");
-		return ResponseEntity.ok().build();
-	}
-
-	 */
-
 	@PostMapping("/update/password")
 	@ResponseBody
 	public ResponseEntity updatePassword(@RequestBody String json, HttpServletRequest request) throws JsonProcessingException {
@@ -175,7 +128,6 @@ public class  WebController {
 
 		System.out.println("old " + old_pw);
 		System.out.println("new " + new_pw);
-
 
 		User assumed_user = this.userRepository.findByUsername(username);
 		if (old_pw.equals(assumed_user.get_password())) {
@@ -206,46 +158,72 @@ public class  WebController {
 		return this.userService.getAllUsers();
 	}
 
-	@GetMapping("/get/user/{user_id}")
+	@GetMapping("/get/user")
 	@ResponseBody
-	public User findUser(@PathVariable("user_id") Long user_id) {
-		User user = this.userRepository.findByUserId(user_id);
-		return user;
+	public User getCurrentUser(HttpServletRequest request) {
+		String username = (String) request.getSession().getAttribute("username");
+		if (username == null) {
+			System.out.println("Not signed in");
+			return null;
+		}
+		System.out.println("User is: " + username);
+		return this.userRepository.findByUsername(username);
 	}
 
+	@PostMapping("/get/user/{user_id}")
+	@ResponseBody
+	public User findUser(@PathVariable("user_id") Long user_id) {
+		return this.userRepository.findByUserId(user_id);
+	}
+
+	// Need to fix JPA constraint issue to resolve foreign key problem here
+	/*
 	@PostMapping("/delete/user/{user_id}")
 	@ResponseBody
-    public void deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
-        System.out.println(user_id);
+    public ResponseEntity deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
         this.userService.delete_user(user_id);
+		System.out.println("Deleted user " + user_id);
+		return ResponseEntity.ok().build();
     }
+	*/
 
-	// Track
+	/*
+	 Track Functions
+	 */
 	@GetMapping("/get/alltracks")
 	@ResponseBody
 	public List<Track> getAllTracks() {
-		// This returns a JSON or XML with the tracks
-		List<Track> tracks = this.trackService.get_tracks();
-		return tracks;
+		return this.trackService.get_tracks();
+	}
+
+	@GetMapping("/get/user/tracks")
+	@ResponseBody
+	public List<Track> getUsersTracks(HttpServletRequest request) {
+		String username = (String) request.getSession().getAttribute("username");
+		if (username == null) {
+			System.out.println("Not signed in");
+			return null;
+		}
+		System.out.println("User is: " + username);
+		User user = this.userRepository.findByUsername(username);
+		return this.trackRepository.findTracksByArtistId(user.get_user_id());
 	}
 
 	@GetMapping("/get/track/{track_id}")
 	@ResponseBody
-	public List<Track> findtrack(@PathVariable("track_id") Long track_id) {
-		List<Track> track = trackRepository.findByTrackId(track_id);
-		return track;
+	public Track findtrack(@PathVariable("track_id") Long track_id) {
+		return this.trackRepository.findTrackById(track_id);
 	}
 
     @PostMapping("/create/track")
 	@ResponseBody
-    public Long createTrack(@RequestBody String json) throws JsonProcessingException {
-        System.out.println(json);
+    public Long createTrack(@RequestBody String json, HttpServletRequest request) throws JsonProcessingException {
+		String username = (String) request.getSession().getAttribute("username");
 
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 
-		Long user_id =  Long.parseLong(inputMap.get("artist_id"));
-		User user = this.userRepository.findByUserId(user_id);
+		User user = this.userRepository.findByUsername(username);
 
 		String track_name = inputMap.get("track_name");
 		String track_path = inputMap.get("track_path");
@@ -255,20 +233,25 @@ public class  WebController {
 			track_name,
 			track_path,
 			description,
-			user_id,
+			user.get_user_id(),
 			user
         );
     }
 
+	// Need to fix JPA constraint issue to resolve foreign key problem here
+	/*
 	@PostMapping("/delete/track/{track_id}")
 	@ResponseBody
     public void deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
-        System.out.println(track_id);
         this.trackService.delete_track(track_id);
     }
+	*/
 
 
-	// Playlist
+	/*
+	 Playlist Functions: Not yet implemented in react
+	 */
+	/*
 	@GetMapping(path="/get/allplaylists")
 	@ResponseBody
 	public List<Playlist> getAllPlaylists() {
@@ -292,10 +275,6 @@ public class  WebController {
 		Long user_id =  Long.parseLong(inputMap.get("user_id"));
 		User user = this.userRepository.findByUserId(user_id);
 
-		/*
-		Long track_id =  Long.parseLong(inputMap.get("track_id"));
-		Track track = this.trackRepository.findTrackId(track_id);
-		 */
 
         return this.playlistService.create_playlist(
 				user,
@@ -319,11 +298,15 @@ public class  WebController {
 
 		return this.playlistService.update_playlist(playlist);
 	}
+	 */
 
+	// Need to fix JPA constraint issue to resolve foreign key problem here
+	/*
 	@PostMapping("/delete/playlist/{playlist_id}")
 	@ResponseBody
     public void deletePlaylist(@PathVariable("playlist_id") Long playlist_id) throws JsonProcessingException {
         System.out.println(playlist_id);
         this.playlistService.delete_playlist(playlist_id);
     }
+	*/
 }
