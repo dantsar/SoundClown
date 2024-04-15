@@ -23,8 +23,9 @@ public class Track {
     @Column(name="description", length = 500)
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "artist_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    //@JoinColumn(name = "artist_id", referencedColumnName = "user_id") /*, insertable = false, updatable = false)*/
     private User artist;
 
     public void set_track_id(Long track_id)             { this.track_id      = track_id;    }
