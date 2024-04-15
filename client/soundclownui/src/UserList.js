@@ -8,8 +8,8 @@ const UserList = ({users, title}) => {
                 <div className="user-preview" key={user._user_id}>
                     <Link to ={`/user/${user._user_id}`}>
                         <p>Username: { user._user_name }</p>
-                        <p>Password: { user._password }</p>
-                        <p>User ID: { user._user_id }</p>
+                        {/* <p>Password: { user._password }</p>
+                        <p>User ID: { user._user_id }</p> */}
                     </Link>
                 </div>
             ))}
