@@ -206,8 +206,15 @@ public class  WebController {
 	@GetMapping("/get/track/{track_name}")
 	@ResponseBody
 	public List<Track> findtrack(@PathVariable("track_name") String track_name) {
-		return trackRepository.findByTrackName(track_name);
+		List<Track> track = trackRepository.findByTrackName(track_name);
+		return track;
 	}
+	// @GetMapping("/get/track/{track_id}")
+	// @ResponseBody
+	// public List<Track> findtrack(@PathVariable("track_name") Long track_id) {
+	// 	return trackRepository.findByTrackId(track_id);
+	// 	// return trackRepository.findByTrackName(track_name);
+	// }
 
     @PostMapping("/create/track")
 	@ResponseBody
