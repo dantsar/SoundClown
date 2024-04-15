@@ -35,26 +35,31 @@
     text-decoration: none;
 }
 
-.track-wrapper {
-    display: flex;
-    justifycontent: center;
-    align-items: center;
-    height: 75vh;
-    padding: 16px;
-    box-sizing: border-box;
+
+.content {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
 }
 
 .track-list {
-    display: flex;
-    flex-warp: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-}
-.track-list a {
-    text-decoration: none;
 }
 
 .track-preview {
+    padding: 10px 16px;
+    border: 1px solid #ff5500;
+}
 
+.track-preview h2 {
+    font-size: 20px;
+    color: #ff5500;
+    marginBottom: 8px
+}
+.track-preview a {
+    text-decoration: none;
 }
 
 .audioplayer {
