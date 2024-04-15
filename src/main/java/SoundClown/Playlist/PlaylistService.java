@@ -14,9 +14,9 @@ public class PlaylistService {
     @Autowired
     private PlaylistRepository playlistRepository;
 
-    public List get_playlists() {
-        Iterable playlists = this.playlistRepository.findAll();
-        List playlistList = new ArrayList<>();
+    public List<Playlist> get_playlists() {
+        Iterable<Playlist> playlists = this.playlistRepository.findAll();
+        List<Playlist> playlistList = new ArrayList<>();
         playlists.forEach(playlist->{playlistList.add(playlist);});
         return playlistList;
     }

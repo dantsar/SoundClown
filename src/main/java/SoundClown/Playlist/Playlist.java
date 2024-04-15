@@ -21,6 +21,7 @@ public class Playlist {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    //@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @ManyToMany
     @JoinTable(
             name = "playlist_track",

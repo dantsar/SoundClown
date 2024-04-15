@@ -1,9 +1,9 @@
 package SoundClown.User;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
+import SoundClown.Playlist.Playlist;
+import SoundClown.Track.Track;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,6 +22,7 @@ public class User implements UserDetails {
     private String user_name;
     @Column(name="password")
     private String password;
+
 
     public void set_user_id  (Long user_id)     { this.user_id   = user_id;   }
     public void set_user_name(String user_name) { this.user_name = user_name; }
