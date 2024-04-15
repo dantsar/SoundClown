@@ -1,9 +1,10 @@
 import UserList from './UserList';
 import TrackList from './TrackList';
-import useFetch from './useFetch';
+import useFetchUserTracks from './useFetchUserTracks';
 
 const MyTracks = () => {
-    const { data: tracks, tracksIsPending, error } = useFetch('http://localhost:8080/get/user/tracks');
+    const { data: tracks, tracksIsPending, error } = useFetchUserTracks('http://localhost:8080/get/user/tracks');
+    console.log(tracks);
 
     // console.log("Users");
     // console.log(users);
