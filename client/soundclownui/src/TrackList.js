@@ -10,9 +10,9 @@ const TrackList = ({tracks, title}) => {
                     <div className="track-preview" key={track._track_id}>
                         <Link to ={`/track/${track._track_id}`}>
                             <h2>{ track._track_name }</h2>
-                            <p>
+                            <div>
                                 Uploaded by <User user_id={track._artist_id} />
-                            </p>
+                            </div>
                         </Link>
                     </div>
                 ))}
