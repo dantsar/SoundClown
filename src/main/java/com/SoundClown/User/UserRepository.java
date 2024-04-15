@@ -14,6 +14,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
      List<User> findByUserName(String user_name);
 
      @Query("select u from #{#entityName} u where u.user_name = ?1")
+     User findByUsername(String user_name);
+
+     @Query("select u from #{#entityName} u where u.user_name = ?1")
      User findUser(String user_name);
 
      @Query("select u from #{#entityName} u where u.user_id = ?1")

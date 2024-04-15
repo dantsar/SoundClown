@@ -1,11 +1,18 @@
 package com.SoundClown.User;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.*;
 import org.springframework.data.domain.Persistable;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements UserDetails {
     
     @Id
     @Column(name="user_id")
@@ -31,5 +38,51 @@ public class User {
                ", user_name=" + user_name +
                ", password=" + password + '\'' +
                '}';
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return this.user_name;
+    }
+
+    public void setUsername(String username) {
+        this.user_name = username;
+    }
+
+    /* If you want account locking capabilities create variables and ways to set them for the methods below */
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
