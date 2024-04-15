@@ -10,18 +10,16 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+     // Is needed to overload JPA repository
+     /*
      @Query("select u from #{#entityName} u where u.user_name = ?1")
      List<User> findByUserName(String user_name);
+
+      */
 
      @Query("select u from #{#entityName} u where u.user_name = ?1")
      User findByUsername(String user_name);
 
-     @Query("select u from #{#entityName} u where u.user_name = ?1")
-     User findUser(String user_name);
-
      @Query("select u from #{#entityName} u where u.user_id = ?1")
-     List<User> findByUserId(Long user_id);
-
-     @Query("select u from #{#entityName} u where u.user_id = ?1")
-     User findUserId(Long user_id);
+     User findByUserId(Long user_id);
 }
