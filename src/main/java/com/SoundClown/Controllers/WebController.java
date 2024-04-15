@@ -17,19 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.util.StringUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
@@ -57,51 +50,88 @@ public class  WebController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	// Becuase we changed from RestController to just a controller, we need to change these interfaces
+	// from JSON/XML based returns, to Views
+
+	@GetMapping("/")
+	public String first() {
+		System.out.println("Going to index");
+		return "registration";
+	}
+
 	// Register a user
+	// What im implementing
+	// - Verify user doesn't already exist
 	@PostMapping("/register")
-	public String register (@RequestBody String json, Model model) throws JsonProcessingException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-
-		String username = inputMap.get("user_name");
-		String password = inputMap.get("password");
-
+	public String register (@RequestParam("username") String username,
+							@RequestParam("password") String password,
+							Model model) {
 		System.out.println(username);
 		System.out.println(password);
 
-		model.addAttribute("username", username);
-		model.addAttribute("password", password);
+		try {
+			this.userRepository.findByUsername(username).get_user_name();
+			System.out.println(username + " already exists, go to login page.");
+			return "redirect:/exists";
 
-		User user = new User();
-		user.set_user_name(username);
-		user.set_password(encoder.encode(password));
-		this.userRepository.save(user);
+			// We actually want this to be null (means user doesn't already exist)
+		} catch (NullPointerException e) {
+			// Stores version of username and password to session of controller (keeps track across requests)
+			model.addAttribute("username", username);
+			model.addAttribute("password", password);
 
-		return "landing";
+			User user = new User();
+			user.set_user_name(username);
+			user.set_password(encoder.encode(password));
+			this.userRepository.save(user);
+
+			return "redirect:/loginPage";
+		}
+	}
+
+	@GetMapping("/loginPage")
+	public String loginPage() {
+		System.out.println("Going to login page");
+		return "loginPage";
+	}
+
+	@GetMapping("/successPage")
+	public String loginSuccessPage(HttpServletRequest request) {
+		String cached_username = (String) request.getSession().getAttribute("username");
+		System.out.println("Going to login sucess page");
+		System.out.println(cached_username);
+		return "success";
+	}
+
+	@GetMapping("/failPage")
+	public String loginFailPage() {
+		System.out.println("Going to login the fail page");
+		return "fail";
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity login (@RequestBody String json, Model model, HttpServletRequest request) throws JsonProcessingException {
-		String username = (String) request.getSession().getAttribute("username");
-		String password = (String) request.getSession().getAttribute("password");
+	public String login (@RequestParam("username") String username,
+						 @RequestParam("password") String password,
+						 Model model,
+						 HttpServletRequest request) throws JsonProcessingException {
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		String input_user_name = inputMap.get("user_name");
-		String input_password = inputMap.get("password");
+		String cached_username = (String) request.getSession().getAttribute("username");
+		String cached_password = (String) request.getSession().getAttribute("password");
 
-		if (username == null) {
-			model.addAttribute("username", input_user_name);
-			model.addAttribute("password", input_password);
-			username = input_user_name;
-			password = input_password;
+		if (cached_username == null) {
+			model.addAttribute("username", username);
+			model.addAttribute("password", password);
+			cached_username = username;
+			cached_password = password;
 		}
 
 		Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		if (authentication.isAuthenticated()) {
-			return ResponseEntity.ok().build();
+			model.addAttribute("username", username);
+			model.addAttribute("password", password);
+			return "redirect:/successPage";
 		} else {
-			throw new UsernameNotFoundException("invalid user request");
+			return "redirect:/failPage";
 		}
 	}
 
@@ -124,7 +154,7 @@ public class  WebController {
 		if (old_pw.equals(password)) {
 			System.out.println("Passwords matched");
 			User user = new User();
-			user.set_user_id(this.userRepository.findUser(username).get_user_id());
+			user.set_user_id(this.userRepository.findByUsername(username).get_user_id());
 			user.set_user_name(username);
 			user.set_password(encoder.encode(new_pw));
 			System.out.println(user.toString());
@@ -149,53 +179,9 @@ public class  WebController {
 	}
 
 	@GetMapping("/get/user/{user_name}")
-	public List<User> findUser(@PathVariable("user_name") String user_name) {
-		return userRepository.findByUserName(user_name);
+	public User findUser(@PathVariable("user_name") String user_name) {
+		return userRepository.findByUsername(user_name);
 	}
-
-	@GetMapping("/getUserId")
-	public String readCookie(@CookieValue(name = "username", defaultValue = "default-username") String cookieName) {
-		return this.userRepository.findByUserId(Long.parseLong(cookieName)).toString();
-		// return String.format("value of the cookie with name username is: %s", cookieName);
-	}
-
-	/*
-	@GetMapping("/create/user")
-	public ResponseEntity setCookie(@RequestBody String json) throws JsonProcessingException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		String username = inputMap.get("user_name");
-		String password = inputMap.get("password");
-		System.out.println(username);
-		System.out.println(password);
-
-		User user = this.userService.create_user(username, password);
-
-		ResponseCookie resCookie = ResponseCookie.from("username", Long.toString(user.get_user_id()))
-				.httpOnly(true)
-				.secure(true)
-				.path("/")
-				.maxAge(24 * 60 * 60)
-				.domain("localhost")
-				.build();
-
-		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, resCookie.toString()).build();
-	}
-
-	@PostMapping("/create/user")
-    public boolean createNewPlayer(@RequestBody String json) throws JsonProcessingException {
-        System.out.println(json);
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-
-        return this.userService.create_user(
-                inputMap.get("user_name"),
-                inputMap.get("password")
-        );
-    }
-
-	 */
-
 
 	@PostMapping("/delete/user/{user_id}")
     public void deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
@@ -220,7 +206,7 @@ public class  WebController {
         System.out.println(json);
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		User artist = this.userRepository.findUser("andy");
+		User artist = this.userRepository.findByUsername("andy");
 		Long artist_id = artist.get_user_id();
 
         return this.trackService.create_track(
@@ -258,7 +244,7 @@ public class  WebController {
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 
 		Long user_id =  Long.parseLong(inputMap.get("user_id"));
-		User user = this.userRepository.findUserId(user_id);
+		User user = this.userRepository.findByUserId(user_id);
 
 		/*
 		Long track_id =  Long.parseLong(inputMap.get("track_id"));
