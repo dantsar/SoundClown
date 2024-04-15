@@ -1,7 +1,13 @@
 import useFetch from './useFetch';
+import React from 'react';
 
-const User = ({user_id}) => {
+
+const User =  React.memo(({user_id}) => {
     const { data: user, isPending, error } = useFetch('http://localhost:8080/get/user/' + user_id);
+
+    console.log(`User.js: ${user_id}`);
+    // console.log("User.js error:");
+    // console.log(error);
 
     return(
         <div className="user">
@@ -10,6 +16,6 @@ const User = ({user_id}) => {
             { user && <div>{user._user_name}</div> }
         </div>
     );
-}
+});
 
 export default User

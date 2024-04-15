@@ -6,19 +6,26 @@ import UserDetails from './UserDetails';
 import TrackDetails from './TrackDetails';
 import AudioPlayer from './audiocomponents/AudioPlayer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 function App() {
     const [currentTrack, setCurrentTrack] = useState('');
     const audioRef = useRef(null);
 
-    const setTrack = (path) => {
+    // const setTrack = (path) => {
+    //     setCurrentTrack(path);
+    //     if(audioRef.current) {
+    //         audioRef.current.play();
+    //     }
+    //     console.log(path);
+    // };
+
+    const setTrack = useCallback((path) => {
         setCurrentTrack(path);
         if(audioRef.current) {
             audioRef.current.play();
         }
-        console.log(path);
-    };
+    }, []);
 
     return (
         <Router>
