@@ -1,4 +1,4 @@
-package com.SoundClown.User;
+package SoundClown.User;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
         this.userRepository.save(user);
         return user;
     }
-    
+
     public boolean update_user(User user) {
         this.userRepository.save(user);
         return true;

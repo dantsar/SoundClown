@@ -1,8 +1,8 @@
-package com.SoundClown.Controllers;
+package SoundClown.Controllers;
 
-import com.SoundClown.User.*;
-import com.SoundClown.Track.*;
-import com.SoundClown.Playlist.*;
+import SoundClown.User.*;
+import SoundClown.Track.*;
+import SoundClown.Playlist.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;

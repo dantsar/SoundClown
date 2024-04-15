@@ -1,7 +1,7 @@
-package com.SoundClown.Playlist;
+package SoundClown.Playlist;
 
-import com.SoundClown.Track.Track;
-import com.SoundClown.User.User;
+import SoundClown.Track.Track;
+import SoundClown.User.User;
 import jakarta.persistence.*;
 import org.springframework.data.domain.Persistable;
 
@@ -41,7 +41,7 @@ public class Playlist {
 
     @Override
     public String toString() {
-        return "Playlist{" + 
+        return "Playlist{" +
                "playlist_id=" + playlist_id +
                ", user=" + user.toString() +
                ", tracks=" + tracks +

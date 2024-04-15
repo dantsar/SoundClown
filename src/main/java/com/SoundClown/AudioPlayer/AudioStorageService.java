@@ -1,4 +1,4 @@
-package com.SoundClown;
+package SoundClown.AudioPlayer;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

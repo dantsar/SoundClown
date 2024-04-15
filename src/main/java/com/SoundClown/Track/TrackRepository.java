@@ -1,7 +1,7 @@
-package com.SoundClown.Track;
+package SoundClown.Track;
 
-import com.SoundClown.Track.*;
-import com.SoundClown.User.*;
+import SoundClown.Track.*;
+import SoundClown.User.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.SoundClown;
+package SoundClown.AudioPlayer;
 
 public class AudioStorageException extends RuntimeException {
 

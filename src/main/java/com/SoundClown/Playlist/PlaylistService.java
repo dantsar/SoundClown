@@ -1,7 +1,7 @@
-package com.SoundClown.Playlist;
+package SoundClown.Playlist;
 
-import com.SoundClown.Track.Track;
-import com.SoundClown.User.User;
+import SoundClown.Track.Track;
+import SoundClown.User.User;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,7 +31,7 @@ public class PlaylistService {
         this.playlistRepository.save(playlist);
         return true;
     }
-    
+
     public boolean update_playlist(Playlist playlist) {
         this.playlistRepository.save(playlist);
         return true;

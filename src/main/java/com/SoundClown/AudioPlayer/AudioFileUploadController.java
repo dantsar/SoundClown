@@ -1,4 +1,4 @@
-package com.SoundClown;
+package SoundClown.AudioPlayer;
 
 import java.io.IOException;
 import java.util.stream.Collectors;

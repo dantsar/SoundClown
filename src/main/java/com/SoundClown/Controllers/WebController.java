@@ -1,9 +1,9 @@
-package com.SoundClown.Controllers;
+package SoundClown.Controllers;
 
-import com.SoundClown.AudioStorageProperties;
-import com.SoundClown.User.*;
-import com.SoundClown.Track.*;
-import com.SoundClown.Playlist.*;
+import SoundClown.AudioPlayer.*;
+import SoundClown.User.*;
+import SoundClown.Track.*;
+import SoundClown.Playlist.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -225,7 +225,7 @@ public class  WebController {
     }
 
 
-	// Playlist 
+	// Playlist
 	@GetMapping(path="/get/allplaylists")
 	public List<Playlist> getAllPlaylists() {
 		// This returns a JSON or XML with the playlists

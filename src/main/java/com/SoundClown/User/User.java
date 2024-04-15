@@ -1,4 +1,4 @@
-package com.SoundClown.User;
+package SoundClown.User;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import org.springframework.data.domain.Persistable;
 @Entity
 @Table(name="users")
 public class User implements UserDetails {
-    
+
     @Id
     @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{" + 
+        return "User{" +
                "user_id=" + user_id +
                ", user_name=" + user_name +
                ", password=" + password + '\'' +

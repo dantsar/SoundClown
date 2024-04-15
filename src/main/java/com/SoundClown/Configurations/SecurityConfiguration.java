@@ -1,4 +1,4 @@
-package com.SoundClown.Configurations;
+package SoundClown.Configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

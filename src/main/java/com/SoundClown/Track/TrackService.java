@@ -1,6 +1,6 @@
-package com.SoundClown.Track;
+package SoundClown.Track;
 
-import com.SoundClown.User.User;
+import SoundClown.User.User;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
