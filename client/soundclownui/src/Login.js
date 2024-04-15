@@ -31,7 +31,7 @@ const Login = () => {
         <div className="login">
             <h1>Welcome to SoundClown!</h1>
             <h2>Enter your login credentials</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="username">
                     Username:
                 </label>
@@ -60,7 +60,7 @@ const Login = () => {
             <p>Not registered? </p>
             <nav className="register-link">
                 <NavLink to="/create-user">
-                    Create an Account
+                    <p>Create an Account</p>
                 </NavLink>
             </nav>
         </div>
