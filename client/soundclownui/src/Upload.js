@@ -91,6 +91,7 @@ const Upload = () => {
                 <input type="number"
                     id="artist_id"
                     name="artist_id"
+                    placeholder="Enter the artist id"
                     required
                     value={artist_id}
                     onChange={(e) => setArtistId(e.target.value)}
@@ -102,6 +103,7 @@ const Upload = () => {
                 <textarea
                     id="description"
                     name="description"
+                    placeholder="Enter a description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 >
