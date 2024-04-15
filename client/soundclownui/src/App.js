@@ -4,6 +4,7 @@ import Login from './Login';
 import CreateUser from './CreateUser';
 import UserDetails from './UserDetails';
 import TrackDetails from './TrackDetails';
+import Upload from './Upload';
 import AudioPlayer from './audiocomponents/AudioPlayer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useRef, useState, useCallback } from 'react';
@@ -25,7 +26,7 @@ function App() {
         if(audioRef.current) {
             audioRef.current.play();
         }
-    }, []);
+    });
 
     return (
         <Router>
@@ -44,6 +45,10 @@ function App() {
                         <Route
                             path="create-user"
                             element={<CreateUser />}
+                        />
+                        <Route
+                            path="upload"
+                            element={<Upload />}
                         />
                         <Route
                             path="user/:user_id"

@@ -57,6 +57,31 @@ public class AudioFileSystemStorageService implements AudioStorageService {
 	}
 
 	@Override
+	public void storeId(MultipartFile file, Long track_id) {
+		try {
+			if (file.isEmpty()) {
+				throw new AudioStorageException("Failed to store empty file.");
+			}
+            String newFileName = "track_" + track_id + ".mp3";
+			Path destinationFile = this.rootLocation.resolve(
+					Paths.get(newFileName))
+					.normalize().toAbsolutePath();
+			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+				// This is a security check
+				throw new AudioStorageException(
+						"Cannot store file outside current directory.");
+			}
+			try (InputStream inputStream = file.getInputStream()) {
+				Files.copy(inputStream, destinationFile,
+					StandardCopyOption.REPLACE_EXISTING);
+			}
+		}
+		catch (IOException e) {
+			throw new AudioStorageException("Failed to store file.", e);
+		}
+	}
+
+	@Override
 	public Stream<Path> loadAll() {
 		// Create a stream of file paths of all the tracks in "./audio_files"
 		try {
