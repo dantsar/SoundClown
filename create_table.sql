@@ -8,7 +8,7 @@ CREATE TABLE users (
 CREATE TABLE tracks (
     track_id    serial PRIMARY KEY,
     track_name  varchar(50)  NOT NULL,
-    artist_id   varchar(50) NOT NULL,
+    artist_id   serial,
     track_path  varchar(500) NOT NULL,
     plays       INT DEFAULT 0 NOT NULL,
     description varchar(500),

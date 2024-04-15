@@ -1,44 +1,57 @@
-import "./App.css";
-import { Link } from "react-router-dom";
+import Navbar from './Navbar';
+import Home from './Home';
+import Login from './Login';
+import CreateUser from './CreateUser';
+import UserDetails from './UserDetails';
+import TrackDetails from './TrackDetails';
+import AudioPlayer from './audiocomponents/AudioPlayer';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useRef, useState } from 'react';
 
-function Home() {
+function App() {
+    const [currentTrack, setCurrentTrack] = useState('');
+    const audioRef = useRef(null);
+
+    const setTrack = (path) => {
+        setCurrentTrack(path);
+        if(audioRef.current) {
+            audioRef.current.play();
+        }
+        console.log(path);
+    };
+
     return (
-        <div>
-            <nav>
-                <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
-            </nav>
-            <h1>My Website</h1>
-        </div>
+        <Router>
+            <div className="App">
+                <Navbar />
+                <div className="content">
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={<Home />}
+                        />
+                        <Route
+                            path="login"
+                            element={<Login />}
+                        />
+                        <Route
+                            path="create-user"
+                            element={<CreateUser />}
+                        />
+                        <Route
+                            path="user/:user_id"
+                            element={<UserDetails />}
+                        />
+                        <Route
+                            path="track/:track_id"
+                            element={<TrackDetails setTrack={setTrack}/>}
+                        />
+                    </Routes>
+                </div>
+                <AudioPlayer currentTrack={currentTrack} audioRef={audioRef} />
+            </div>
+        </Router>
     );
 }
 
-export function About() {
-    return (
-        <div>
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
-            </nav>
-            <h1>About Us</h1>
-        </div>
-    );
-}
-
-export function Contact() {
-    return (
-        <div>
-            <nav>
-                <Link to="/">Home</Link>
-                <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
-            </nav>
-            <h1>Contact Us</h1>
-        </div>
-    );
-}
-
-export function App() {
-    return <Home />;
-}
+export default App;

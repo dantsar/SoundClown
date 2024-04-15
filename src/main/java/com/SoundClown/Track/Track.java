@@ -1,6 +1,6 @@
 package com.SoundClown.Track;
 
-import com.SoundClown.User.User;
+import com.SoundClown.User.*;
 import jakarta.persistence.*;
 import org.springframework.data.domain.Persistable;
 
@@ -45,7 +45,7 @@ public class Track {
 
     @Override
     public String toString() {
-        return "Track{" + 
+        return "Track{" +
                "track_id=" + track_id +
                ", track_name=" + track_name +
                ", artist_id=" + artist_id +
