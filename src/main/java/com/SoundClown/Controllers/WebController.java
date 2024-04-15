@@ -182,10 +182,11 @@ public class  WebController {
 		return this.userService.getAllUsers();
 	}
 
-	@GetMapping("/get/user/{user_name}")
+	@GetMapping("/get/user/{user_id}")
 	@ResponseBody
-	public User findUser(@PathVariable("user_name") String user_name) {
-		return userRepository.findByUsername(user_name);
+	public User findUser(@PathVariable("user_id") Long user_id) {
+		User user = this.userRepository.findByUserId(user_id);
+		return user;
 	}
 
 	@PostMapping("/delete/user/{user_id}")
@@ -200,21 +201,16 @@ public class  WebController {
 	@ResponseBody
 	public List<Track> getAllTracks() {
 		// This returns a JSON or XML with the tracks
-		return this.trackService.get_tracks();
+		List<Track> tracks = this.trackService.get_tracks();
+		return tracks;
 	}
 
-	@GetMapping("/get/track/{track_name}")
+	@GetMapping("/get/track/{track_id}")
 	@ResponseBody
-	public List<Track> findtrack(@PathVariable("track_name") String track_name) {
-		List<Track> track = trackRepository.findByTrackName(track_name);
+	public List<Track> findtrack(@PathVariable("track_id") Long track_id) {
+		List<Track> track = trackRepository.findByTrackId(track_id);
 		return track;
 	}
-	// @GetMapping("/get/track/{track_id}")
-	// @ResponseBody
-	// public List<Track> findtrack(@PathVariable("track_name") Long track_id) {
-	// 	return trackRepository.findByTrackId(track_id);
-	// 	// return trackRepository.findByTrackName(track_name);
-	// }
 
     @PostMapping("/create/track")
 	@ResponseBody
