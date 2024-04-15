@@ -31,7 +31,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 @EnableConfigurationProperties(AudioStorageProperties.class)
 @CrossOrigin(origins = "http://localhost:3000") // the origin of the frontend
-@SessionAttributes({"username", "password"})
+@SessionAttributes("username")
+//@SessionAttributes({"username", "password"})
 public class  WebController {
 
 	@Autowired
@@ -63,6 +64,7 @@ public class  WebController {
 	// Register a user
 	// What im implementing
 	// - Verify user doesn't already exist
+	/*
 	@PostMapping("/register")
 	public String register (@RequestParam("username") String username,
 							@RequestParam("password") String password,
@@ -90,59 +92,80 @@ public class  WebController {
 		}
 	}
 
-	@GetMapping("/loginPage")
-	public String loginPage() {
-		System.out.println("Going to login page");
-		return "loginPage.html";
-	}
+	 */
 
-	@GetMapping("/successPage")
-	public String loginSuccessPage(HttpServletRequest request) {
-		String cached_username = (String) request.getSession().getAttribute("username");
-		System.out.println("Going to login sucess page");
-		System.out.println(cached_username);
-		return "success.html";
-	}
+	@PostMapping("/register")
+	@ResponseBody
+	public ResponseEntity register(@RequestBody String json) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		String username = inputMap.get("user_name");
+		String password = inputMap.get("password");
 
-	@GetMapping("/failPage")
-	public String loginFailPage() {
-		System.out.println("Going to login the fail page");
-		return "fail.html";
+		System.out.println(username);
+		System.out.println(password);
+
+		try {
+			this.userRepository.findByUsername(username).get_user_name();
+			System.out.println(username + " already exists, go to login page.");
+			return ResponseEntity.ok().build();
+
+			// We actually want this to be null (means user doesn't already exist)
+		} catch (NullPointerException e) {
+			User user = new User();
+			user.set_user_name(username);
+			user.set_password(encoder.encode(password));
+			this.userRepository.save(user);
+		}
+		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping("/login")
 	@ResponseBody
-	public String login (@RequestParam("username") String username,
-						 @RequestParam("password") String password,
-						 Model model,
-						 HttpServletRequest request) throws JsonProcessingException {
+	public ResponseEntity login(@RequestBody String json,
+								Model model ) throws JsonProcessingException {
 
-		String cached_username = (String) request.getSession().getAttribute("username");
-		String cached_password = (String) request.getSession().getAttribute("password");
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		String username = inputMap.get("user_name");
+		String password = inputMap.get("password");
 
-		if (cached_username == null) {
-			model.addAttribute("username", username);
-			model.addAttribute("password", password);
-			cached_username = username;
-			cached_password = password;
+		try {
+			Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			if (authentication.isAuthenticated()) {
+				model.addAttribute("username", username);
+				System.out.println("Authenticated user");
+				return ResponseEntity.ok().build();
+			}
 		}
-
-		Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		if (authentication.isAuthenticated()) {
-			model.addAttribute("username", username);
-			model.addAttribute("password", password);
-			return "redirect:/successPage.html";
-		} else {
-			return "redirect:/failPage.html";
+		// Exception means we failed
+		catch (Exception e) {
+			model.addAttribute("username", null);
 		}
+		System.out.println("Error");
+		return ResponseEntity.ok().build();
 	}
+
+	/*
+	@PostMapping("/logout")
+	@ResponseBody
+	public ResponseEntity logout(@RequestBody String json, Model model) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		String username = inputMap.get("user_name");
+		String password = inputMap.get("password");
+
+		model.addAttribute("username", null);
+		System.out.println("Logging out");
+		return ResponseEntity.ok().build();
+	}
+
+	 */
 
 	@PostMapping("/update/password")
 	@ResponseBody
-	public ResponseEntity createNewPlayer(@RequestBody String json, Model model, HttpServletRequest request) throws JsonProcessingException {
+	public ResponseEntity updatePassword(@RequestBody String json, HttpServletRequest request) throws JsonProcessingException {
 		String username = (String) request.getSession().getAttribute("username");
-		String password = (String) request.getSession().getAttribute("password");
-		System.out.println("stored " + password);
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
@@ -154,27 +177,28 @@ public class  WebController {
 		System.out.println("new " + new_pw);
 
 
-		if (old_pw.equals(password)) {
+		User assumed_user = this.userRepository.findByUsername(username);
+		if (old_pw.equals(assumed_user.get_password())) {
 			System.out.println("Passwords matched");
-			User user = new User();
-			user.set_user_id(this.userRepository.findByUsername(username).get_user_id());
-			user.set_user_name(username);
-			user.set_password(encoder.encode(new_pw));
-			System.out.println(user.toString());
-			model.addAttribute("password",new_pw);
-			this.userService.update_user(user);
+			assumed_user.set_user_id(assumed_user.get_user_id());
+			assumed_user.set_user_name(username);
+			assumed_user.set_password(encoder.encode(new_pw));
+			System.out.println(assumed_user.toString());
+			this.userService.update_user(assumed_user);
 			return ResponseEntity.ok().build();
 		}
 		System.out.println("Failed");
-		return ResponseEntity.internalServerError().build();
+		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/test_postlogin")
-	public String test_cookie (HttpServletRequest request) {
+	@GetMapping("/whoami")
+	@ResponseBody
+	public ResponseEntity whoami (HttpServletRequest request) {
 		String username = (String) request.getSession().getAttribute("username");
 		System.out.println(username);
-		return "landing.html";
+		return ResponseEntity.ok().build();
 	}
+
 	@GetMapping("/get/allusers")
 	@ResponseBody
 	public List<User> getAllUsers() {
