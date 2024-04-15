@@ -96,7 +96,7 @@ public class App {
         System.out.println(json);
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-
+        System.out.println("TRACK_ID: " + inputMap.get("track_id"));
         return this.trackService.create_track(
                 inputMap.get("track_name"),
                 Long.parseLong(inputMap.get("artist_id")),

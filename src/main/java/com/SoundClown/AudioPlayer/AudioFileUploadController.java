@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -64,9 +67,9 @@ public class AudioFileUploadController {
 	}
 
     //alternative upload
-	@PostMapping("/upload")
-	public boolean handleFileUpload(@RequestParam("file") MultipartFile file,
-        @RequestParam("track_id") Long track_id,
+	@PostMapping("/upload/{track_id}")
+	public ResponseEntity<String> handleFileUploadId(@RequestParam("file") MultipartFile file,
+        @PathVariable("track_id") Long track_id,
 		RedirectAttributes redirectAttributes) {
 
 		System.out.println("REQUESTED TO UPLOAD TRACK: " + file.getOriginalFilename());
@@ -75,8 +78,7 @@ public class AudioFileUploadController {
 		storageService.storeId(file, track_id);
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
-
-		return true;
+        return ResponseEntity.ok("File Uploaded Successfully");
 	}
 
     // this is the page for playing a selected track
@@ -111,4 +113,16 @@ public class AudioFileUploadController {
 		return ResponseEntity.notFound().build();
 	}
 
+    public static class FileRequest {
+        private MultipartFile file;
+        private Long track_id;
+
+        public MultipartFile getFile() {
+            return file;
+        }
+
+        public Long getTrackId() {
+            return track_id;
+        }
+    }
 }

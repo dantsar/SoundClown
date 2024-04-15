@@ -62,7 +62,7 @@ public class AudioFileSystemStorageService implements AudioStorageService {
 			if (file.isEmpty()) {
 				throw new AudioStorageException("Failed to store empty file.");
 			}
-            String newFileName = track_id + ".mp3";
+            String newFileName = "track_" + track_id + ".mp3";
 			Path destinationFile = this.rootLocation.resolve(
 					Paths.get(newFileName))
 					.normalize().toAbsolutePath();
