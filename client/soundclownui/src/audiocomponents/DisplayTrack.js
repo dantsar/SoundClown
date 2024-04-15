@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import useFetchAudio from '../useFetchAudio';
 
 const DisplayTrack = (props) => {
-    const { audioSrc, isLoading, error } = useFetchAudio(props.currentTrack ? 'http://localhost:8080/' + props.currentTrack : null);
+    const { audioSrc, isLoading, error, resetError } = useFetchAudio(props.currentTrack ? 'http://localhost:8080/' + props.currentTrack : null);
     useEffect(() => {
         const audioElement = props.audioRef.current;
 
@@ -19,11 +19,15 @@ const DisplayTrack = (props) => {
         }
     }, [props.audioRef, audioSrc]);
 
+    useEffect(() => {
+        resetError(null);
+    }, [props.currentTrack]);
+
 
     return (
         <div>
             { isLoading && <div>Loading...</div> }
-            { error && <div>{ error }</div> }
+            { error && <div>Unable to load track</div> }
             {audioSrc && <audio ref={props.audioRef} src={audioSrc} type="audio/mpeg" controls />}
         </div>
     );

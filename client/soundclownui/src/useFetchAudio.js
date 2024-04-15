@@ -5,6 +5,10 @@ const useFetchAudio = (url) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const resetError = () => {
+        setError(null)
+    };
+
     useEffect(() => {
         if (!url)
         {
@@ -32,7 +36,7 @@ const useFetchAudio = (url) => {
         fetchAudio();
     }, [url]);
 
-    return { audioSrc, isLoading, error };
+    return { audioSrc, isLoading, error, resetError };
 };
 
 export default useFetchAudio;
