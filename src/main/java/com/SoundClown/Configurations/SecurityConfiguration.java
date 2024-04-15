@@ -59,7 +59,7 @@ public class SecurityConfiguration {
                 });
         http
                 .formLogin(login ->  {
-                    login.loginPage("/login.html").permitAll();
+                    login.loginPage("/loginPage.html").permitAll();
                     //login.permitAll();
                 });
 
