@@ -1,5 +1,6 @@
 import Navbar from './Navbar';
 import Home from './Home';
+import Users from './Users';
 import Login from './Login';
 import CreateUser from './CreateUser';
 import UserDetails from './UserDetails';
@@ -37,6 +38,10 @@ function App() {
                         <Route
                             path="/"
                             element={<Home />}
+                        />
+                        <Route
+                            path="users"
+                            element={<Users />}
                         />
                         <Route
                             path="login"
