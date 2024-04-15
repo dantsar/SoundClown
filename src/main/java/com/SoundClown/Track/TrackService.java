@@ -13,9 +13,9 @@ public class TrackService {
     @Autowired
     private TrackRepository trackRepository;
 
-    public List get_tracks() {
-        Iterable tracks = this.trackRepository.findAll();
-        List trackList = new ArrayList<>();
+    public List<Track> get_tracks() {
+        Iterable<Track> tracks = this.trackRepository.findAll();
+        List<Track> trackList = new ArrayList<>();
         tracks.forEach(track->{trackList.add(track);});
         return trackList;
     }

@@ -36,16 +36,16 @@ public class AudioFileUploadController {
 		this.storageService = storageService;
 	}
 
+	// TODO: fix this or figure out if this is needed
+    // @GetMapping("/allTracks")
+    // public String listUploadedFiles(Model model) throws IOException {
+    //     System.out.println("(listUploadedFiles) REQUESTED TO LIST ALL TRACKS");
 
-    @GetMapping("/allTracks")
-    public String listUploadedFiles(Model model) throws IOException {
-        System.out.println("(listUploadedFiles) REQUESTED TO LIST ALL TRACKS");
+    //     model.addAttribute("files", storageService.loadAll().map(
+    //             path -> path.getFileName().toString()));
 
-        model.addAttribute("files", storageService.loadAll().map(
-                path -> path.getFileName().toString()));
-
-        return "allTracks"; // this refers to allTrack.html in resources/templates
-    }
+    //     return "allTracks"; // this refers to allTrack.html in resources/templates
+    // }
 
 	@PostMapping("/uploadTrack")
 	public String handleFileUpload(@RequestParam("file") MultipartFile file,

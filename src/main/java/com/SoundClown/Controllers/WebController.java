@@ -56,7 +56,7 @@ public class  WebController {
 	@GetMapping("/")
 	public String first() {
 		System.out.println("Going to index");
-		return "registration";
+		return "registration.html";
 	}
 
 	// Register a user
@@ -85,14 +85,14 @@ public class  WebController {
 			user.set_password(encoder.encode(password));
 			this.userRepository.save(user);
 
-			return "redirect:/loginPage";
+			return "redirect:/loginPage.html";
 		}
 	}
 
 	@GetMapping("/loginPage")
 	public String loginPage() {
 		System.out.println("Going to login page");
-		return "loginPage";
+		return "loginPage.html";
 	}
 
 	@GetMapping("/successPage")
@@ -100,13 +100,13 @@ public class  WebController {
 		String cached_username = (String) request.getSession().getAttribute("username");
 		System.out.println("Going to login sucess page");
 		System.out.println(cached_username);
-		return "success";
+		return "success.html";
 	}
 
 	@GetMapping("/failPage")
 	public String loginFailPage() {
 		System.out.println("Going to login the fail page");
-		return "fail";
+		return "fail.html";
 	}
 
 	@PostMapping("/login")
@@ -129,9 +129,9 @@ public class  WebController {
 		if (authentication.isAuthenticated()) {
 			model.addAttribute("username", username);
 			model.addAttribute("password", password);
-			return "redirect:/successPage";
+			return "redirect:/successPage.html";
 		} else {
-			return "redirect:/failPage";
+			return "redirect:/failPage.html";
 		}
 	}
 
@@ -170,7 +170,7 @@ public class  WebController {
 	public String test_cookie (HttpServletRequest request) {
 		String username = (String) request.getSession().getAttribute("username");
 		System.out.println(username);
-		return "landing";
+		return "landing.html";
 	}
 	@GetMapping(path="/get/allusers")
 	public List<User> getAllUsers() {

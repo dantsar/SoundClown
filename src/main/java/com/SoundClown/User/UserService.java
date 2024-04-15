@@ -26,8 +26,8 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     public List<User> getAllUsers() {
-        Iterable users = this.userRepository.findAll();
-        List userList = new ArrayList<>();
+        Iterable<User> users = this.userRepository.findAll();
+        List<User> userList = new ArrayList<>();
         users.forEach(user->{userList.add(user);});
         return userList;
     }
