@@ -20,8 +20,10 @@ const UserDetails = () => {
             { error && <div>{ error }</div> }
             { user && (
                 <article>
-                    <h2>{user._user_name}</h2>
-                    <button onClick={handleClick}>delete</button>
+                    <h2>User: {user._user_name}</h2>
+                    <p>ID: {user._user_id}</p>
+                    <p>Password: {user._password}</p>
+                    {/*<button onClick={handleClick}>delete</button>*/}
                 </article>
             )}
         </div>

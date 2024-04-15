@@ -15,7 +15,7 @@ const TrackDetails = (props) => {
             { error && <div>{ error }</div> }
             { track &&(
                 <article>
-                    <h2>{track._track_name}</h2>
+                    <h2>Track: {track._track_name}</h2>
                     <p style={{
                         float: "left",
                     }}>Artist:&nbsp;</p>

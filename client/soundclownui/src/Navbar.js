@@ -10,6 +10,7 @@ const Navbar = () => {
                         <img src={logo} className="logo"></img>
                     </NavLink>
                     <NavLink to="/">Home</NavLink>
+                    <NavLink to="/all-users">All Users</NavLink>
                 </div>
                 <div className="navbar-right">
                     <NavLink to="/my-tracks">My Tracks</NavLink>

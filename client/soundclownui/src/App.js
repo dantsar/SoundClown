@@ -1,5 +1,6 @@
 import Navbar from './Navbar';
 import Home from './Home';
+import AllUsers from './AllUsers';
 import Login from './Login';
 import CreateUser from './CreateUser';
 import UserDetails from './UserDetails';
@@ -39,6 +40,10 @@ function App() {
                         <Route
                             path="/"
                             element={<Home />}
+                        />
+                        <Route
+                            path="all-users"
+                            element={<AllUsers />}
                         />
                         <Route
                             path="my-tracks"
