@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 const Login = () => {
     return (
         <div className="login">
-            <h1>SoundClown</h1>
-            <h3>Enter your login credentials</h3>
+            <h1>Welcome to SoundClown!</h1>
+            <h2>Enter your login credentials</h2>
             <form>
                 <label htmlFor="username">
                     Username:
@@ -27,13 +27,12 @@ const Login = () => {
                 />
                 <button> Submit </button>
             </form>
-            <p>Not registered? 
-                <NavLink to="/create-user"  style={{
-                    textDecoration: "none",
-                }}>
+            <p>Not registered? </p>
+            <nav className="register-link">
+                <NavLink to="/create-user">
                     Create an Account
                 </NavLink>
-            </p>
+            </nav>
         </div>
     );
 }
