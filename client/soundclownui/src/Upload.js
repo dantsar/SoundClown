@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Upload = () => {
     // these have to correspond to db entries
     const [track_name, setTrackName] = useState('');
-    const [artist_id, setArtistId] = useState('');
+    // const [artist_id, setArtistId] = useState('');
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
     const [description, setDescription] = useState('');
@@ -17,7 +17,7 @@ const Upload = () => {
         const track = {
             track_name,
             track_path,
-            artist_id,
+            // artist_id,
             description,
         };
 
@@ -26,6 +26,7 @@ const Upload = () => {
         fetch('http://localhost:8080/create/track', {
             method: 'POST',
             headers: { "dataType": "text" },
+            credentials: 'include', // Include credentials for cookie support
             body: JSON.stringify(track)
         })
         .then(res => {
@@ -85,7 +86,7 @@ const Upload = () => {
                     onChange={(e) => setTrackName(e.target.value)}
                 />
 
-                <label htmlFor="artist_id">
+                {/* <label htmlFor="artist_id">
                     Artist ID:
                 </label>
                 <input type="number"
@@ -95,7 +96,7 @@ const Upload = () => {
                     required
                     value={artist_id}
                     onChange={(e) => setArtistId(e.target.value)}
-                />
+                /> */}
 
                 <label htmlFor="description">
                     Description:
