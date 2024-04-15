@@ -6,6 +6,9 @@ const TrackDetails = (props) => {
     const { track_id } = useParams();
     const { data: track, error, isPending } = useFetch("http://localhost:8080/get/track/" + track_id);
 
+    console.log("Track Details");
+    console.log(track);
+
     return (
         <div className="track-details">
             { isPending && <div>Loading...</div> }
