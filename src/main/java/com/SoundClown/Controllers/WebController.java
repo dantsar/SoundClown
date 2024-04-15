@@ -214,7 +214,7 @@ public class  WebController {
 
     @PostMapping("/create/track")
 	@ResponseBody
-    public boolean createTrack(@RequestBody String json) throws JsonProcessingException {
+    public Long createTrack(@RequestBody String json) throws JsonProcessingException {
         System.out.println(json);
 
         ObjectMapper objectMapper = new ObjectMapper();

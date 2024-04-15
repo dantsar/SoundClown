@@ -20,7 +20,7 @@ public class TrackService {
         return trackList;
     }
 
-    public boolean create_track(String track_name,
+    public Long create_track(String track_name,
                                 String track_path,
                                 String description,
                                 Long   artist_id,
@@ -37,8 +37,8 @@ public class TrackService {
         savedTrack.set_track_path("download/track_"+savedTrack.get_track_id()+".mp3");
         this.trackRepository.save(savedTrack);
         System.out.println(savedTrack);
-        // savedTrack.get_track_id();
-        return true; // need to handle error handling at somepoint
+        return savedTrack.get_track_id();
+        // return true; // need to handle error handling at somepoint
     }
 
     public boolean update_track(Track track) {
