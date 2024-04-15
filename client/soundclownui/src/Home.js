@@ -6,6 +6,9 @@ const Home = () => {
     const { data: users, isPending, error } = useFetch('http://localhost:8080/get/allusers');
     const { data: tracks, tracksIsPending } = useFetch('http://localhost:8080/get/alltracks');
 
+
+    // make this work based on the current user logged in
+
     // console.log("Users");
     // console.log(users);
     // console.log("Tracks");

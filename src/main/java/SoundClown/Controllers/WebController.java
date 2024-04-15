@@ -61,39 +61,6 @@ public class  WebController {
 		return "registration.html";
 	}
 
-	// Register a user
-	// What im implementing
-	// - Verify user doesn't already exist
-	/*
-	@PostMapping("/register")
-	public String register (@RequestParam("username") String username,
-							@RequestParam("password") String password,
-							Model model) {
-		System.out.println(username);
-		System.out.println(password);
-
-		try {
-			this.userRepository.findByUsername(username).get_user_name();
-			System.out.println(username + " already exists, go to login page.");
-			return "redirect:/exists";
-
-			// We actually want this to be null (means user doesn't already exist)
-		} catch (NullPointerException e) {
-			// Stores version of username and password to session of controller (keeps track across requests)
-			model.addAttribute("username", username);
-			model.addAttribute("password", password);
-
-			User user = new User();
-			user.set_user_name(username);
-			user.set_password(encoder.encode(password));
-			this.userRepository.save(user);
-
-			return "redirect:/loginPage.html";
-		}
-	}
-
-	 */
-
 	@PostMapping("/register")
 	@ResponseBody
 	public ResponseEntity register(@RequestBody String json) throws JsonProcessingException {
@@ -134,7 +101,7 @@ public class  WebController {
 			Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			if (authentication.isAuthenticated()) {
 				model.addAttribute("username", username);
-				System.out.println("Authenticated user");
+				System.out.println("Authenticated user: " + username);
 				return ResponseEntity.ok().build();
 			}
 		}
@@ -146,21 +113,6 @@ public class  WebController {
 		return ResponseEntity.ok().build();
 	}
 
-	/*
-	@PostMapping("/logout")
-	@ResponseBody
-	public ResponseEntity logout(@RequestBody String json, Model model) throws JsonProcessingException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		String username = inputMap.get("user_name");
-		String password = inputMap.get("password");
-
-		model.addAttribute("username", null);
-		System.out.println("Logging out");
-		return ResponseEntity.ok().build();
-	}
-
-	 */
 
 	@PostMapping("/update/password")
 	@ResponseBody
@@ -193,10 +145,20 @@ public class  WebController {
 
 	@GetMapping("/whoami")
 	@ResponseBody
-	public ResponseEntity whoami (HttpServletRequest request) {
+	public String whoami (HttpServletRequest request) {
 		String username = (String) request.getSession().getAttribute("username");
-		System.out.println(username);
-		return ResponseEntity.ok().build();
+		System.out.println("username: " + username);
+		String ret_username = null; // for debugging (clean up later)
+
+		if (username == null) {
+			ret_username = "null";
+		} else {
+			ret_username = username;
+		}
+
+		System.out.println("ret_username: " + ret_username);
+		return ret_username;
+		// return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/get/allusers")
@@ -291,11 +253,6 @@ public class  WebController {
 
 		Long user_id =  Long.parseLong(inputMap.get("user_id"));
 		User user = this.userRepository.findByUserId(user_id);
-
-		/*
-		Long track_id =  Long.parseLong(inputMap.get("track_id"));
-		Track track = this.trackRepository.findTrackId(track_id);
-		 */
 
         return this.playlistService.create_playlist(
 				user,

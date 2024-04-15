@@ -13,7 +13,7 @@ const CreateUser = () => {
 
         setIsPending(true);
 
-        fetch('http://localhost:8080/create/user', {
+        fetch('http://localhost:8080/register', {
             method: 'POST',
             headers: { "dataType": "text" },
             body: JSON.stringify(user)

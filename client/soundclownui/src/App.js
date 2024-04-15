@@ -4,6 +4,7 @@ import Login from './Login';
 import CreateUser from './CreateUser';
 import UserDetails from './UserDetails';
 import TrackDetails from './TrackDetails';
+import WhoAmI from './WhoAmI';
 import Upload from './Upload';
 import AudioPlayer from './audiocomponents/AudioPlayer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -57,6 +58,10 @@ function App() {
                         <Route
                             path="track/:track_id"
                             element={<TrackDetails setTrack={setTrack}/>}
+                        />
+                        <Route
+                            path="whoami"
+                            element={<WhoAmI />}
                         />
                     </Routes>
                 </div>
