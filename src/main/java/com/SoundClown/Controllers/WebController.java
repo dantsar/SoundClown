@@ -216,17 +216,23 @@ public class  WebController {
 	@ResponseBody
     public boolean createTrack(@RequestBody String json) throws JsonProcessingException {
         System.out.println(json);
+
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		User artist = this.userRepository.findByUsername("andy");
-		Long artist_id = artist.get_user_id();
+
+		Long user_id =  Long.parseLong(inputMap.get("artist_id"));
+		User user = this.userRepository.findByUserId(user_id);
+
+		String track_name = inputMap.get("track_name");
+		String track_path = inputMap.get("track_path");
+		String description = inputMap.get("description");
 
         return this.trackService.create_track(
-                inputMap.get("track_name"),
-                inputMap.get("track_path"),
-                inputMap.get("description"),
-				artist_id,
-				artist
+			track_name,
+			track_path,
+			description,
+			user_id,
+			user
         );
     }
 

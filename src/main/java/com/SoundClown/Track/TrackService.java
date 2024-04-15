@@ -31,12 +31,14 @@ public class TrackService {
         track.set_artist_id(artist_id);
         track.set_description(description);
         track.set_artist(artist);
+        track.set_track_path("temp"); // FIX: track_path cannot be NULL in database
         System.out.println(track);
         Track savedTrack = this.trackRepository.save(track);
         savedTrack.set_track_path("download/track_"+savedTrack.get_track_id()+".mp3");
         this.trackRepository.save(savedTrack);
         System.out.println(savedTrack);
-        return savedTrack.get_track_id();
+        // savedTrack.get_track_id();
+        return true; // need to handle error handling at somepoint
     }
 
     public boolean update_track(Track track) {

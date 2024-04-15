@@ -13,8 +13,10 @@ const Upload = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const track_path = "download/" + track_name;
         const track = {
             track_name,
+            track_path,
             artist_id,
             description,
         };
