@@ -18,7 +18,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -48,6 +49,19 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**") // or specify the path pattern for more granular control
+                    .allowedOrigins("http://localhost:3000") // the origin of your frontend
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // allowed HTTP methods
+                    .allowedHeaders("*") // allowed headers
+                    .allowCredentials(true); // if cookies or auth headers are needed
+            }
+        };
+    }
     /*
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{

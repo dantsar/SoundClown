@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @EnableConfigurationProperties(AudioStorageProperties.class)
+@CrossOrigin(origins = "http://localhost:3000") // the origin of the frontend
 @SessionAttributes({"username", "password"})
 public class  WebController {
 
@@ -110,6 +111,7 @@ public class  WebController {
 	}
 
 	@PostMapping("/login")
+	@ResponseBody
 	public String login (@RequestParam("username") String username,
 						 @RequestParam("password") String password,
 						 Model model,
@@ -136,6 +138,7 @@ public class  WebController {
 	}
 
 	@PostMapping("/update/password")
+	@ResponseBody
 	public ResponseEntity createNewPlayer(@RequestBody String json, Model model, HttpServletRequest request) throws JsonProcessingException {
 		String username = (String) request.getSession().getAttribute("username");
 		String password = (String) request.getSession().getAttribute("password");
@@ -172,36 +175,42 @@ public class  WebController {
 		System.out.println(username);
 		return "landing.html";
 	}
-	@GetMapping(path="/get/allusers")
+	@GetMapping("/get/allusers")
+	@ResponseBody
 	public List<User> getAllUsers() {
 		// This returns a JSON or XML with the users
 		return this.userService.getAllUsers();
 	}
 
 	@GetMapping("/get/user/{user_name}")
+	@ResponseBody
 	public User findUser(@PathVariable("user_name") String user_name) {
 		return userRepository.findByUsername(user_name);
 	}
 
 	@PostMapping("/delete/user/{user_id}")
+	@ResponseBody
     public void deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
         System.out.println(user_id);
         this.userService.delete_user(user_id);
     }
 
 	// Track
-	@GetMapping(path="/get/alltracks")
+	@GetMapping("/get/alltracks")
+	@ResponseBody
 	public List<Track> getAllTracks() {
 		// This returns a JSON or XML with the tracks
 		return this.trackService.get_tracks();
 	}
 
 	@GetMapping("/get/track/{track_name}")
+	@ResponseBody
 	public List<Track> findtrack(@PathVariable("track_name") String track_name) {
 		return trackRepository.findByTrackName(track_name);
 	}
 
     @PostMapping("/create/track")
+	@ResponseBody
     public boolean createTrack(@RequestBody String json) throws JsonProcessingException {
         System.out.println(json);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -219,6 +228,7 @@ public class  WebController {
     }
 
 	@PostMapping("/delete/track/{track_id}")
+	@ResponseBody
     public void deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
         System.out.println(track_id);
         this.trackService.delete_track(track_id);
@@ -227,17 +237,20 @@ public class  WebController {
 
 	// Playlist
 	@GetMapping(path="/get/allplaylists")
+	@ResponseBody
 	public List<Playlist> getAllPlaylists() {
 		// This returns a JSON or XML with the playlists
 		return this.playlistService.get_playlists();
 	}
 
 	@GetMapping("/get/playlist/{playlist_name}")
+	@ResponseBody
 	public List<Playlist> findPlaylist(@PathVariable("playlist_name") String playlist_name) {
 		return playlistRepository.findByPlaylistName(playlist_name);
 	}
 
     @PostMapping("/create/playlist")
+	@ResponseBody
     public boolean createPlaylist(@RequestBody String json) throws JsonProcessingException {
         System.out.println(json);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -258,6 +271,7 @@ public class  WebController {
     }
 
 	@PostMapping("/addsong/playlist")
+	@ResponseBody
 	public boolean addToPlaylist(@RequestBody String json) throws JsonProcessingException {
 		System.out.println(json);
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -274,6 +288,7 @@ public class  WebController {
 	}
 
 	@PostMapping("/delete/playlist/{playlist_id}")
+	@ResponseBody
     public void deletePlaylist(@PathVariable("playlist_id") Long playlist_id) throws JsonProcessingException {
         System.out.println(playlist_id);
         this.playlistService.delete_playlist(playlist_id);
