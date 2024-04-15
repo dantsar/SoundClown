@@ -19,6 +19,7 @@ const Login = () => {
         fetch('http://localhost:8080/login', {
             method: 'POST',
             'Content-Type': 'application/json',
+            credentials: 'include', // Include credentials for cookie support
             body: JSON.stringify(user)
         }).then(() => {
             setIsPending(false);

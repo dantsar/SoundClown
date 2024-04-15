@@ -143,7 +143,7 @@ public class  WebController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/whoami")
+	@GetMapping(path = "/whoami", produces = "text/plain")
 	@ResponseBody
 	public String whoami (HttpServletRequest request) {
 		String username = (String) request.getSession().getAttribute("username");
