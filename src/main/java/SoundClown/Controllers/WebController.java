@@ -180,7 +180,7 @@ public class  WebController {
 		return this.userRepository.findByUsername(username);
 	}
 
-	@PostMapping("/get/user/{user_id}")
+	@GetMapping("/get/user/{user_id}")
 	@ResponseBody
 	public User findUser(@PathVariable("user_id") Long user_id) {
 		return this.userRepository.findByUserId(user_id);

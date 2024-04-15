@@ -6,6 +6,7 @@ import UserDetails from './UserDetails';
 import TrackDetails from './TrackDetails';
 import WhoAmI from './WhoAmI';
 import Upload from './Upload';
+import MyTracks from './MyTracks';
 import AudioPlayer from './audiocomponents/AudioPlayer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useRef, useState, useCallback } from 'react';
@@ -38,6 +39,10 @@ function App() {
                         <Route
                             path="/"
                             element={<Home />}
+                        />
+                        <Route
+                            path="my-tracks"
+                            element={<MyTracks />}
                         />
                         <Route
                             path="login"
