@@ -19,7 +19,7 @@ const CreateUser = () => {
             body: JSON.stringify(user)
         }).then(() => {
             setIsPending(false);
-            navigate("/");
+            navigate("/login");
         });
     }
 
