@@ -20,21 +20,16 @@ Then run
 docker run --rm --name lil-postgres -e POSTGRES_PASSWORD=password -d -v $HOME/srv/postgres:/var/lib/postgresql/data -p 5432:5432 postgres
 ```
 
-Connect to the database using 
-```
-psql -h localhost -U postgres
-```
-
-Create the database
-```
-CREATE DATABASE soundclown;
-\c soundclown
-```
-From there populate the database
-
-
 Run 
 ```
 docker compose up
 ```
-start the db and run JDBCExecutor
+
+# Web App
+
+```sh
+# to build web app & install dependencies
+$ cd ./client/soundclownui/ && npm install
+# to start web app
+$ cd ./client/soundclownui/ && npm start
+```
