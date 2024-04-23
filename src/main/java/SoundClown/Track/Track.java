@@ -28,6 +28,19 @@ public class Track {
     //@JoinColumn(name = "artist_id", referencedColumnName = "user_id") /*, insertable = false, updatable = false)*/
     private User artist;
 
+    public Track() {
+    }
+
+    public Track(Long track_id, String track_name, Long artist_id, String track_path, int plays, String description, User artist) {
+        this.track_id = track_id;
+        this.track_name = track_name;
+        this.artist_id = artist_id;
+        this.track_path = track_path;
+        this.plays = plays;
+        this.description = description;
+        this.artist = artist;
+    }
+
     public void set_track_id(Long track_id)             { this.track_id      = track_id;    }
     public void set_track_name(String track_name)       { this.track_name    = track_name;  }
     public void set_artist_id(Long artist_id)           { this.artist_id     = artist_id;   }

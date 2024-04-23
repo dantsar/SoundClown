@@ -5,6 +5,7 @@ import SoundClown.User.User;
 import jakarta.persistence.*;
 import org.springframework.data.domain.Persistable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,8 @@ public class Playlist {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+
     //@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @ManyToMany
     @JoinTable(
@@ -29,6 +32,10 @@ public class Playlist {
             inverseJoinColumns = @JoinColumn(name = "track_id")
     )
     private List<Track> tracks;
+
+    public Playlist() {
+        this.tracks = new ArrayList<>();
+    }
 
     public void set_playlist_id(Long playlist_id)       { this.playlist_id   = playlist_id;   }
     public void set_user(User user)                     { this.user          = user;          }
