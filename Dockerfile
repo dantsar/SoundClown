@@ -7,10 +7,13 @@ ADD pom.xml /project/pom.xml
 WORKDIR /project
 RUN mvn dependency:go-offline
 
+
+ARG MODE=package
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 ADD . /project
 WORKDIR /project
-RUN mvn -T 4 -e package
+# RUN mvn -T 4 -e package
+RUN mvn test
 
 FROM eclipse-temurin:latest
 COPY --from=build /project/target /app/target
