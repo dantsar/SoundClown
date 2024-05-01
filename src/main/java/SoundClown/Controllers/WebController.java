@@ -189,7 +189,7 @@ public class  WebController {
 	}
 
 	// There are some JPA synchronization issues that are really strange
-	// Can't delete the user within the clear post request because ot won't identify the foreign key constraints as
+	// Can't delete the user within the clear post request because it won't identify the foreign key constraints as
 	// being resolved
 	@PostMapping("/clear/user/{user_id}")
 	@ResponseBody
@@ -268,16 +268,25 @@ public class  WebController {
         );
     }
 
-	// Need to fix JPA constraint issue to resolve foreign key problem here
+	/*
 	@PostMapping("/delete/track/{track_id}")
 	@ResponseBody
     public void deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
         this.trackService.delete_track(track_id);
     }
 
+	 */
+
+	@PostMapping("/delete/track/{track_id}")
+	@ResponseBody
+	public ResponseEntity deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
+		this.playlistService.removeTrackFromAllPlaylists(track_id);
+		this.trackService.delete_track(track_id);
+		return ResponseEntity.ok().build();
+	}
 
 	/*
-	 Playlist Functions: Not yet implemented in react
+	 Playlist Functions
 	 */
 
 	@GetMapping(path="/get/allplaylists")
