@@ -2,6 +2,8 @@ package SoundClown.Track;
 
 import SoundClown.User.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.domain.Persistable;
 
 @Entity
@@ -23,7 +25,11 @@ public class Track {
     @Column(name="description", length = 500)
     private String description;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "artist_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "artist_id",
+                referencedColumnName = "user_id",
+                insertable = false,
+                updatable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User artist;
 
     public Track() {}

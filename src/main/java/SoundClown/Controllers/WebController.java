@@ -6,6 +6,8 @@ import SoundClown.Track.*;
 import SoundClown.Playlist.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Persistable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -76,7 +78,7 @@ public class  WebController {
 		System.out.println(password);
 
 		try {
-			this.userRepository.findByUsername(username).get_user_name();
+			this.userRepository.findUserByUsername(username).get_user_name();
 			System.out.println(username + " already exists, go to login page.");
 			return ResponseEntity.ok().build();
 
@@ -129,7 +131,7 @@ public class  WebController {
 		System.out.println("old " + old_pw);
 		System.out.println("new " + new_pw);
 
-		User assumed_user = this.userRepository.findByUsername(username);
+		User assumed_user = this.userRepository.findUserByUsername(username);
 		if (old_pw.equals(assumed_user.get_password())) {
 			System.out.println("Passwords matched");
 			assumed_user.set_user_id(assumed_user.get_user_id());
@@ -177,25 +179,43 @@ public class  WebController {
 			return null;
 		}
 		System.out.println("User is: " + username);
-		return this.userRepository.findByUsername(username);
+		return this.userRepository.findUserByUsername(username);
 	}
 
 	@GetMapping("/get/user/{user_id}")
 	@ResponseBody
 	public User findUser(@PathVariable("user_id") Long user_id) {
-		return this.userRepository.findByUserId(user_id);
+		return this.userRepository.findUserByUserId(user_id);
 	}
 
-	// Need to fix JPA constraint issue to resolve foreign key problem here
-	/*
+	// There are some JPA synchronization issues that are really strange
+	// Can't delete the user within the clear post request because ot won't identify the foreign key constraints as
+	// being resolved
+	@PostMapping("/clear/user/{user_id}")
+	@ResponseBody
+	public ResponseEntity removeUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
+		System.out.println("Deleting playlists of user");
+		this.playlistRepository.deletePlaylistByUser(this.userRepository.findUserByUserId(user_id));
+		System.out.println("Deleting entries in playlists of user's tracks");
+		List<Track> user_tracks = this.trackRepository.findTracksByArtistId(user_id);
+		for (Track t : user_tracks) {
+			this.playlistService.removeTrackFromAllPlaylists(t.get_track_id());
+		}
+		System.out.println("Deleting user's tracks");
+		this.trackRepository.deleteTracksByArtistId(user_id);
+		System.out.println("Deleting user");
+		this.userRepository.deleteById(user_id);
+		return ResponseEntity.ok().build();
+	}
+
+	// Needs to be called exclusively after already clearing a user
 	@PostMapping("/delete/user/{user_id}")
 	@ResponseBody
-    public ResponseEntity deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
-        this.userService.delete_user(user_id);
-		System.out.println("Deleted user " + user_id);
+	public ResponseEntity deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
+		this.userRepository.deleteById(user_id);
 		return ResponseEntity.ok().build();
-    }
-	*/
+	}
+	// Need to fix JPA constraint issue to resolve foreign key problem here
 
 	/*
 	 Track Functions
@@ -215,14 +235,14 @@ public class  WebController {
 			return null;
 		}
 		System.out.println("User is: " + username);
-		User user = this.userRepository.findByUsername(username);
+		User user = this.userRepository.findUserByUsername(username);
 		return this.trackRepository.findTracksByArtistId(user.get_user_id());
 	}
 
 	@GetMapping("/get/track/{track_id}")
 	@ResponseBody
 	public Track findtrack(@PathVariable("track_id") Long track_id) {
-		return this.trackRepository.findTrackById(track_id);
+		return this.trackRepository.findTrackByArtistId(track_id);
 	}
 
     @PostMapping("/create/track")
@@ -233,7 +253,7 @@ public class  WebController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 
-		User user = this.userRepository.findByUsername(username);
+		User user = this.userRepository.findUserByUsername(username);
 
 		String track_name = inputMap.get("track_name");
 		String track_path = inputMap.get("track_path");
@@ -249,19 +269,17 @@ public class  WebController {
     }
 
 	// Need to fix JPA constraint issue to resolve foreign key problem here
-	/*
 	@PostMapping("/delete/track/{track_id}")
 	@ResponseBody
     public void deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
         this.trackService.delete_track(track_id);
     }
-	*/
 
 
 	/*
 	 Playlist Functions: Not yet implemented in react
 	 */
-	/*
+
 	@GetMapping(path="/get/allplaylists")
 	@ResponseBody
 	public List<Playlist> getAllPlaylists() {
@@ -272,7 +290,7 @@ public class  WebController {
 	@GetMapping("/get/playlist/{playlist_name}")
 	@ResponseBody
 	public List<Playlist> findPlaylist(@PathVariable("playlist_name") String playlist_name) {
-		return playlistRepository.findByPlaylistName(playlist_name);
+		return playlistRepository.findPlaylistByPlaylistName(playlist_name);
 	}
 
     @PostMapping("/create/playlist")
@@ -283,7 +301,7 @@ public class  WebController {
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 
 		Long user_id =  Long.parseLong(inputMap.get("user_id"));
-		User user = this.userRepository.findByUserId(user_id);
+		User user = this.userRepository.findUserByUserId(user_id);
 
         return this.playlistService.create_playlist(
 				user,
@@ -300,22 +318,29 @@ public class  WebController {
 		Long playlist_id = Long.parseLong(inputMap.get("playlist_id"));
 		String track_name = inputMap.get("track_name");
 
-		Playlist playlist = this.playlistRepository.findByPlaylistId(playlist_id);
+		Playlist playlist = this.playlistRepository.findPlaylistByPlaylistId(playlist_id);
 
-		Track track = this.trackRepository.byTrackName(track_name);
+		Track track = this.trackRepository.findTrackByTrackName(track_name);
 		playlist.add_track(track);
 
 		return this.playlistService.update_playlist(playlist);
 	}
-	 */
 
 	// Need to fix JPA constraint issue to resolve foreign key problem here
-	/*
 	@PostMapping("/delete/playlist/{playlist_id}")
 	@ResponseBody
     public void deletePlaylist(@PathVariable("playlist_id") Long playlist_id) throws JsonProcessingException {
         System.out.println(playlist_id);
         this.playlistService.delete_playlist(playlist_id);
     }
-	*/
+
+	@PostMapping("/delete/trackfromplaylist/")
+	@ResponseBody
+	public void deletePlaylist(@RequestBody String json) throws JsonProcessingException {
+		System.out.println(json);
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		this.playlistService.removeTrackFromPlaylist(Long.parseLong(inputMap.get("track_id")),
+													 Long.parseLong(inputMap.get("playlist_id")));
+	}
 }

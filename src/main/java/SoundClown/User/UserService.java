@@ -32,7 +32,6 @@ public class UserService implements UserDetailsService {
         return userList;
     }
 
-
     public User create_user(String user_name, String password) {
         User user = new User();
         user.set_user_name(user_name);
@@ -53,7 +52,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+        return userRepository.findUserByUsername(username);
     }
 
 }
