@@ -25,4 +25,9 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     @Query("delete from #{#entityName} u where u.user = ?1")
     void deletePlaylistByUser(User user);
 
+    @Modifying
+    @Transactional
+    @Query("delete from #{#entityName} u where u.playlist_id= ?1")
+    void deletePlaylistById(Long playlist_id);
+
 }

@@ -56,6 +56,19 @@ public class PlaylistService {
             }
         }
     }
+
+    public void removeAllTracksFromPlaylist(Long playlistId) {
+        Playlist playlist = playlistRepository.findById(playlistId).orElse(null);
+        if (playlist != null) {
+            // Find the track to remove
+            List<Track> tracksToRemove = playlist.get_tracks();
+            for (int i = 0; i < tracksToRemove.size(); i++) {
+                playlist.get_tracks().remove(tracksToRemove.get(i));
+                playlistRepository.save(playlist);
+            }
+        }
+    }
+
     public void removeTrackFromAllPlaylists(Long trackIdToRemove) {
         List<Playlist> allPlaylists = playlistRepository.findAll();
         for (Playlist p : allPlaylists) {

@@ -339,8 +339,7 @@ public class  WebController {
 	@PostMapping("/delete/playlist/{playlist_id}")
 	@ResponseBody
     public void deletePlaylist(@PathVariable("playlist_id") Long playlist_id) throws JsonProcessingException {
-        System.out.println(playlist_id);
-        this.playlistService.delete_playlist(playlist_id);
+		this.playlistRepository.deletePlaylistById(playlist_id);
     }
 
 	@PostMapping("/delete/trackfromplaylist/")
