@@ -14,11 +14,15 @@ import java.util.List;
 @Repository
 public interface TrackRepository extends JpaRepository<Track, Long> {
 
-    @Query("select u from #{#entityName} u where u.track_id = ?1")
+    @Query("select u from #{#entityName} u where u.track_id= ?1")
+    Track findTrackByTrackId(Long track_id);
+
+    @Query("select u from #{#entityName} u where u.artist_id = ?1")
     Track findTrackByArtistId(Long track_id);
 
     @Query("select u from #{#entityName} u where u.track_name = ?1")
     Track findTrackByTrackName(String track_name);
+
 
     @Query("select u from #{#entityName} u where u.artist_id = ?1")
     List<Track> findTracksByArtistId(Long artist_id);
@@ -27,6 +31,7 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
     @Transactional
     @Query("delete from #{#entityName} u where u.artist_id = ?1")
     void deleteTracksByArtistId(Long artist_id);
+
 
     @Modifying
     @Transactional

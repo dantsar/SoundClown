@@ -1,6 +1,7 @@
 package SoundClown.Controllers;
 
 import SoundClown.AudioPlayer.*;
+import SoundClown.LikedTrack.*;
 import SoundClown.User.*;
 import SoundClown.Track.*;
 import SoundClown.Playlist.*;
@@ -49,6 +50,10 @@ public class  WebController {
 	private PlaylistService playlistService;
 	@Autowired
 	private PlaylistRepository playlistRepository;
+	@Autowired
+	private LikedTrackService likedTrackService;
+	@Autowired
+	private LikedTrackRepository likedTrackRepository;
 	@Autowired
 	private PasswordEncoder encoder;
 	@Autowired
@@ -201,6 +206,16 @@ public class  WebController {
 		for (Track t : user_tracks) {
 			this.playlistService.removeTrackFromAllPlaylists(t.get_track_id());
 		}
+		System.out.println("Deleting user's liked tracks");
+		// Delete the user's tracks that others have liked
+		for (Track t: user_tracks) {
+			List<LikedTrack> user_likedtracks = this.likedTrackRepository.findLikedTracksByTrack((t));
+			for (int i = 0; i < user_likedtracks.size(); i++) {
+				this.likedTrackRepository.deleteLikedTrackByTrack(t);
+			}
+		}
+		// Delete the users liked tracks
+		this.likedTrackRepository.deleteLikedTracksByUser(this.userRepository.findUserByUserId(user_id));
 		System.out.println("Deleting user's tracks");
 		this.trackRepository.deleteTracksByArtistId(user_id);
 		System.out.println("Deleting user");
@@ -242,7 +257,7 @@ public class  WebController {
 	@GetMapping("/get/track/{track_id}")
 	@ResponseBody
 	public Track findtrack(@PathVariable("track_id") Long track_id) {
-		return this.trackRepository.findTrackByArtistId(track_id);
+		return this.trackRepository.findTrackByTrackId(track_id);
 	}
 
     @PostMapping("/create/track")
@@ -281,6 +296,7 @@ public class  WebController {
 	@ResponseBody
 	public ResponseEntity deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
 		this.playlistService.removeTrackFromAllPlaylists(track_id);
+		this.likedTrackRepository.deleteLikedTrackByTrack(this.trackRepository.findTrackByTrackId(track_id));
 		this.trackRepository.deleteTracksByTrackId(track_id);
 		return ResponseEntity.ok().build();
 	}
@@ -365,4 +381,30 @@ public class  WebController {
 		this.playlistService.removeTrackFromPlaylist(Long.parseLong(inputMap.get("track_id")),
 													 Long.parseLong(inputMap.get("playlist_id")));
 	}
+
+	/*
+	 Liked Track
+	 */
+	@PostMapping("/like/track/")
+	@ResponseBody
+	public ResponseEntity likeTrack(@RequestBody String json) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		Track track = this.trackRepository.findTrackByTrackName(inputMap.get("track_name"));
+		User user = this.userRepository.findUserByUserId(Long.parseLong(inputMap.get("user_id")));
+		this.likedTrackService.create_likedtrack(user, track);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/unlike/track/")
+	@ResponseBody
+	public ResponseEntity unlikeTrack(@RequestBody String json) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		Track track = this.trackRepository.findTrackByTrackName(inputMap.get("track_name"));
+		User user = this.userRepository.findUserByUserId(Long.parseLong(inputMap.get("user_id")));
+		this.likedTrackRepository.deleteLikedTrackByUserAndTrack(user, track);
+		return ResponseEntity.ok().build();
+	}
+
 }

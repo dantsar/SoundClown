@@ -29,7 +29,6 @@ public class Track {
                 referencedColumnName = "user_id",
                 insertable = false,
                 updatable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User artist;
 
     public Track() {}
