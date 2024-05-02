@@ -281,7 +281,7 @@ public class  WebController {
 	@ResponseBody
 	public ResponseEntity deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
 		this.playlistService.removeTrackFromAllPlaylists(track_id);
-		this.trackService.delete_track(track_id);
+		this.trackRepository.deleteTracksByTrackId(track_id);
 		return ResponseEntity.ok().build();
 	}
 

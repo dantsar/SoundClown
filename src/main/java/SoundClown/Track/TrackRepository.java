@@ -27,4 +27,9 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
     @Transactional
     @Query("delete from #{#entityName} u where u.artist_id = ?1")
     void deleteTracksByArtistId(Long artist_id);
+
+    @Modifying
+    @Transactional
+    @Query("delete from #{#entityName} u where u.track_id= ?1")
+    void deleteTracksByTrackId(Long track_id);
 }
