@@ -335,6 +335,20 @@ public class  WebController {
 		return this.playlistService.update_playlist(playlist);
 	}
 
+	@PostMapping("/removetrack/playlist")
+	@ResponseBody
+	public void removeFromPlaylist(@RequestBody String json) throws JsonProcessingException {
+		System.out.println(json);
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		Long playlist_id = Long.parseLong(inputMap.get("playlist_id"));
+		String track_name = inputMap.get("track_name");
+
+		Playlist playlist = this.playlistRepository.findPlaylistByPlaylistId(playlist_id);
+		Track track = this.trackRepository.findTrackByTrackName(track_name);
+		this.playlistService.removeTrackFromPlaylist(playlist_id, track.get_track_id());
+	}
+
 	// Need to fix JPA constraint issue to resolve foreign key problem here
 	@PostMapping("/delete/playlist/{playlist_id}")
 	@ResponseBody
