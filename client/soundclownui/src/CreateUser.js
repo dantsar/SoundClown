@@ -4,23 +4,34 @@ import { useNavigate } from 'react-router-dom';
 const CreateUser = () => {
     const [user_name, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const [isPending, setIsPending] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const user = { user_name, password };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-        setIsPending(true);
-
-        fetch('http://localhost:8080/register', {
+        const user = {user_name, password};
+        const response = await fetch('http://localhost:8080/register', {
             method: 'POST',
             headers: { "dataType": "text" },
+            credentials: 'include', // Include credentials for cookie support
             body: JSON.stringify(user)
-        }).then(() => {
-            setIsPending(false);
-            navigate("/login");
         });
+
+        if (!response.ok) {
+            setError("true");
+        } else {
+            fetch('http://localhost:8080/login', {
+                method: 'POST',
+                'Content-Type': 'application/json',
+                credentials: 'include', // Include credentials for cookie support
+                body: JSON.stringify(user)
+            }).then(() => {
+                setIsPending(false);
+                navigate("/");
+            });
+        }
     }
 
     return (
@@ -53,6 +64,7 @@ const CreateUser = () => {
 
                 <button> Submit </button>
             </form>
+            {error && <p style={{color: 'red'}}>User already exists!</p>}
         </div>
     );
 }

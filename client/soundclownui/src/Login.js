@@ -5,26 +5,25 @@ const Login = () => {
 
     const [user_name, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const [isPending, setIsPending] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const user = { user_name, password };
-
-        console.log(user);
-
-        setIsPending(true);
-
-        fetch('http://localhost:8080/login', {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const user = {user_name, password};
+        const response = await fetch('http://localhost:8080/login', {
             method: 'POST',
             'Content-Type': 'application/json',
-            credentials: 'include', // Include credentials for cookie support
+            credentials: 'include',
             body: JSON.stringify(user)
-        }).then(() => {
-            setIsPending(false);
-            navigate("/");
         });
+
+        if (!response.ok) {
+             setError("true");
+        } else {
+            navigate("/");
+        }
     }
 
     return (
@@ -57,7 +56,8 @@ const Login = () => {
                 />
                 <button> Submit </button>
             </form>
-            <p>Not registered? </p>
+            {error && <p style={{color: 'red'}}>Incorrect username or password</p>}
+            <p>Not registered?</p>
             <nav className="register-link">
                 <NavLink to="/create-user">
                     <p>Create an Account</p>
