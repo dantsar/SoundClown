@@ -9,12 +9,18 @@ import WhoAmI from './WhoAmI';
 import Upload from './Upload';
 import MyTracks from './MyTracks';
 import AudioPlayer from './audiocomponents/AudioPlayer';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import { useRef, useState, useCallback } from 'react';
+// My imports
+import Cookies from 'js-cookie';
+import User from './User.js';
 
 function App() {
     const [currentTrack, setCurrentTrack] = useState('');
     const audioRef = useRef(null);
+
+    const userCookie = Cookies.get(User);
+    console.log(userCookie);
 
     // const setTrack = (path) => {
     //     setCurrentTrack(path);
