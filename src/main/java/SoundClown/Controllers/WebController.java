@@ -9,6 +9,7 @@ import SoundClown.Playlist.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Persistable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -73,7 +74,7 @@ public class  WebController {
 
 	@PostMapping("/register")
 	@ResponseBody
-	public ResponseEntity register(@RequestBody String json) throws JsonProcessingException {
+	public ResponseEntity<?> register(@RequestBody String json) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 		String username = inputMap.get("user_name");
@@ -85,7 +86,7 @@ public class  WebController {
 		try {
 			this.userRepository.findUserByUsername(username).get_user_name();
 			System.out.println(username + " already exists, go to login page.");
-			return ResponseEntity.ok().build();
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
 
 			// We actually want this to be null (means user doesn't already exist)
 		} catch (NullPointerException e) {
@@ -99,7 +100,7 @@ public class  WebController {
 
 	@PostMapping("/login")
 	@ResponseBody
-	public ResponseEntity login(@RequestBody String json, Model model ) throws JsonProcessingException {
+	public ResponseEntity<?> login(@RequestBody String json, Model model ) throws JsonProcessingException {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
@@ -118,13 +119,13 @@ public class  WebController {
 		catch (Exception e) {
 			model.addAttribute("username", null);
 		}
-		System.out.println("Error");
-		return ResponseEntity.ok().build();
+		System.out.println("Error logging in");
+		return ResponseEntity.status(HttpStatus.CONFLICT).body("Incorrect username or password");
 	}
 
 	@PostMapping("/update/password")
 	@ResponseBody
-	public ResponseEntity updatePassword(@RequestBody String json, HttpServletRequest request) throws JsonProcessingException {
+	public ResponseEntity<?> updatePassword(@RequestBody String json, HttpServletRequest request) throws JsonProcessingException {
 		String username = (String) request.getSession().getAttribute("username");
 
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -147,7 +148,7 @@ public class  WebController {
 			return ResponseEntity.ok().build();
 		}
 		System.out.println("Failed");
-		return ResponseEntity.ok().build();
+		return ResponseEntity.status(HttpStatus.CONFLICT).body("Incorrect username or password");
 	}
 
 	@GetMapping(path = "/whoami", produces = "text/plain")
@@ -198,7 +199,7 @@ public class  WebController {
 	// being resolved
 	@PostMapping("/clear/user/{user_id}")
 	@ResponseBody
-	public ResponseEntity removeUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
+	public ResponseEntity<?> removeUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
 		System.out.println("Deleting playlists of user");
 		this.playlistRepository.deletePlaylistByUser(this.userRepository.findUserByUserId(user_id));
 		System.out.println("Deleting entries in playlists of user's tracks");
@@ -226,7 +227,7 @@ public class  WebController {
 	// Needs to be called exclusively after already clearing a user
 	@PostMapping("/delete/user/{user_id}")
 	@ResponseBody
-	public ResponseEntity deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
+	public ResponseEntity<?> deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
 		this.userRepository.deleteById(user_id);
 		return ResponseEntity.ok().build();
 	}
@@ -294,7 +295,7 @@ public class  WebController {
 
 	@PostMapping("/delete/track/{track_id}")
 	@ResponseBody
-	public ResponseEntity deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
+	public ResponseEntity<?> deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
 		this.playlistService.removeTrackFromAllPlaylists(track_id);
 		this.likedTrackRepository.deleteLikedTrackByTrack(this.trackRepository.findTrackByTrackId(track_id));
 		this.trackRepository.deleteTracksByTrackId(track_id);
@@ -387,7 +388,7 @@ public class  WebController {
 	 */
 	@PostMapping("/like/track/")
 	@ResponseBody
-	public ResponseEntity likeTrack(@RequestBody String json) throws JsonProcessingException {
+	public ResponseEntity<?> likeTrack(@RequestBody String json) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 		Track track = this.trackRepository.findTrackByTrackName(inputMap.get("track_name"));
@@ -398,7 +399,7 @@ public class  WebController {
 
 	@PostMapping("/unlike/track/")
 	@ResponseBody
-	public ResponseEntity unlikeTrack(@RequestBody String json) throws JsonProcessingException {
+	public ResponseEntity<?> unlikeTrack(@RequestBody String json) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 		Track track = this.trackRepository.findTrackByTrackName(inputMap.get("track_name"));
@@ -406,5 +407,4 @@ public class  WebController {
 		this.likedTrackRepository.deleteLikedTrackByUserAndTrack(user, track);
 		return ResponseEntity.ok().build();
 	}
-
 }
