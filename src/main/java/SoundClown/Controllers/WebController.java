@@ -444,8 +444,13 @@ public class  WebController {
 	public ResponseEntity<?> likeTrack(@RequestBody String json) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		Track track = this.trackRepository.findTrackByTrackName(inputMap.get("track_name"));
-		User user = this.userRepository.findUserByUserId(Long.parseLong(inputMap.get("user_id")));
+		Track track = this.trackRepository.findTrackByTrackId(Long.parseLong(inputMap.get("track_id")));
+		User user = this.userRepository.findUserByUsername(inputMap.get("user_name"));
+		System.out.println(track);
+		System.out.println(user);
+		if (this.likedTrackRepository.findLikedTrackByUserAndTrack(user, track) != null) {
+			return ResponseEntity.badRequest().build();
+		}
 		this.likedTrackService.create_likedtrack(user, track);
 		return ResponseEntity.ok().build();
 	}
@@ -455,9 +460,35 @@ public class  WebController {
 	public ResponseEntity<?> unlikeTrack(@RequestBody String json) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
-		Track track = this.trackRepository.findTrackByTrackName(inputMap.get("track_name"));
-		User user = this.userRepository.findUserByUserId(Long.parseLong(inputMap.get("user_id")));
+		Track track = this.trackRepository.findTrackByTrackId(Long.parseLong(inputMap.get("track_id")));
+		User user = this.userRepository.findUserByUsername(inputMap.get("user_name"));
+		System.out.println(track);
+		System.out.println(user);
+		if (this.likedTrackRepository.findLikedTrackByUserAndTrack(user, track) == null) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Can't unlike non-existent track!");
+		}
 		this.likedTrackRepository.deleteLikedTrackByUserAndTrack(user, track);
 		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/get/liked/track/")
+	@ResponseBody
+	public ResponseEntity<?> getLikedTrack(@RequestBody String json) throws JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		Track track = this.trackRepository.findTrackByTrackId(Long.parseLong(inputMap.get("track_id")));
+		User user = this.userRepository.findUserByUsername(inputMap.get("user_name"));
+		if (this.likedTrackRepository.findLikedTrackByUserAndTrack(user, track) != null) {
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.CONFLICT).body("Can't relike same track!");
+	}
+
+	@GetMapping("/get/liked/tracks/{user_name}")
+	@ResponseBody
+	public List<LikedTrack> getLikedTracks(@PathVariable String user_name){
+		User user = this.userRepository.findUserByUsername(user_name);
+		System.out.println("Accessing " + user + "'s liked tracks");
+		return this.likedTrackRepository.findLikedTracksCreatedByUser(user);
 	}
 }
