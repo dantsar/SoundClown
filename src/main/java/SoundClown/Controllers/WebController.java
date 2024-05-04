@@ -270,6 +270,13 @@ public class  WebController {
 		return this.trackRepository.findTrackByTrackId(track_id);
 	}
 
+
+	@GetMapping("/get/track/track_name/{track_name}")
+	@ResponseBody
+	public Track findtrack_trackname(@PathVariable("track_name") String track_name) {
+		return this.trackRepository.findTrackByTrackName(track_name);
+	}
+
     @PostMapping("/create/track")
 	@ResponseBody
     public Long createTrack(@RequestBody String json, HttpServletRequest request) throws JsonProcessingException {
@@ -280,10 +287,23 @@ public class  WebController {
 
 		User user = this.userRepository.findUserByUsername(username);
 
+		if (user == null) {
+			// return error, you can't upload if you're not signed in
+			System.out.println("User doens't exist");
+			return -2L;
+		}
+
 		String track_name = inputMap.get("track_name");
 		String track_path = inputMap.get("track_path");
 		String description = inputMap.get("description");
 
+		if (this.trackRepository.findTrackByTrackNameAndArtists(track_name, user) != null ) {
+			// return error, track doesnt exist
+			System.out.println("Track already exists");
+			return -1L;
+		}
+
+		System.out.println("Created track");
         return this.trackService.create_track(
 			track_name,
 			track_path,
@@ -292,15 +312,6 @@ public class  WebController {
 			user
         );
     }
-
-	/*
-	@PostMapping("/delete/track/{track_id}")
-	@ResponseBody
-    public void deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
-        this.trackService.delete_track(track_id);
-    }
-
-	 */
 
 	@PostMapping("/delete/track/{track_id}")
 	@ResponseBody
