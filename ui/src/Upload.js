@@ -36,6 +36,7 @@ const Upload = () => {
             return res.json();
         })
         .then(track_id => {
+            console.log(track_id);
             setIsPending(false);
             setError(null);
 
@@ -64,7 +65,16 @@ const Upload = () => {
                     })
                 }
             })
-            navigate("/");
+            if (track_id < 0) {
+                if (track_id === -1) {
+                    setError("Track already exists");
+                } else {
+                    setError("Not signed in!")
+                }
+                console.log(error);
+            } else {
+                navigate("/");
+            }
         })
     }
 
@@ -119,6 +129,7 @@ const Upload = () => {
 
                 <button> Submit </button>
             </form>
+            {error && <p style={{color: 'red'}}>{error}</p>}
         </div>
     );
 }
