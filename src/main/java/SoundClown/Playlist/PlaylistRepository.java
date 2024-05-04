@@ -18,7 +18,10 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     Playlist findPlaylistByPlaylistId(Long playlist_id);
 
     @Query("select u from #{#entityName} u where u.playlist_name = ?1")
-    List<Playlist> findPlaylistByPlaylistName(String playlist_name);
+    Playlist findPlaylistByPlaylistName(String playlist_name);
+
+    @Query("select u from #{#entityName} u where u.user= ?1")
+    List<Playlist> findPlaylistsByUser(User user);
 
     @Modifying
     @Transactional
