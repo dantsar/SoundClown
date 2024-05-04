@@ -200,15 +200,19 @@ public class  WebController {
 	@PostMapping("/clear/user/{user_id}")
 	@ResponseBody
 	public ResponseEntity<?> removeUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
+		// Delete playlists
 		System.out.println("Deleting playlists of user");
 		this.playlistRepository.deletePlaylistByUser(this.userRepository.findUserByUserId(user_id));
+
+		// Delete entries of users tracks from other users playlists
 		System.out.println("Deleting entries in playlists of user's tracks");
 		List<Track> user_tracks = this.trackRepository.findTracksByArtistId(user_id);
 		for (Track t : user_tracks) {
 			this.playlistService.removeTrackFromAllPlaylists(t.get_track_id());
 		}
-		System.out.println("Deleting user's liked tracks");
+
 		// Delete the user's tracks that others have liked
+		System.out.println("Deleting user's liked tracks");
 		for (Track t: user_tracks) {
 			List<LikedTrack> user_likedtracks = this.likedTrackRepository.findLikedTracksByTrack((t));
 			for (int i = 0; i < user_likedtracks.size(); i++) {
@@ -218,7 +222,12 @@ public class  WebController {
 		// Delete the users liked tracks
 		this.likedTrackRepository.deleteLikedTracksByUser(this.userRepository.findUserByUserId(user_id));
 		System.out.println("Deleting user's tracks");
+
+		//Delete the tracks created by the user
+		System.out.println(user_id);
 		this.trackRepository.deleteTracksByArtistId(user_id);
+
+		// Now delete the user
 		System.out.println("Deleting user");
 		this.userRepository.deleteById(user_id);
 		return ResponseEntity.ok().build();
@@ -302,6 +311,20 @@ public class  WebController {
 		return ResponseEntity.ok().build();
 	}
 
+	@PostMapping("/play/track/{track_id}")
+	@ResponseBody
+	public ResponseEntity<?> playTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
+		System.out.println("Plaing track " + track_id);
+		Track track = this.trackRepository.findTrackByTrackId(track_id);
+		if (track != null) {
+			int plays = track.get_plays();
+			plays += 1;
+			track.set_plays(plays);
+			this.trackRepository.save(track);
+		}
+		return ResponseEntity.ok().build();
+	}
+
 	/*
 	 Playlist Functions
 	 */
@@ -313,9 +336,28 @@ public class  WebController {
 		return this.playlistService.get_playlists();
 	}
 
+	@GetMapping("/get/user/playlists")
+	@ResponseBody
+	public List<Playlist> getUsersPlaylists(HttpServletRequest request) {
+		String username = (String) request.getSession().getAttribute("username");
+		if (username == null) {
+			System.out.println("Not signed in");
+			return null;
+		}
+		System.out.println("User is: " + username);
+		User user = this.userRepository.findUserByUsername(username);
+		return this.playlistRepository.findPlaylistsByUser(user);
+	}
+
+	@GetMapping("/get/user/playlist/{playlist_id}")
+	@ResponseBody
+	public Playlist findPlaylist(@PathVariable("playlist_id") Long playlist_id) {
+		return playlistRepository.findPlaylistByPlaylistId(playlist_id);
+	}
+
 	@GetMapping("/get/playlist/{playlist_name}")
 	@ResponseBody
-	public List<Playlist> findPlaylist(@PathVariable("playlist_name") String playlist_name) {
+	public Playlist findPlaylist(@PathVariable("playlist_name") String playlist_name) {
 		return playlistRepository.findPlaylistByPlaylistName(playlist_name);
 	}
 
