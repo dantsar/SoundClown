@@ -31,22 +31,31 @@ const MyTracks = () => {
             console.error('Error:', error);
             setDeleteStatus('Failed to delete track');
         }
+        // There has to be a better way than reloading
+        //window.location.reload();
     };
 
     return (
         <div className="home">
-            { error && <div>{ error }</div> }
-            { tracksIsPending && <div>Loading...</div> }
+            {tracksIsPending && <div>Loading...</div>}
             {/* users && <UserList users={users} title="All Users!"/>  */}
-            { tracks && <TrackList tracks={tracks} title="My Tracks!"/> }
-            {deleteStatus && <div>{deleteStatus}</div>}
-            <input
-                type="text"
-                value={track}
-                onChange={(e) => setTrack(e.target.value)}
-                placeholder="Enter the track to delete"
-            />
-            <button onClick={handleDeleteButtonClick}>Delete Track</button>
+            {tracks && <TrackList tracks={tracks} title="My Tracks!"/>}
+            <div className="delete-track-container">
+                <div className="delete-input">
+                    <input
+                        type="text"
+                        value={track}
+                        onChange={(e) => setTrack(e.target.value)}
+                        placeholder="Enter the track to delete"
+                    />
+                    <button onClick={handleDeleteButtonClick}>Delete Track</button>
+                </div>
+                {deleteStatus && (
+                    <div className={`delete-status ${deleteStatus.startsWith('Failed') ? 'error' : 'success'}`}>
+                        {deleteStatus}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

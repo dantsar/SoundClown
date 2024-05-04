@@ -179,3 +179,217 @@
     margin-left: 30px; /* Adjust the margin as needed */
 }
 
+.delete-track-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.delete-status {
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.delete-status.error {
+    background-color: #ff6347; /* Light coral */
+}
+
+.delete-status.success {
+    background-color: #ff5500; /* Lime green */
+}
+
+.delete-input {
+    display: flex;
+    align-items: center;
+}
+
+.delete-input input {
+    padding: 8px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.delete-input button {
+    padding: 8px 20px;
+    background-color: #ff5500; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-input button:hover {
+    background-color: #ff5500; /* Darker blue */
+}
+
+.upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.upload form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.upload label {
+    margin-top: 10px;
+}
+
+.upload input[type="text"],
+.upload textarea,
+.upload input[type="file"] {
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 400px;
+}
+
+.upload textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.upload button {
+    margin-top: 10px;
+    padding: 8px 20px;
+    background-color: #ff5500; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload button:hover {
+    background-color: #ff5500; /* Darker blue */
+}
+
+.upload p.error {
+    margin-top: 10px;
+    color: #ff6347; /* Light coral */
+    font-weight: bold;
+}
+
+.whoAmI {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.whoAmI p {
+    margin-top: 10px;
+}
+
+.whoAmI button {
+    margin-top: 10px;
+    padding: 8px 20px;
+    background-color: #ff5500; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.whoAmI button:hover {
+    background-color: #ff5500; /* Darker blue */
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.login h1, .login h2 {
+    margin-bottom: 10px;
+}
+
+.login label {
+    margin-top: 10px;
+}
+
+.login input {
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.login button {
+    margin-top: 10px;
+    padding: 8px 20px;
+    background-color: #ff5500; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login button:hover {
+    background-color: #ff5500; /* Darker blue */
+}
+
+.login p {
+    margin-top: 20px;
+}
+
+.createuser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.createuser h1 {
+    margin-bottom: 10px;
+}
+
+.createuser label {
+    margin-top: 10px;
+}
+
+.createuser input {
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.createuser button {
+    margin-top: 20px;
+    padding: 8px 20px;
+    background-color: #ff5500; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.createuser button:hover {
+    background-color: #ff5500; /* Darker blue */
+}
+
+.createuser p {
+    margin-top: 20px;
+    color: red;
+}

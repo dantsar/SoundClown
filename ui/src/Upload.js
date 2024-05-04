@@ -78,8 +78,6 @@ const Upload = () => {
         })
     }
 
-
-
     return (
         <div className='upload'>
             <h1>Upload a Track</h1>
@@ -88,25 +86,13 @@ const Upload = () => {
                     Track Name:
                 </label>
                 <input type="text"
-                    id="trackname"
-                    name="trackname"
-                    placeholder="Enter the track name"
-                    required
-                    value={track_name}
-                    onChange={(e) => setTrackName(e.target.value)}
+                       id="trackname"
+                       name="trackname"
+                       placeholder="Enter the track name"
+                       required
+                       value={track_name}
+                       onChange={(e) => setTrackName(e.target.value)}
                 />
-
-                {/* <label htmlFor="artist_id">
-                    Artist ID:
-                </label>
-                <input type="number"
-                    id="artist_id"
-                    name="artist_id"
-                    placeholder="Enter the artist id"
-                    required
-                    value={artist_id}
-                    onChange={(e) => setArtistId(e.target.value)}
-                /> */}
 
                 <label htmlFor="description">
                     Description:
@@ -118,18 +104,18 @@ const Upload = () => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 >
-                </textarea>
+            </textarea>
 
                 <input type="file"
-                    id="file"
-                    name="file"
-                    required
-                    onChange={(e) => setSelectedFile(e.target.files[0])}
+                       id="file"
+                       name="file"
+                       required
+                       onChange={(e) => setSelectedFile(e.target.files[0])}
                 />
 
-                <button> Submit </button>
+                <button>Submit</button>
             </form>
-            {error && <p style={{color: 'red'}}>{error}</p>}
+            {error && <p className="error">{error}</p>}
         </div>
     );
 }

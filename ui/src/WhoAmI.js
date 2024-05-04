@@ -36,6 +36,7 @@ const WhoAmI = () => {
         navigate('/login'); // Navigate to the login page
     };
 
+    /*
     if (user_name == "null") {
         return (
             <div className="whoAmI">
@@ -52,6 +53,25 @@ const WhoAmI = () => {
             </div>
         );
     }
+
+     */
+    return (
+        <div className="whoAmI">
+            {user_name === "null" ? (
+                <>
+                    <p>Currently Not Logged In!</p>
+                    <button onClick={handleLoginClick}>Login</button>
+                </>
+            ) : (
+                <>
+                    <p>User: {user_name}</p>
+                    <p>Want to login to another account?</p>
+                    <button onClick={handleLoginClick}>Login</button>
+                </>
+            )}
+        </div>
+    );
+
 }
 
 export default WhoAmI
