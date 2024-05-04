@@ -64,6 +64,7 @@ const TrackDetails = (props) => {
             // Handle network error or any other errors
             console.error('Error:', error);
         }
+        //window.location.reload();
     };
 
     const handleLikeButtonClick = async () => {
@@ -91,6 +92,7 @@ const TrackDetails = (props) => {
             // Handle network error or any other errors
             console.error('Error:', error);
         }
+        window.location.reload();
     };
 
     const handleUnlikeButtonClick= async () => {
@@ -118,6 +120,7 @@ const TrackDetails = (props) => {
             // Handle network error or any other errors
             console.error('Error:', error);
         }
+        window.location.reload();
     };
 
     return (
