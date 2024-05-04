@@ -13,6 +13,9 @@ import java.util.List;
 @Repository
 public interface LikedTrackRepository extends JpaRepository<LikedTrack, Long> {
 
+    @Query("select  u from #{#entityName} u where u.user= ?1 and u.track = ?2")
+    LikedTrack findLikedTrackByUserAndTrack(User user, Track track);
+
     @Query("select  u from #{#entityName} u where u.user= ?1")
     List<LikedTrack> findLikedTracksCreatedByUser(User user);
 
