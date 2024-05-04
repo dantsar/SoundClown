@@ -10,7 +10,6 @@ const CreateUser = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         const user = {user_name, password};
         const response = await fetch('http://localhost:8080/register', {
             method: 'POST',
