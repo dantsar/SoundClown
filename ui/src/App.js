@@ -16,6 +16,7 @@ import Cookies from 'js-cookie';
 import User from './User.js';
 
 function App() {
+    const username = Cookies.get("username");
     const [currentTrack, setCurrentTrack] = useState('');
     const audioRef = useRef(null);
 

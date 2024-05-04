@@ -27,6 +27,7 @@ const Login = () => {
             Cookies.set('username', user_name);
             navigate("/");
         }
+        window.location.reload();
     }
 
     return (
