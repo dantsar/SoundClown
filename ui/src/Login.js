@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink, useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Login = () => {
 
@@ -22,6 +23,8 @@ const Login = () => {
         if (!response.ok) {
              setError("true");
         } else {
+            console.log("Setting cookie")
+            Cookies.set('username', user_name);
             navigate("/");
         }
     }

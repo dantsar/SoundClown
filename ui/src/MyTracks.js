@@ -1,10 +1,11 @@
 import UserList from './UserList';
 import TrackList from './TrackList';
 import useFetchUserTracks from './useFetchUserTracks';
+import Cookies from 'js-cookie';
+import User from './User';
 
 const MyTracks = () => {
     const { data: tracks, tracksIsPending, error } = useFetchUserTracks('http://localhost:8080/get/user/tracks');
-    console.log(tracks);
 
     // console.log("Users");
     // console.log(users);

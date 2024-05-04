@@ -19,9 +19,6 @@ function App() {
     const [currentTrack, setCurrentTrack] = useState('');
     const audioRef = useRef(null);
 
-    const userCookie = Cookies.get(User);
-    console.log(userCookie);
-
     // const setTrack = (path) => {
     //     setCurrentTrack(path);
     //     if(audioRef.current) {
