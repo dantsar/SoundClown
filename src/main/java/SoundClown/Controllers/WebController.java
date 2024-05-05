@@ -197,16 +197,18 @@ public class  WebController {
 	// There are some JPA synchronization issues that are really strange
 	// Can't delete the user within the clear post request because it won't identify the foreign key constraints as
 	// being resolved
-	@PostMapping("/clear/user/{user_id}")
+	@PostMapping("/clear/user/{user_name}")
 	@ResponseBody
-	public ResponseEntity<?> removeUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
+	public ResponseEntity<?> removeUser(@PathVariable("user_name") String user_name) throws JsonProcessingException {
+		User user = this.userRepository.findUserByUsername(user_name);
+
 		// Delete playlists
 		System.out.println("Deleting playlists of user");
-		this.playlistRepository.deletePlaylistByUser(this.userRepository.findUserByUserId(user_id));
+		this.playlistRepository.deletePlaylistByUser(user);
 
 		// Delete entries of users tracks from other users playlists
 		System.out.println("Deleting entries in playlists of user's tracks");
-		List<Track> user_tracks = this.trackRepository.findTracksByArtistId(user_id);
+		List<Track> user_tracks = this.trackRepository.findTracksByArtistId(user.get_user_id());
 		for (Track t : user_tracks) {
 			this.playlistService.removeTrackFromAllPlaylists(t.get_track_id());
 		}
@@ -220,24 +222,24 @@ public class  WebController {
 			}
 		}
 		// Delete the users liked tracks
-		this.likedTrackRepository.deleteLikedTracksByUser(this.userRepository.findUserByUserId(user_id));
+		this.likedTrackRepository.deleteLikedTracksByUser(user);
 		System.out.println("Deleting user's tracks");
 
 		//Delete the tracks created by the user
-		System.out.println(user_id);
-		this.trackRepository.deleteTracksByArtistId(user_id);
+		System.out.println(user);
+		this.trackRepository.deleteTracksByArtistId(user.get_user_id());
 
 		// Now delete the user
 		System.out.println("Deleting user");
-		this.userRepository.deleteById(user_id);
+		this.userRepository.deleteById(user.get_user_id());
 		return ResponseEntity.ok().build();
 	}
 
 	// Needs to be called exclusively after already clearing a user
-	@PostMapping("/delete/user/{user_id}")
+	@PostMapping("/delete/user/{user_name}")
 	@ResponseBody
-	public ResponseEntity<?> deleteUser(@PathVariable("user_id") Long user_id) throws JsonProcessingException {
-		this.userRepository.deleteById(user_id);
+	public ResponseEntity<?> deleteUser(@PathVariable("user_name") String user_name) throws JsonProcessingException {
+		this.userRepository.deleteUserByUsername(user_name);
 		return ResponseEntity.ok().build();
 	}
 	// Need to fix JPA constraint issue to resolve foreign key problem here
