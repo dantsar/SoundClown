@@ -28,7 +28,7 @@ const DisplayTrack = (props) => {
         <div>
             { isLoading && <div>Loading...</div> }
             { error && <div>Unable to load track</div> }
-            {audioSrc && <audio ref={props.audioRef} src={audioSrc} type="audio/mpeg" controls />}
+            {audioSrc && <audio ref={props.audioRef} src={audioSrc} type="audio/mpeg"/>}
         </div>
     );
 };

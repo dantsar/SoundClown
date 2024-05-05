@@ -9,7 +9,7 @@ const AudioPlayer = (props) => {
         <div className="audioplayer">
             <div className="inner">
                 <DisplayTrack currentTrack={props.currentTrack} audioRef={props.audioRef}/>
-                <Controls />
+                <Controls audioRef={props.audioRef}/>
                 <ProgressBar />
             </div>
         </div>
