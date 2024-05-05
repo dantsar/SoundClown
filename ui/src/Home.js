@@ -3,11 +3,12 @@ import LikedTrackList from './LikedTrackList';
 import useFetch from './useFetch';
 import Cookies from 'js-cookie';
 import React, {useState} from "react";
+import RecTrackList from "./RecTrackList";
 
 const Home = () => {
     const username= Cookies.get('username');
     const { data: likedTracks, likedTracksIsPending } = useFetch('http://localhost:8080/get/liked/tracks/' + username);
-
+    const { data: recTracks, recTracksIsPending} = useFetch('http://localhost:8080/get/recommended/tracks');
     const [tracks, setTracks] = useState([]);
     const [trackName, setTrackName] = useState('');
     const [tracksIsPending, setTracksIsPending] = useState(false);
@@ -73,12 +74,20 @@ const Home = () => {
             ) : (
                 <>
                     <h2 style={{marginTop: '10px', marginBottom: '10px'}}>Liked Tracks!</h2>
-                    <p style={{marginTop: '10px', marginBottom: '10px', fontWeight: 'bold'}}>So empty...</p>
+                    <p style={{marginTop: '10px', marginBottom: '10px'}}>So empty...</p>
                 </>
             )}
-            <div className="recommended-tracks" style={{marginBottom: '10px', marginTop: '20px'}}>
-                <h2>Recommended Tracks</h2>
-            </div>
+            {recTracks && recTracks.length > 0 ? (
+                <div className="recommended-tracks" style={{marginBottom: '10px', marginTop: '20px'}}>
+                    <h2>Recommended Tracks</h2>
+                    <RecTrackList recTracks={recTracks}/>
+                </div>
+            ) : (
+                <>
+                    <h2>Recommended Tracks</h2>
+                    <p style={{marginTop: '10px', marginBottom: '10px'}}>Need more tracks to make a suggestion.</p>
+                </>
+            )}
         </div>
     );
 }
