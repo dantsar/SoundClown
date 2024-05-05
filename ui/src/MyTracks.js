@@ -6,7 +6,7 @@ import React, {useState} from "react";
 
 const MyTracks = () => {
     const username = Cookies.get("username");
-    const {data: tracks, tracksIsPending, error} = useFetchUserTracks('http://localhost:8080/get/user/tracks');
+    const {data: tracks, tracksIsPending, error} = useFetchUserTracks('http://localhost:8080/get/user/tracks/' + username);
     const [track, setTrack] = useState('');
     const [deleteStatus, setDeleteStatus] = useState(null);
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const MyTracks = () => {
             setDeleteStatus('Track deleted successfully');
         } catch (error) {
             console.error('Error:', error);
-            setDeleteStatus('Failed to delete track');
+            setDeleteStatus("Can't delete another user's track!");
         }
         // There has to be a better way than reloading
         //window.location.reload();

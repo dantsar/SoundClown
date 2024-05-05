@@ -3,14 +3,19 @@ import useFetch from './useFetch';
 import User from './User';
 import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
+import user from "./User";
 
 const TrackDetails = (props) => {
     const username = Cookies.get("username");
     const { track_id } = useParams();
     const [liked, setLiked] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
     const { data: track, error, isPending } = useFetch("http://localhost:8080/get/track/" + track_id);
 
     useEffect(() => {
+        if (username == null) {
+            return;
+        }
         const fetchLikedStatus = async () => {
             try {
                 const response = await fetch('http://localhost:8080/get/liked/track/', {
@@ -68,6 +73,10 @@ const TrackDetails = (props) => {
     };
 
     const handleLikeButtonClick = async () => {
+        if (username == null) {
+            setErrorMsg("Not signed in!");
+            return;
+        }
         try {
             const response = await fetch('http://localhost:8080/like/track/', {
                 method: 'POST',
@@ -96,6 +105,10 @@ const TrackDetails = (props) => {
     };
 
     const handleUnlikeButtonClick= async () => {
+        if (username == null) {
+            setErrorMsg("Not signed in!");
+            return;
+        }
         try {
             const response = await fetch('http://localhost:8080/unlike/track/', {
                 method: 'POST',
@@ -199,6 +212,7 @@ const TrackDetails = (props) => {
                     </div>
                 </article>
             )}
+            {errorMsg && <p className="error">{errorMsg}</p>}
         </div>
     );
 }
