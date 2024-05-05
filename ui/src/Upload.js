@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 const Upload = () => {
+    const username= Cookies.get("username");
     // these have to correspond to db entries
     const [track_name, setTrackName] = useState('');
     // const [artist_id, setArtistId] = useState('');
@@ -19,10 +21,18 @@ const Upload = () => {
             track_path,
             // artist_id,
             description,
+            username,
         };
 
         setIsPending(true);
 
+        if (username == null) {
+            if (username == null) {
+                setIsPending(false);
+                setError("Not signed in!");
+                return; // Prevent further execution of the function
+            }
+        }
         fetch('http://localhost:8080/create/track', {
             method: 'POST',
             headers: { "dataType": "text" },

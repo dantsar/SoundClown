@@ -6,36 +6,12 @@ import Cookies from "js-cookie";
 
 const WhoAmI = () => {
     const username = Cookies.get('username');
-    const [user_name, setUsername] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchUsername = async () => {
-          try {
-            const response = await fetch('http://localhost:8080/whoami', {
-              method: 'GET',
-              headers: { "Accept": "text/plain" }, // Expecting text
-              credentials: 'include', // This is important for cookies to be sent and received
-            });
-
-            if (!response.ok) {
-              throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            const text = await response.text(); // Get the text response
-
-            setUsername(text); // Set username with text response
-          } catch (error) {
-            // setError('There has been a problem with your fetch operation: ' + error.message);
-            console.error('There has been a problem with your fetch operation:', error);
-          }
-        };
-
-        fetchUsername();
-      }, []); // Empty dependency array ensures this only runs once
-
-    const handleLoginClick = () => {
+    const handleLoginClick = async () => {
         Cookies.remove("username");
         navigate('/login'); // Navigate to the login page
+        window.location.reload();
     };
 
     const handleDeleteClick = async () => {
@@ -75,14 +51,14 @@ const WhoAmI = () => {
 
     return (
         <div className="whoAmI">
-            {user_name === "null" ? (
+            {username == null ? (
                 <>
                     <p>Currently Not Logged In!</p>
                     <button onClick={handleLoginClick}>Login</button>
                 </>
             ) : (
                 <>
-                    <p>User: {user_name}</p>
+                    <p>User: {username}</p>
                     <p>Want to login to another account?</p>
                     <button onClick={handleLoginClick}>Logout</button>
                     <p>Would you like to delete your account?</p>
