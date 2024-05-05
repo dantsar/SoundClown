@@ -273,10 +273,10 @@ public class  WebController {
 	}
 
 
-	@GetMapping("/get/track/track_name/{track_name}")
+	@GetMapping("/get/tracks/track_name/{track_name}")
 	@ResponseBody
-	public Track findtrack_trackname(@PathVariable("track_name") String track_name) {
-		return this.trackRepository.findTrackByTrackName(track_name);
+	public List<Track> findtrack_trackname(@PathVariable("track_name") String track_name) {
+		return this.trackRepository.findTracksByTrackName(track_name);
 	}
 
     @PostMapping("/create/track")
@@ -416,11 +416,11 @@ public class  WebController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 		Long playlist_id = Long.parseLong(inputMap.get("playlist_id"));
-		String track_name = inputMap.get("track_name");
+		Long track_id = Long.parseLong(inputMap.get("track_name"));
 
 		Playlist playlist = this.playlistRepository.findPlaylistByPlaylistId(playlist_id);
 
-		Track track = this.trackRepository.findTrackByTrackName(track_name);
+		Track track = this.trackRepository.findTrackByTrackId(track_id);
 		playlist.add_track(track);
 
 		return this.playlistService.update_playlist(playlist);
@@ -433,10 +433,10 @@ public class  WebController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 		Long playlist_id = Long.parseLong(inputMap.get("playlist_id"));
-		String track_name = inputMap.get("track_name");
+		Long track_id = Long.parseLong(inputMap.get("track_name"));
 
 		Playlist playlist = this.playlistRepository.findPlaylistByPlaylistId(playlist_id);
-		Track track = this.trackRepository.findTrackByTrackName(track_name);
+		Track track = this.trackRepository.findTrackByTrackId(track_id);
 		this.playlistService.removeTrackFromPlaylist(playlist_id, track.get_track_id());
 	}
 

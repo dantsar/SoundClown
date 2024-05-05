@@ -21,7 +21,7 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
     Track findTrackByArtistId(Long track_id);
 
     @Query("select u from #{#entityName} u where u.track_name = ?1")
-    Track findTrackByTrackName(String track_name);
+    List<Track> findTracksByTrackName(String track_name);
 
     @Query("select u from #{#entityName} u where u.track_name = ?1 and u.artist=?2")
     Track findTrackByTrackNameAndArtists(String track_name, User artist);
