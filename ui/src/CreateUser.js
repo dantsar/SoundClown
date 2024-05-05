@@ -36,6 +36,7 @@ const CreateUser = () => {
             }).then(() => {
                 setIsPending(false);
                 navigate("/");
+                window.location.reload();
             });
         }
     }
