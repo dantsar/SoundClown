@@ -7,19 +7,24 @@ import useFetchAudio from '../useFetchAudio';
 
 const AudioPlayer = (props) => {
     const { audioSrc, isLoading, error, resetError } = useFetchAudio(props.currentTrack._track_path ? 'http://localhost:8080/' + props.currentTrack._track_path : null);
+    const [timeProgress, setTimeProgress] = useState(0);
+    const [duration, setDuration] = useState(0);
     const audioRef = useRef();
+    const progressBarRef = useRef();
 
     return (
         <div className="audioplayer">
             <div className="inner">
                 <DisplayTrack 
-                    currentTrack={props.currentTrack} 
                     audioRef={audioRef}
-                    setIsPlaying={props.setIsPlaying}
                     audioSrc={audioSrc}
+                    setIsPlaying={props.setIsPlaying}
+                    currentTrack={props.currentTrack} 
                     isLoading={isLoading}
                     error={error}
                     resetError={resetError}
+                    setDuration={setDuration}
+                    progressBarRef={progressBarRef}
                 />
                 <Controls
                     audioRef={audioRef}
@@ -28,8 +33,17 @@ const AudioPlayer = (props) => {
                     setIsPlaying={props.setIsPlaying}
                     currentTrack={props.currentTrack} 
                     setTrack={props.setTrack}
+                    resetError={resetError}
+                    duration={duration}
+                    setTimeProgress={setTimeProgress}
+                    progressBarRef={progressBarRef}
                 />
-                <ProgressBar />
+                <ProgressBar 
+                    audioRef={audioRef}
+                    duration={duration}
+                    timeProgress={timeProgress}
+                    progressBarRef={progressBarRef}
+                />
             </div>
         </div>
     )

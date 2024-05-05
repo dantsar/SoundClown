@@ -1,0 +1,99 @@
+/* Input range - chrome and safari */
+
+input[type="range"] {
+    --range-progress: 0;
+
+    -webkit-appearance: none;
+    position: relative;
+    background:#f2f2f2;
+    width: 100%;
+    height: 40px;
+    border-radius: 0px;
+    cursor: pointer;
+}
+
+/* Input range - firefox */
+input[type="range"]::-moz-range-track {
+position: relative;
+background:#f2f2f2;
+width: 100%;
+height: 40px;
+border-radius: 0px;
+cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: #cccccc;
+}
+
+/* Track - Firefox */
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 2px;
+    background: #cccccc;
+}
+
+/* played progress length - Chrome & safari*/
+input[type="range"]::before {
+    content: '';
+    height: 2px;
+    background: #f50;
+    width: var(--range-progress);
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* played progress length - firefox */
+input[type="range"]::-moz-range-progress {
+    background: #f50;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+    height: 2px;
+}
+
+/* slider thumb - chrome and safari */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    border: none;
+    background-color: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    transition: background-color 0.2s ease;
+}
+
+/* dragging thumb - chrome and safari */
+input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+}
+
+/* slider thumb - firefox */
+input[type="range"]::-moz-range-thumb {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+    border: transparent;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+/* dragging thumb - firefox */
+input[type="range"]:active::-moz-range-thumb {
+    transform: scale(1.2);
+}
+
+input[type="range"]:hover::-webkit-slider-thumb,
+input[type="range"]:hover::-moz-range-thumb {
+    background-color: #ff5500;
+}
+

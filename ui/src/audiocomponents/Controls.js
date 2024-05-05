@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 // icons
 import {
@@ -15,10 +15,23 @@ const Controls = (props) => {
     const togglePlayPause = () => {
         props.setIsPlaying((prev) => !prev);
     };
+    
+    const playAnimationRef = useRef();
+
+    const repeat = useCallback(() => {
+        const currentTime = props.audioRef.current.currentTime;
+        props.setTimeProgress(currentTime);
+        props.progressBarRef.current.value = currentTime;
+        props.progressBarRef.current.style.setProperty(
+            '--range-progress',
+            `${(props.progressBarRef.current.value / props.duration) * 100}%`
+        );
+
+        playAnimationRef.current = requestAnimationFrame(repeat);
+    }, [props.audioRef, props.duration, props.progressBarRef, props.setTimeProgress]);
 
     useEffect(() => {
         const storedTrack = sessionStorage.getItem('currentTrack');
-        console.log(storedTrack)
         if (storedTrack) {
             const track = JSON.parse(storedTrack);
             props.setTrack(track);
@@ -32,6 +45,7 @@ const Controls = (props) => {
             } else {
                 props.audioRef.current.pause();
             }
+            playAnimationRef.current = requestAnimationFrame(repeat);
         };
 
         if (props.audioSrc && props.audioRef.current) {
@@ -51,7 +65,37 @@ const Controls = (props) => {
                 props.audioRef.current.removeEventListener('canplaythrough', handleCanPlayThrough);
             }
         };
-    }, [props.isPlaying]);
+    }, [props.isPlaying, repeat]);
+
+    useEffect(() => {
+        const audioElement = props.audioRef.current;
+
+        const handlePlay = () => {
+            props.setIsPlaying(true);
+        };
+
+        const handlePause = () => {
+            props.setIsPlaying(false);
+        };
+
+        const handleError = () => {
+            props.setIsPlaying(false);
+            props.resetError();
+        };
+
+        if (audioElement) {
+            audioElement.addEventListener('play',handlePlay);
+            audioElement.addEventListener('pause',handlePause);
+            audioElement.addEventListener('error',handleError);
+
+            return () => {
+            audioElement.removeEventListener('play',handlePlay);
+            audioElement.removeEventListener('pause',handlePause);
+            audioElement.removeEventListener('error',handleError);
+            };
+        }
+    }, [props.audioRef, props.audioSrc]);
+
     return (
         <div className="controls-wrapper">
             <div className="controls">
