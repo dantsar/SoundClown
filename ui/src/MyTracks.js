@@ -40,6 +40,12 @@ const MyTracks = () => {
         navigate('/upload'); // Navigate to the upload page when clicked
     };
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleDeleteButtonClick();
+        }
+    };
+
     return (
         <div className="all-tracks">
             {tracks && tracks.length > 0 ? (
@@ -52,6 +58,7 @@ const MyTracks = () => {
                                 value={track}
                                 onChange={(e) => setTrack(e.target.value)}
                                 placeholder="Enter the track to delete"
+                                onKeyPress={handleKeyPress}
                             />
                             <button onClick={handleDeleteButtonClick}>Delete Track</button>
                         </div>
