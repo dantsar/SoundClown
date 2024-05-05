@@ -172,12 +172,12 @@
 }
 
 .button-container {
-    margin-top: 5px; /* Adjust the margin as needed */
+    margin-top: 5px;
 }
 
 .like-button,
 .unlike-button {
-    margin-left: 30px; /* Adjust the margin as needed */
+    margin-left: 30px;
 }
 
 .delete-track-container {
@@ -198,11 +198,11 @@
 }
 
 .delete-status.error {
-    background-color: #ff6347; /* Light coral */
+    background-color: #ff6347;
 }
 
 .delete-status.success {
-    background-color: #ff5500; /* Lime green */
+    background-color: #ff5500;
 }
 
 .delete-input {
@@ -219,7 +219,7 @@
 
 .delete-input button {
     padding: 8px 20px;
-    background-color: #ff5500; /* Blue */
+    background-color: #ff5500;
     color: white;
     border: none;
     border-radius: 5px;
@@ -228,7 +228,12 @@
 }
 
 .delete-input button:hover {
-    background-color: #ff5500; /* Darker blue */
+    background-color: #ff5500;
+}
+ .my-tracks {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
 }
 
 .upload {
@@ -268,7 +273,7 @@
 .upload button {
     margin-top: 10px;
     padding: 8px 20px;
-    background-color: #ff5500; /* Blue */
+    background-color: #ff5500;
     color: white;
     border: none;
     border-radius: 5px;
@@ -277,12 +282,12 @@
 }
 
 .upload button:hover {
-    background-color: #ff5500; /* Darker blue */
+    background-color: #ff5500;
 }
 
 .upload p.error {
     margin-top: 10px;
-    color: #ff6347; /* Light coral */
+    color: #ff6347;
     font-weight: bold;
 }
 
@@ -300,7 +305,7 @@
 .whoAmI button {
     margin-top: 10px;
     padding: 8px 20px;
-    background-color: #ff5500; /* Blue */
+    background-color: #ff5500;
     color: white;
     border: none;
     border-radius: 5px;
@@ -309,7 +314,7 @@
 }
 
 .whoAmI button:hover {
-    background-color: #ff5500; /* Darker blue */
+    background-color: #ff5500;
 }
 
 .login {
@@ -337,7 +342,7 @@
 .login button {
     margin-top: 10px;
     padding: 8px 20px;
-    background-color: #ff5500; /* Blue */
+    background-color: #ff5500;
     color: white;
     border: none;
     border-radius: 5px;
@@ -346,7 +351,7 @@
 }
 
 .login button:hover {
-    background-color: #ff5500; /* Darker blue */
+    background-color: #ff5500;
 }
 
 .login p {
@@ -378,7 +383,7 @@
 .createuser button {
     margin-top: 20px;
     padding: 8px 20px;
-    background-color: #ff5500; /* Blue */
+    background-color: #ff5500;
     color: white;
     border: none;
     border-radius: 5px;
@@ -387,7 +392,7 @@
 }
 
 .createuser button:hover {
-    background-color: #ff5500; /* Darker blue */
+    background-color: #ff5500;
 }
 
 .createuser p {
@@ -397,7 +402,7 @@
 
 .search {
     display: flex;
-    flex-direction: column; /* Ensure elements are stacked vertically */
+    flex-direction: column;
 }
 
 .search-input-container {
@@ -433,6 +438,10 @@
 
 .search-results {
     margin-top: 10px;
+}
+
+.error {
+    color: #ff5500;
 }
 
 

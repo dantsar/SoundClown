@@ -18,10 +18,13 @@ const Navbar = () => {
                     <NavLink to="/all-tracks">All Tracks</NavLink>
                 </div>
                 <div className="navbar-right">
-                    <NavLink to="/my-tracks">My Tracks</NavLink>
-                    <NavLink to="/upload">Upload</NavLink>
                     {username ? (
+                        <>
+                        <NavLink to="/my-playlists">My Playlists</NavLink>
+                        <NavLink to="/my-tracks">My Tracks</NavLink>
+                        <NavLink to="/upload">Upload</NavLink>
                         <NavLink to="/whoami">{username}</NavLink>
+                        </>
                     ) : (
                         <NavLink to="/login">Login</NavLink>
                     )}

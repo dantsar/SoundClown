@@ -3,7 +3,7 @@ import { NavLink, useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
 
 const Login = () => {
-
+    const userCookie = Cookies.get("username");
     const [user_name, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");

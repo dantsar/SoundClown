@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 @EnableConfigurationProperties(AudioStorageProperties.class)
 @CrossOrigin(origins = "http://localhost:3000") // the origin of the frontend
-@SessionAttributes("username")
+//@SessionAttributes("username")
 //@SessionAttributes({"username", "password"})
 public class  WebController {
 
@@ -100,8 +100,7 @@ public class  WebController {
 
 	@PostMapping("/login")
 	@ResponseBody
-	public ResponseEntity<?> login(@RequestBody String json, Model model ) throws JsonProcessingException {
-
+	public ResponseEntity<?> login(@RequestBody String json) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 		String username = inputMap.get("user_name");
@@ -110,14 +109,13 @@ public class  WebController {
 		try {
 			Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			if (authentication.isAuthenticated()) {
-				model.addAttribute("username", username);
 				System.out.println("Authenticated user: " + username);
 				return ResponseEntity.ok().build();
 			}
 		}
 		// Exception means we failed
 		catch (Exception e) {
-			model.addAttribute("username", null);
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Incorrect username or password");
 		}
 		System.out.println("Error logging in");
 		return ResponseEntity.status(HttpStatus.CONFLICT).body("Incorrect username or password");
@@ -125,14 +123,13 @@ public class  WebController {
 
 	@PostMapping("/update/password")
 	@ResponseBody
-	public ResponseEntity<?> updatePassword(@RequestBody String json, HttpServletRequest request) throws JsonProcessingException {
-		String username = (String) request.getSession().getAttribute("username");
-
+	public ResponseEntity<?> updatePassword(@RequestBody String json) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 
-		String old_pw = inputMap.get("old");
-		String new_pw = inputMap.get("new");
+		String old_pw   = inputMap.get("old");
+		String new_pw   = inputMap.get("new");
+		String username = inputMap.get("username");
 
 		System.out.println("old " + old_pw);
 		System.out.println("new " + new_pw);
@@ -151,6 +148,7 @@ public class  WebController {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body("Incorrect username or password");
 	}
 
+	/*
 	@GetMapping(path = "/whoami", produces = "text/plain")
 	@ResponseBody
 	public String whoami (HttpServletRequest request) {
@@ -168,6 +166,7 @@ public class  WebController {
 		return ret_username;
 		// return ResponseEntity.ok().build();
 	}
+	 */
 
 	@GetMapping("/get/allusers")
 	@ResponseBody
@@ -176,6 +175,7 @@ public class  WebController {
 		return this.userService.getAllUsers();
 	}
 
+	/*
 	@GetMapping("/get/user")
 	@ResponseBody
 	public User getCurrentUser(HttpServletRequest request) {
@@ -187,11 +187,18 @@ public class  WebController {
 		System.out.println("User is: " + username);
 		return this.userRepository.findUserByUsername(username);
 	}
+	 */
 
 	@GetMapping("/get/user/{user_id}")
 	@ResponseBody
 	public User findUser(@PathVariable("user_id") Long user_id) {
 		return this.userRepository.findUserByUserId(user_id);
+	}
+
+	@GetMapping("/get/username/{username}")
+	@ResponseBody
+	public User findUserById(@PathVariable("username") String username) {
+		return this.userRepository.findUserByUsername(username);
 	}
 
 	// There are some JPA synchronization issues that are really strange
@@ -253,10 +260,9 @@ public class  WebController {
 		return this.trackService.get_tracks();
 	}
 
-	@GetMapping("/get/user/tracks")
+	@GetMapping("/get/user/tracks/{username}")
 	@ResponseBody
-	public List<Track> getUsersTracks(HttpServletRequest request) {
-		String username = (String) request.getSession().getAttribute("username");
+	public List<Track> getUsersTracks(@PathVariable String username) {
 		if (username == null) {
 			System.out.println("Not signed in");
 			return null;
@@ -281,11 +287,11 @@ public class  WebController {
 
     @PostMapping("/create/track")
 	@ResponseBody
-    public Long createTrack(@RequestBody String json, HttpServletRequest request) throws JsonProcessingException {
-		String username = (String) request.getSession().getAttribute("username");
+    public Long createTrack(@RequestBody String json) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+		String username = inputMap.get("username");
 
 		User user = this.userRepository.findUserByUsername(username);
 
@@ -325,6 +331,9 @@ public class  WebController {
 		String track_name = inputMap.get("track_name");
 		User user = this.userRepository.findUserByUsername(user_name);
 		Track track = this.trackRepository.findTrackByTrackNameAndArtists(track_name, user);
+		if (track == null) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Can't remove another user's track!");
+		}
 		this.playlistService.removeTrackFromAllPlaylists(track.get_track_id());
 		this.likedTrackRepository.deleteLikedTrackByTrack(track);
 		this.trackRepository.deleteTracksByTrackId(track.get_track_id());
@@ -368,10 +377,9 @@ public class  WebController {
 		return this.playlistService.get_playlists();
 	}
 
-	@GetMapping("/get/user/playlists")
+	@GetMapping("/get/user/playlists/{username}")
 	@ResponseBody
-	public List<Playlist> getUsersPlaylists(HttpServletRequest request) {
-		String username = (String) request.getSession().getAttribute("username");
+	public List<Playlist> getUsersPlaylists(@PathVariable String username) {
 		if (username == null) {
 			System.out.println("Not signed in");
 			return null;
