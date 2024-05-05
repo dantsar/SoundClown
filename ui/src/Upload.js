@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 
@@ -12,7 +12,16 @@ const Upload = () => {
     const [description, setDescription] = useState('');
     const [selectedFile, setSelectedFile] = useState('');
     const navigate = useNavigate();
+    const [errorMsg, setErrorMsg] = useState("");
 
+
+    useEffect(() => {
+        if (username == null) {
+            setErrorMsg("Not signed in!");
+        } else {
+            setErrorMsg(null);
+        }
+    }, []);
     const handleSubmit = (e) => {
         e.preventDefault();
         const track_path = "download/" + track_name;
@@ -90,42 +99,64 @@ const Upload = () => {
 
     return (
         <div className='upload'>
-            <h1>Upload a Track</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="trackname">
-                    Track Name:
-                </label>
-                <input type="text"
-                       id="trackname"
-                       name="trackname"
-                       placeholder="Enter the track name"
-                       required
-                       value={track_name}
-                       onChange={(e) => setTrackName(e.target.value)}
-                />
+            {errorMsg ? (
+                    <>
+                        <p className="error">{errorMsg}</p>
+                        <button onClick={() => navigate('/login')}
+                                style={{
+                                    backgroundColor: '#ff5500',
+                                    border: 'none',
+                                    color: 'white',
+                                    padding: '5px 10px',
+                                    textAlign: 'center',
+                                    textDecoration: 'none',
+                                    display: 'inline-block',
+                                    fontSize: '16px',
+                                    borderRadius: '4px',
+                                    marginTop: '10px'
+                                }}>Login</button>
+                    </>
 
-                <label htmlFor="description">
-                    Description:
-                </label>
-                <textarea
-                    id="description"
-                    name="description"
-                    placeholder="Enter a description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                >
-            </textarea>
+            ) : (
+                <>
+                <h1>Upload a Track</h1>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="trackname">
+                        Track Name:
+                    </label>
+                    <input type="text"
+                           id="trackname"
+                           name="trackname"
+                           placeholder="Enter the track name"
+                           required
+                           value={track_name}
+                           onChange={(e) => setTrackName(e.target.value)}
+                    />
 
-                <input type="file"
-                       id="file"
-                       name="file"
-                       required
-                       onChange={(e) => setSelectedFile(e.target.files[0])}
-                />
+                    <label htmlFor="description">
+                        Description:
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Enter a description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    >
+                </textarea>
 
-                <button>Submit</button>
-            </form>
-            {error && <p className="error">{error}</p>}
+                    <input type="file"
+                           id="file"
+                           name="file"
+                           required
+                           onChange={(e) => setSelectedFile(e.target.files[0])}
+                    />
+
+                    <button>Submit</button>
+                </form>
+                {error && <p className="error">{error}</p>}
+                </>
+            )}
         </div>
     );
 }
