@@ -56,7 +56,8 @@ const TrackDetails = (props) => {
 
             // Handle the response
             if (response.ok) {
-                props.setTrack(track._track_path)
+                props.setTrack(track);
+                props.setIsPlaying(true);
             } else {
                 // Handle error response
             }

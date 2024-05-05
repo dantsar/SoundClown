@@ -20,15 +20,11 @@ function App() {
     const username = Cookies.get("username");
     const [currentTrack, setCurrentTrack] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
-    const audioRef = useRef(null);
 
-    const setTrack = useCallback((path) => {
-        setCurrentTrack(path);
-        if(audioRef.current) {
-            setIsPlaying(true);
-            audioRef.current.play();
-        }
-    });
+    const setTrack = useCallback((track) => {
+        setCurrentTrack(track);
+        sessionStorage.setItem('currentTrack', JSON.stringify(track));
+    }, [setCurrentTrack]);
 
     return (
         <Router>
@@ -70,7 +66,7 @@ function App() {
                         />
                         <Route
                             path="track/:track_id"
-                            element={<TrackDetails setTrack={setTrack}/>}
+                            element={<TrackDetails setTrack={setTrack} setIsPlaying={setIsPlaying}/>}
                         />
                         <Route
                             path="whoami"
@@ -80,9 +76,9 @@ function App() {
                 </div>
                 <AudioPlayer 
                     currentTrack={currentTrack} 
-                    audioRef={audioRef} 
                     isPlaying={isPlaying}
                     setIsPlaying={setIsPlaying}
+                    setTrack={setTrack}
                 />
             </div>
         </Router>

@@ -8,16 +8,26 @@ const useFetchAudio = (url) => {
     const resetError = () => {
         setError(null)
     };
-
     useEffect(() => {
+        let storedAudioUrl = sessionStorage.getItem('audioUrl')
         if (!url)
         {
-            return;
+            if (storedAudioUrl === "null")
+            {
+                return;
+            }
         }
+        else 
+        {
+            storedAudioUrl = url;
+        }
+
+        sessionStorage.setItem('audioUrl', storedAudioUrl);
+
         const fetchAudio = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(url);
+                const response = await fetch(storedAudioUrl);
 
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

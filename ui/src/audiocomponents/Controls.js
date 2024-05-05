@@ -17,15 +17,41 @@ const Controls = (props) => {
     };
 
     useEffect(() => {
-        if (props.audioRef.current) {
+        const storedTrack = sessionStorage.getItem('currentTrack');
+        console.log(storedTrack)
+        if (storedTrack) {
+            const track = JSON.parse(storedTrack);
+            props.setTrack(track);
+        }
+    }, [props.setTrack]);
+
+    useEffect(() => {
+        const handleCanPlayThrough = () => {
             if (props.isPlaying) {
                 props.audioRef.current.play();
             } else {
                 props.audioRef.current.pause();
             }
-        }
-    }, [props.isPlaying, props.audioRef]);
+        };
 
+        if (props.audioSrc && props.audioRef.current) {
+            const audioElement = props.audioRef.current;
+
+            audioElement.addEventListener('canplaythrough', handleCanPlayThrough);
+
+            // If audio is already loaded, handle play/pause immediately
+            if (audioElement.readyState >= 3) {
+                handleCanPlayThrough();
+            }
+        }
+
+        return () => {
+            // Clean up event listener when component unmounts or dependencies change
+            if (props.audioRef.current) {
+                props.audioRef.current.removeEventListener('canplaythrough', handleCanPlayThrough);
+            }
+        };
+    }, [props.isPlaying]);
     return (
         <div className="controls-wrapper">
             <div className="controls">
