@@ -10,11 +10,23 @@ const DisplayTrack = (props) => {
             audioElement.play();
         };
 
+        const handlePlay = () => {
+            props.setIsPlaying(true);
+        };
+
+        const handlePause = () => {
+            props.setIsPlaying(false);
+        };
+
         if (audioElement) {
             audioElement.addEventListener('canplay', handleCanPlay);
+            audioElement.addEventListener('play',handlePlay);
+            audioElement.addEventListener('pause',handlePause);
 
             return () => {
-                audioElement.removeEventListener('canplay', handleCanPlay);
+            audioElement.removeEventListener('canplay', handleCanPlay);
+            audioElement.removeEventListener('play',handlePlay);
+            audioElement.removeEventListener('pause',handlePause);
             };
         }
     }, [props.audioRef, audioSrc]);

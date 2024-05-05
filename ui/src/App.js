@@ -19,11 +19,13 @@ import User from './User.js';
 function App() {
     const username = Cookies.get("username");
     const [currentTrack, setCurrentTrack] = useState('');
+    const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
 
     const setTrack = useCallback((path) => {
         setCurrentTrack(path);
         if(audioRef.current) {
+            setIsPlaying(true);
             audioRef.current.play();
         }
     });
@@ -76,7 +78,12 @@ function App() {
                         />
                     </Routes>
                 </div>
-                <AudioPlayer currentTrack={currentTrack} audioRef={audioRef} />
+                <AudioPlayer 
+                    currentTrack={currentTrack} 
+                    audioRef={audioRef} 
+                    isPlaying={isPlaying}
+                    setIsPlaying={setIsPlaying}
+                />
             </div>
         </Router>
     );

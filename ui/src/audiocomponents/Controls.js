@@ -11,19 +11,20 @@ import {
 } from 'react-icons/io5';
 
 const Controls = (props) => {
-    const [isPlaying, setIsPlaying] = useState(false);
 
     const togglePlayPause = () => {
-        setIsPlaying((prev) => !prev);
+        props.setIsPlaying((prev) => !prev);
     };
 
     useEffect(() => {
-        if (isPlaying) {
-            props.audioRef.current.play();
-        } else {
-            props.audioRef.current.pause();
+        if (props.audioRef.current) {
+            if (props.isPlaying) {
+                props.audioRef.current.play();
+            } else {
+                props.audioRef.current.pause();
+            }
         }
-    }, [isPlaying, props.audioRef]);
+    }, [props.isPlaying, props.audioRef]);
 
     return (
         <div className="controls-wrapper">
@@ -35,7 +36,7 @@ const Controls = (props) => {
                     <IoPlayBackSharp />
                 </button>
                 <button onClick = {togglePlayPause}>
-                    {isPlaying ? <IoPauseSharp /> : <IoPlaySharp />}
+                    {props.isPlaying ? <IoPauseSharp /> : <IoPlaySharp />}
                 </button>
                 <button>
                     <IoPlayForwardSharp />
