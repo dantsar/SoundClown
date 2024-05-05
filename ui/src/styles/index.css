@@ -2,7 +2,7 @@
 
 * {
     margin: 0;
-    font-family: "Inter";
+    font-family: "Sans Serif", monospace;
     color: #333;
 }
 .navbar {
@@ -444,4 +444,27 @@
     color: #ff5500;
 }
 
+.audioplayer {
+    background: #f2f2f2;
+}
 
+.inner {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.time {
+    font-family: 'Sans Serif', monospace;
+}
+.time.current {
+    font-family: 'Sans Serif', monospace;
+    color: #ff5500;
+}
+
+.progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 70%;
+}

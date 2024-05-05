@@ -1,9 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import '../styles/progress-bar.css';
 
 const ProgressBar = (props) => {
+    const [isMouseUp, setIsMouseUp] = useState(false);
+
     const handleProgressChange = () => {
-        props.audioRef.current.currentTime = props.progressBarRef.current.value;
+        if (isMouseUp) {
+            props.audioRef.current.currentTime = props.progressBarRef.current.value;
+        }
+    };
+
+    const handleMouseDown = () => {
+        setIsMouseUp(false);
+    };
+
+    const handleMouseUp = () => {
+        setIsMouseUp(true);
     };
 
     const formatTime = (time) => {
@@ -18,6 +30,7 @@ const ProgressBar = (props) => {
         }
         return '00:00';
     };
+
     return (
         <div className="progress">
             <span className="time current">{formatTime(props.timeProgress)}</span>
@@ -26,6 +39,8 @@ const ProgressBar = (props) => {
                 ref={props.progressBarRef}
                 defaultValue="0"
                 onChange={handleProgressChange}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
             />
             <span className="time">{formatTime(props.duration)}</span>
         </div>
