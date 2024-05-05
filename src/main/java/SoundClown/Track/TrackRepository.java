@@ -29,6 +29,9 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
     @Query("select u from #{#entityName} u where u.artist_id = ?1")
     List<Track> findTracksByArtistId(Long artist_id);
 
+    @Query("select u from #{#entityName} u order by u.plays desc")
+    List<Track> findMostPlayedTracks();
+
     @Modifying
     @Transactional
     @Query("delete from #{#entityName} u where u.artist_id = ?1")

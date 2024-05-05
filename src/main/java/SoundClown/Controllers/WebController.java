@@ -291,7 +291,7 @@ public class  WebController {
 
 		if (user == null) {
 			// return error, you can't upload if you're not signed in
-			System.out.println("User doens't exist");
+			System.out.println("User doesn't exist");
 			return -2L;
 		}
 
@@ -355,6 +355,18 @@ public class  WebController {
 			this.trackRepository.save(track);
 		}
 		return ResponseEntity.ok().build();
+	}
+	// Will just recommend the top 3 tracks with the most plays
+	@GetMapping("/get/recommended/tracks")
+	@ResponseBody
+	public List<Track> recommendedTracks() {
+		List<Track> mostPlayed = this.trackRepository.findMostPlayedTracks();
+		if (mostPlayed.size() >= 3) {
+			return mostPlayed.subList(0, 3);
+		}
+		return mostPlayed;
+
+		//return this.trackRepository.findMostPlayedTracks();
 	}
 
 	/*
