@@ -8,21 +8,18 @@ import TrackDetails from './TrackDetails';
 import WhoAmI from './WhoAmI';
 import Upload from './Upload';
 import MyTracks from './MyTracks';
+import AllTracks from './AllTracks';
 import AudioPlayer from './audiocomponents/AudioPlayer';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import { useRef, useState, useCallback } from 'react';
+// My imports
+import Cookies from 'js-cookie';
+import User from './User.js';
 
 function App() {
+    const username = Cookies.get("username");
     const [currentTrack, setCurrentTrack] = useState('');
     const audioRef = useRef(null);
-
-    // const setTrack = (path) => {
-    //     setCurrentTrack(path);
-    //     if(audioRef.current) {
-    //         audioRef.current.play();
-    //     }
-    //     console.log(path);
-    // };
 
     const setTrack = useCallback((path) => {
         setCurrentTrack(path);
@@ -44,6 +41,10 @@ function App() {
                         <Route
                             path="all-users"
                             element={<AllUsers />}
+                        />
+                        <Route
+                            path="all-tracks"
+                            element={<AllTracks />}
                         />
                         <Route
                             path="my-tracks"

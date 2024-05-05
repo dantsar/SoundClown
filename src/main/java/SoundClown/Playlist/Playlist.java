@@ -16,16 +16,13 @@ public class Playlist {
     @Column(name="playlist_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long playlist_id;
-
     @Column(name="playlist_name", length = 500)
     private String playlist_name;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-
-    //@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "playlist_track",
             joinColumns = @JoinColumn(name = "playlist_id"),
@@ -50,10 +47,10 @@ public class Playlist {
     @Override
     public String toString() {
         return "Playlist{" +
-               "playlist_id=" + playlist_id +
-               ", user=" + user.toString() +
-               ", tracks=" + tracks +
-               ", playlist_name=" + playlist_name + '\n' +
-               '}';
+                "playlist_id=" + playlist_id +
+                ", user=" + user.toString() +
+                ", tracks=" + tracks +
+                ", playlist_name=" + playlist_name + '\n' +
+                '}';
     }
 }
