@@ -75,42 +75,6 @@ const CreateUser = () => {
         </div>
     );
 
-    /*
-    return (
-        <div className="createuser">
-            <h1>Create a New SoundClown User</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="username">
-                    Username:
-                </label>
-                <input type="text"
-                       id="username"
-                       name="username"
-                       placeholder="Enter your Username"
-                       required
-                       value={user_name}
-                       onChange={(e) => setUsername(e.target.value)}
-                />
-
-                <label htmlFor="password">
-                    Password:
-                </label>
-                <input type="password"
-                       id="password"
-                       name="password"
-                       placeholder="Enter your Password"
-                       required
-                       value={password}
-                       onChange={(e) => setPassword(e.target.value)}
-                />
-
-                <button> Submit </button>
-            </form>
-            {error && <p style={{ color: 'red' }}>User already exists!</p>}
-        </div>
-    );
-
-     */
 }
 
 export default CreateUser;

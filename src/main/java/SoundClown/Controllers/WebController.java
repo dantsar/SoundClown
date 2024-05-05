@@ -315,18 +315,6 @@ public class  WebController {
         );
     }
 
-	/*
-	@PostMapping("/delete/track/{track_id}")
-	@ResponseBody
-	public ResponseEntity<?> deleteTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
-		this.playlistService.removeTrackFromAllPlaylists(track_id);
-		this.likedTrackRepository.deleteLikedTrackByTrack(this.trackRepository.findTrackByTrackId(track_id));
-		this.trackRepository.deleteTracksByTrackId(track_id);
-		return ResponseEntity.ok().build();
-	}
-
-	 */
-
 	@PostMapping("/delete/track/")
 	@ResponseBody
 	public ResponseEntity<?> deleteTrack(@RequestBody String json) throws JsonProcessingException {

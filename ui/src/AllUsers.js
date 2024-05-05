@@ -4,12 +4,7 @@ import useFetch from './useFetch';
 
 const AllUsers = () => {
     const { data: users, isPending, error } = useFetch('http://localhost:8080/get/allusers');
-    //const { data: tracks, tracksIsPending } = useFetch('http://localhost:8080/get/alltracks');
 
-    // console.log("Users");
-    // console.log(users);
-    // console.log("Tracks");
-    // console.log(tracks);
     return (
         <div className="home">
             { error && <div>{ error }</div> }

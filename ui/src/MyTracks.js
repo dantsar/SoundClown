@@ -98,27 +98,3 @@ const MyTracks = () => {
 }
 
 export default MyTracks;
-
-
-/*
-<div className="home">
-    {tracksIsPending && <div>Loading...</div>}
-    {tracks && <TrackList tracks={tracks} title="My Tracks!"/>}
-    <div className="delete-track-container">
-        <div className="delete-input">
-            <input
-                type="text"
-                value={track}
-                onChange={(e) => setTrack(e.target.value)}
-                placeholder="Enter the track to delete"
-            />
-            <button onClick={handleDeleteButtonClick}>Delete Track</button>
-        </div>
-        {deleteStatus && (
-            <div className={`delete-status ${deleteStatus.startsWith('Failed') ? 'error' : 'success'}`}>
-                {deleteStatus}
-            </div>
-        )}
-    </div>
-</div>
-*/
