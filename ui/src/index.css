@@ -55,6 +55,7 @@
 .track-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    margin-top:10px;
     gap: 20px;
 }
 
@@ -393,3 +394,45 @@
     margin-top: 20px;
     color: red;
 }
+
+.search {
+    display: flex;
+    flex-direction: column; /* Ensure elements are stacked vertically */
+}
+
+.search-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.search-button {
+    background-color: #ff5500;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #ff5500;
+}
+
+.search-results {
+    margin-top: 10px;
+}
+
+
