@@ -122,35 +122,83 @@ const TrackDetails = (props) => {
         }
         window.location.reload();
     };
-
     return (
-        <div className="track-details">
-            { isPending && <div>Loading...</div> }
-            { error && <div>{ error }</div> }
-            { track &&(
+        <div className="track-details" style={{ marginTop: '20px', marginBottom: '20px', padding: '20px', border: '1px solid #ff5500', borderRadius: '5px' }}>
+            {isPending && <div>Loading...</div>}
+            {error && <div>{error}</div>}
+            {track && (
                 <article>
-                    <h2>Track: {track._track_name}</h2>
-                    <p style={{
-                        float: "left",
-                    }}>Artist:&nbsp;</p>
-                    <User user_id={track._artist_id}/>
-                    <p>Description: {track._description}</p>
-                    <p>Plays: {track._plays}</p>
+                    <h2 style={{ marginBottom: '10px', color: '#ff5500' }}>Track: {track._track_name}</h2>
+                    <div style={{ marginBottom: '10px',  overflow: 'hidden' }}>
+                        <p style={{ float: "left" }}>Artist:&nbsp;</p>
+                        <User user_id={track._artist_id} />
+                    </div>
+                    <p style={{ marginBottom: '10px' }}>Description: {track._description}</p>
+                    <p style={{ marginBottom: '10px' }}>Plays: {track._plays}</p>
                     <div className="button-container">
-                        <button onClick={handlePlayButtonClick}>Play</button>
-                        { !liked &&
-                            <button className="like-button" onClick={handleLikeButtonClick}>
+                        <button
+                            onClick={handlePlayButtonClick}
+                            style={{
+                                backgroundColor: '#ff5500',
+                                border: 'none',
+                                color: 'white',
+                                padding: '10px 20px',
+                                textAlign: 'center',
+                                textDecoration: 'none',
+                                display: 'inline-block',
+                                fontSize: '16px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                marginRight: '10px',
+                            }}
+                        >
+                            Play
+                        </button>
+                        {!liked && (
+                            <button
+                                className="like-button"
+                                onClick={handleLikeButtonClick}
+                                style={{
+                                    backgroundColor: '#2196F3',
+                                    border: 'none',
+                                    color: 'white',
+                                    padding: '10px 20px',
+                                    textAlign: 'center',
+                                    textDecoration: 'none',
+                                    display: 'inline-block',
+                                    fontSize: '16px',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    marginRight: '10px',
+                                }}
+                            >
                                 Add this track to your likes!
                             </button>
-                        }
-                        { liked &&
-                            <button className="unlike-button" onClick={handleUnlikeButtonClick}>
+                        )}
+                        {liked && (
+                            <button
+                                className="unlike-button"
+                                onClick={handleUnlikeButtonClick}
+                                style={{
+                                    backgroundColor: '#f44336',
+                                    border: 'none',
+                                    color: 'white',
+                                    padding: '10px 20px',
+                                    textAlign: 'center',
+                                    textDecoration: 'none',
+                                    display: 'inline-block',
+                                    fontSize: '16px',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    marginRight: '10px',
+                                }}
+                            >
                                 Remove this track from your likes!
                             </button>
-                        }
+                        )}
                     </div>
                 </article>
-                )}
+            )}
         </div>
     );
 }
