@@ -20,6 +20,7 @@ const MyPlaylists = () => {
         }
     }, []);
 
+
     const handleCreatePlaylistOnClick = () => {
         navigate('/create-playlist');
     };
