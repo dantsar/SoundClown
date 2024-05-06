@@ -20,9 +20,9 @@ const Controls = (props) => {
 
     const repeat = useCallback(() => {
         const currentTime = props.audioRef.current.currentTime;
-        props.setTimeProgress(currentTime);
 
         props.progressBarRef.current.value = props.isMouseDown ? props.sliderValue : currentTime;
+        props.setTimeProgress(props.progressBarRef.current.value);
         props.progressBarRef.current.style.setProperty(
             '--range-progress',
             `${(props.progressBarRef.current.value / props.duration) * 100}%`
