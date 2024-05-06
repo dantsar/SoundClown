@@ -7,7 +7,7 @@ const UserList = ({users, title}) => {
             {users.map((user) => (
                 <div className="user-preview" key={user._user_id}>
                     <Link to ={`/user/${user._user_id}`}>
-                        <p>User: { user._user_name }</p>
+                        <p>User: { user._user_name } | ID: {user._user_id}</p>
                         {/* <p>Password: { user._password }</p>
                         <p>User ID: { user._user_id }</p> */}
                     </Link>

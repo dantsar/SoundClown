@@ -143,7 +143,7 @@ const Upload = () => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     >
-                </textarea>
+                    </textarea>
 
                     <input type="file"
                            id="file"

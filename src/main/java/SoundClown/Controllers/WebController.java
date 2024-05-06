@@ -343,7 +343,7 @@ public class  WebController {
 	@PostMapping("/play/track/{track_id}")
 	@ResponseBody
 	public ResponseEntity<?> playTrack(@PathVariable("track_id") Long track_id) throws JsonProcessingException {
-		System.out.println("Plaing track " + track_id);
+		System.out.println("Playing track " + track_id);
 		Track track = this.trackRepository.findTrackByTrackId(track_id);
 		if (track != null) {
 			int plays = track.get_plays();
@@ -407,14 +407,24 @@ public class  WebController {
         System.out.println(json);
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
+        String username = inputMap.get("username");
 
-		Long user_id =  Long.parseLong(inputMap.get("user_id"));
-		User user = this.userRepository.findUserByUserId(user_id);
+		User user = this.userRepository.findUserByUsername(username);
+
+        if (user == null) {
+			System.out.println("User doesn't exist");
+			return false;
+        }
+
+        String playlist_name = inputMap.get("playlist_name");
+		String description = inputMap.get("description");
+
+        System.out.print("Created Playlist");
 
         return this.playlistService.create_playlist(
-				user,
-                inputMap.get("playlist_name"),
-				inputMap.get("description")
+            user,
+            playlist_name,
+            description
         );
     }
 

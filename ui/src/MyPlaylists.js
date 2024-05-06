@@ -1,4 +1,4 @@
-import TrackList from './TrackList';
+import PlaylistList from './PlaylistList';
 import useFetchUserPlaylists from './useFetchUserPlaylists';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 
 const MyPlaylists = () => {
     const username = Cookies.get("username");
-    const {data: playlists, playlistsIsPending, error} = useFetchUserPlaylists('http://localhost:8080/get/user/playlists/' + username);
+    const {data: playlists, isPlaylistsPending, error} = useFetchUserPlaylists('http://localhost:8080/get/user/playlists/' + username);
     // const [playlist, setPlaylist] = useState('');
     // const [deleteStatus, setDeleteStatus] = useState(null);
     const navigate = useNavigate();
@@ -26,6 +26,9 @@ const MyPlaylists = () => {
 
     return (
         <div className='my-playlists'>
+            { error && <div>{ error }</div> }
+            { isPlaylistsPending && <div>Loading...</div> }
+            { playlists && <PlaylistList playlists={playlists} title="My Playlists!"/> }
             <button onClick={handleCreatePlaylistOnClick}>
                 Create a Playlist
             </button>

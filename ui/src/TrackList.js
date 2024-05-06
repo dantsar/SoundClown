@@ -6,8 +6,8 @@ const TrackList = ({tracks, title}) => {
         <div className='track-wrapper'>
             <h2> {title} </h2>
             <div className="track-list">
-                {tracks.map((track) => (
-                    <div className="track-preview" key={track._track_id}>
+                {tracks.map((track, index) => (
+                    <div className="track-preview" key={`${track._track_id}_${index}`}>
                         <Link to ={`/track/${track._track_id}`}>
                             <h2>{ track._track_name }</h2>
                             <div>
