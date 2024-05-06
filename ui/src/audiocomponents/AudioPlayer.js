@@ -17,17 +17,6 @@ const AudioPlayer = (props) => {
     return (
         <div className="audioplayer">
             <div className="inner">
-                <DisplayTrack 
-                    audioRef={audioRef}
-                    audioSrc={audioSrc}
-                    setIsPlaying={props.setIsPlaying}
-                    currentTrack={props.currentTrack} 
-                    isLoading={isLoading}
-                    error={error}
-                    resetError={resetError}
-                    setDuration={setDuration}
-                    progressBarRef={progressBarRef}
-                />
                 <Controls
                     audioRef={audioRef}
                     audioSrc = {audioSrc}
@@ -50,6 +39,17 @@ const AudioPlayer = (props) => {
                     isMouseDown={isMouseDown}
                     setIsMouseDown={setIsMouseDown}
                     setSliderValue={setSliderValue}
+                />
+                <DisplayTrack 
+                    audioRef={audioRef}
+                    audioSrc={audioSrc}
+                    setIsPlaying={props.setIsPlaying}
+                    currentTrack={props.currentTrack} 
+                    isLoading={isLoading}
+                    error={error}
+                    resetError={resetError}
+                    setDuration={setDuration}
+                    progressBarRef={progressBarRef}
                 />
             </div>
         </div>

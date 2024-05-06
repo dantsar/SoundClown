@@ -14,7 +14,7 @@ const DisplayTrack = (props) => {
 
 
     return (
-        <div>
+        <div className='displaytrack'>
             { props.isLoading && <div>Loading...</div> }
             { props.error && <div>Unable to load track</div> }
             { props.audioSrc && <audio 
