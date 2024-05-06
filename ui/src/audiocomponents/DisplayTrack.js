@@ -23,7 +23,7 @@ const DisplayTrack = (props) => {
                 type="audio/mpeg" 
                 onLoadedMetadata={onLoadedMetadata}
             /> }
-            { props.currentTrack && <div>{props.currentTrack._track_name}</div> }
+            { props.currentTrack && <div>{props.currentTrack._track_name} by {props.currentTrack._artist.username}</div> }
         </div>
     );
 };

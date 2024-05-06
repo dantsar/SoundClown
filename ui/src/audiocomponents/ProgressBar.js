@@ -12,7 +12,9 @@ const ProgressBar = (props) => {
     };
 
     const handleMouseUp = (event) => {
-        props.audioRef.current.currentTime = event.target.value;
+        if (props.audioRef.current) {
+            props.audioRef.current.currentTime = event.target.value;
+        }
         props.setIsMouseDown(false);
     };
 
