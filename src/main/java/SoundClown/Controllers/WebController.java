@@ -413,7 +413,8 @@ public class  WebController {
 
         return this.playlistService.create_playlist(
 				user,
-                inputMap.get("playlist_name")
+                inputMap.get("playlist_name"),
+				inputMap.get("description")
         );
     }
 
@@ -424,7 +425,7 @@ public class  WebController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
 		Long playlist_id = Long.parseLong(inputMap.get("playlist_id"));
-		Long track_id = Long.parseLong(inputMap.get("track_name"));
+		Long track_id = Long.parseLong(inputMap.get("track_id"));
 
 		Playlist playlist = this.playlistRepository.findPlaylistByPlaylistId(playlist_id);
 

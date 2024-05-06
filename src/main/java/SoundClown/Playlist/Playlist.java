@@ -21,6 +21,8 @@ public class Playlist {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(name="description", length = 500)
+    private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -38,11 +40,13 @@ public class Playlist {
     public void set_user(User user)                     { this.user          = user;          }
     public void add_track(Track track)                  { this.tracks.add(track);             }
     public void set_playlist_name(String playlist_name) { this.playlist_name = playlist_name; }
+    public void set_description(String description)     { this.description = description;     }
 
     public Long get_playlist_id()     { return playlist_id;   }
     public User get_user()            { return user;          }
     public List<Track> get_tracks()   { return tracks;        }
     public String get_playlist_name() { return playlist_name; }
+    public String get_description()   { return description;   }
 
     @Override
     public String toString() {
@@ -50,6 +54,7 @@ public class Playlist {
                 "playlist_id=" + playlist_id +
                 ", user=" + user.toString() +
                 ", tracks=" + tracks +
+                ", description=" + description +
                 ", playlist_name=" + playlist_name + '\n' +
                 '}';
     }
