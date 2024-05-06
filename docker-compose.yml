@@ -21,6 +21,8 @@ services:
     - 8080:8080
     ports:
     - 8080:8080
+    volumes:
+      - ./audio_files:/tmp/audio_files
     environment:
     - POSTGRES_DB=postgres
     - POSTGRES_PASSWORD=password
