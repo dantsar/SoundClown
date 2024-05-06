@@ -177,6 +177,7 @@ const Upload = () => {
                     >
                     </textarea>
 
+                    <label for="file">Browse MP3</label>
                     <input type="file"
                            id="file"
                            name="file"
@@ -185,6 +186,7 @@ const Upload = () => {
                            onChange={(e) => setSelectedFile(e.target.files[0])}
                     />
  
+                    <label for="image_file">Browse PNG</label>
                     <input type="file" 
                             id="image_file"
                             name="image_file"
