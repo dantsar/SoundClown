@@ -413,7 +413,8 @@ public class  WebController {
 
         return this.playlistService.create_playlist(
 				user,
-                inputMap.get("playlist_name")
+                inputMap.get("playlist_name"),
+				inputMap.get("description")
         );
     }
 

@@ -22,11 +22,13 @@ public class PlaylistService {
     }
 
     public boolean create_playlist(User user,
-                                   String playlist_name) {
+                                   String playlist_name,
+                                   String description) {
 
         Playlist playlist = new Playlist();
         playlist.set_user(user);
         playlist.set_playlist_name(playlist_name);
+        playlist.set_description(description);
         System.out.println(playlist);
         this.playlistRepository.save(playlist);
         return true;
@@ -80,26 +82,6 @@ public class PlaylistService {
                     playlistRepository.save(p);
                 }
             }
-            /*
-            for (Track t : playlist_tracks) {
-                if (t.get_track_id().equals(trackIdToRemove)) {
-                    playlist_tracks.remove(t);
-                    playlistRepository.save(p);
-                }
-            }
-             */
-            /*
-            Track trackToRemove = p.get_tracks().stream()
-                    .filter(track -> track.get_track_id().equals(trackIdToRemove))
-                    .findFirst().orElse(null);
-            if (trackToRemove != null) {
-                // Remove the track from the playlist
-                p.get_tracks().remove(trackToRemove);
-                // Update the playlist
-                playlistRepository.save(p);
-            }
-
-             */
         }
     }
 }

@@ -43,11 +43,12 @@ public class PlaylistServiceTest {
         Playlist playlist = new Playlist();
         playlist.set_playlist_id(1L);
         playlist.set_playlist_name("playlist_name");
+        playlist.set_description("description");
         playlist.set_user(new User());
 
         when(playlistRepository.save(Mockito.any(Playlist.class))).thenReturn(playlist);
 
-        boolean playlistSaved = playlistService.create_playlist(new User(), "playlist_name");
+        boolean playlistSaved = playlistService.create_playlist(new User(), "playlist_name", "description");
 
         Assertions.assertTrue(playlistSaved);
     }
