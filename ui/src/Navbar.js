@@ -20,8 +20,8 @@ const Navbar = () => {
                 <div className="navbar-right">
                     {username ? (
                         <>
-                        <NavLink to="/my-playlists">My Playlists</NavLink>
-                        <NavLink to="/my-tracks">My Tracks</NavLink>
+                        <NavLink to="/you/playlists">My Playlists</NavLink>
+                        <NavLink to="/you/tracks">My Tracks</NavLink>
                         <NavLink to="/upload">Upload</NavLink>
                         <NavLink to="/whoami">{username}</NavLink>
                         </>
