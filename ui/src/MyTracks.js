@@ -36,12 +36,12 @@ const MyTracks = () => {
                 throw new Error('Failed to delete');
             }
             setDeleteStatus('Track deleted successfully');
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error);
             setDeleteStatus("Can't delete another user's track!");
         }
         // There has to be a better way than reloading
-        //window.location.reload();
     };
 
     const handleUploadClick = () => {

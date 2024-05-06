@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import User from './User';
+import TrackImage from './TrackImage';
 
 const RecTrackList = ({recTracks, title}) => {
     return (
@@ -13,6 +14,7 @@ const RecTrackList = ({recTracks, title}) => {
                             <div>
                                 Uploaded by <User user_id={recTrack._artist_id} />
                             </div>
+                            {recTrack._image_path && <TrackImage image_path={recTrack._image_path} />}
                         </Link>
                     </div>
                 ))}

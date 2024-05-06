@@ -838,3 +838,23 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
+.displaytrack {
+    display: flex;
+    align-items: center;
+}
+
+.displaytrack a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+
+.displaytrack a div {
+  margin-right: 10px;
+}
+
+.displaytrack a div:last-child {
+  margin-right: 0;
+}

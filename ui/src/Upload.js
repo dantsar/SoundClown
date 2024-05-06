@@ -181,13 +181,14 @@ const Upload = () => {
                            id="file"
                            name="file"
                            required
+                            accept=".mp3"
                            onChange={(e) => setSelectedFile(e.target.files[0])}
                     />
  
                     <input type="file" 
                             id="image_file"
                             name="image_file"
-                            required 
+                            accept=".png"
                             onChange={(e) => setSelectedImageFile(e.target.files[0])}
                     />
 

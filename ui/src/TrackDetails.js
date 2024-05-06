@@ -6,6 +6,7 @@ import User from './User';
 import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
 import PopupMessage from './PopupMessage';
+import TrackImage from "./TrackImage";
 import user from "./User";
 
 const TrackDetails = (props) => {
@@ -175,6 +176,7 @@ const TrackDetails = (props) => {
             {track && (
                 <article>
                     <h2 className="track-name">Track: {track._track_name}</h2>
+                    <TrackImage image_path={track._image_path} />
                     <div className="artist-details">
                         <p className="artist-label">Artist:&nbsp;</p>
                         <User user_id={track._artist_id} />
