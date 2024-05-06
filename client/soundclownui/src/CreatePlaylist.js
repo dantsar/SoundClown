@@ -38,7 +38,6 @@ const CreatePlaylist = () => {
         fetch('http://localhost:8080/create/playlist', {
             method: 'POST',
             headers: { "dataType": "text" },
-            credentials: 'include', // Include credentials for cookie support
             body: JSON.stringify(playlist)
         })
         .then(res => {

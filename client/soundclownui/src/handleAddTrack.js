@@ -9,7 +9,6 @@ const handleAddTrack = async (playlist_id, track_id, username,callback) => {
                 'dataType': 'text',
                 // Add any additional headers if needed
             },
-            credentials: 'include', // Include credentials for cookie support
             body: JSON.stringify({
                 playlist_id: String(playlist_id),
                 track_id: String(track_id),

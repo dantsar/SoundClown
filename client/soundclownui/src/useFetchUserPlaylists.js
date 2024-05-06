@@ -12,7 +12,6 @@ const useFetch = (url) => {
         fetch(url, {
             method: 'GET',
             'Content-Type': 'application/json',
-            credentials: 'include', // Include credentials for cookie support
             signal: abortCont.signal,
         })
             .then(res => {

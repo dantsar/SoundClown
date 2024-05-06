@@ -27,7 +27,6 @@ const MyPlaylists = () => {
 
     return (
         <div className='my-playlists'>
-            { error && <div>{ error }</div> }
             { isPlaylistsPending && <div>Loading...</div> }
             { playlists && <PlaylistList playlists={playlists} title="My Playlists!"/> }
             <button onClick={handleCreatePlaylistOnClick}>
