@@ -61,6 +61,9 @@
 .track-wrapper {
     position: relative;
 }
+.track-wrapper h2 {
+    margin-bottom: 10px;
+}
 
 .track-list {
     display: grid;
@@ -71,12 +74,13 @@
 .track-preview {
     padding: 10px 16px;
     border: 1px solid #ff5500;
+    background-color: #f2f2f2;
 }
 
 .track-preview h2 {
     font-size: 20px;
     color: #ff5500;
-    marginBottom: 8px
+    marginBottom: 8px;
 }
 .track-preview a {
     text-decoration: none;
@@ -240,9 +244,10 @@
     background-color: #ff5500;
 }
  .my-tracks {
-    display: flex;
-    flex-direction: column;
     margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .upload {
@@ -528,4 +533,275 @@
 
 .popup button:hover {
     background-color: #0056b3;
+}
+
+.create-playlist {
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.create-playlist label {
+    text-align: left;
+    display: block;
+}
+
+.create-playlist h1 {
+    font-size: 20px;
+    color: #ff5500;
+    margin-bottom: 30px;
+}
+
+.create-playlist input, .create-playlist textarea {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+}
+
+.create-playlist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.create-playlist form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.create-playlist label {
+    margin-top: 10px;
+}
+
+.create-playlist input[type="text"],
+.create-playlist textarea,
+.create-playlist input[type="file"] {
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 400px;
+}
+
+.create-playlist textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.create-playlist button {
+    margin-top: 10px;
+    padding: 8px 20px;
+    background-color: #ff5500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-playlist button:hover {
+    background-color: #ff5500;
+}
+
+.create-playlist p.error {
+    margin-top: 10px;
+    color: #ff6347;
+    font-weight: bold;
+}
+
+.playlist-wrapper {
+    position: relative;
+}
+.playlist-wrapper h2{
+    margin-bottom: 10px;
+}
+
+.playlist-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.playlist-preview {
+    padding: 10px 16px;
+    border: 1px solid #ff5500;
+    background-color: #f2f2f2;
+}
+
+.playlist-preview h2 {
+    font-size: 20px;
+    color: #ff5500;
+    marginBottom: 8px;
+}
+.playlist-preview a {
+    text-decoration: none;
+}
+
+.user-wrapper {
+    position: relative;
+}
+.user-wrapper h2{
+    margin-bottom: 10px;
+}
+
+.user-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.user-preview {
+    padding: 10px 16px;
+    border: 1px solid #ff5500;
+    background-color: #f2f2f2;
+}
+
+.user-preview h2 {
+    font-size: 20px;
+    color: #ff5500;
+    marginBottom: 8px;
+}
+.user-preview a {
+    text-decoration: none;
+}
+
+.track-details-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ff5500;
+    border-radius: 5px;
+}
+
+.track-name {
+    margin-bottom: 10px;
+    color: #ff5500;
+}
+
+.artist-details {
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.artist-label {
+    float: left;
+}
+
+.track-description,
+.track-plays {
+    margin-bottom: 10px;
+}
+
+.button-container {
+    margin-top: 10px;
+}
+
+.action-button {
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.like-button {
+    background-color: #2196F3;
+    border: none;
+    color: white;
+}
+
+.unlike-button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+}
+.select-container {
+    padding-top: 10px;
+}
+
+.select-container select {
+    padding: 8px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.select-container select:hover {
+    border-color: #aaa;
+}
+
+.select-container select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.select-container option {
+    font-size: 16px;
+}
+
+.select-container button {
+    margin-left: 5px;
+    padding: 8px 10px;
+    background-color: #ff5500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.my-playlists {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.my-playlists button {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background-color: #ff5500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.user-details .user-playlists {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.user-details .user-playlists button {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background-color: #ff5500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.user-details .user-tracks {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.playlist-details {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }

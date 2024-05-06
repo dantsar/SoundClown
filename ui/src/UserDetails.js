@@ -34,6 +34,8 @@ const UserDetails = () => {
                 {username === myUsername && <button onClick={handleCreatePlaylistOnClick}>
                     Create a Playlist
                 </button>}
+            </div>
+            <div className='user-tracks'>
                 { tracks && <TrackList tracks={tracks} title={"tracks:"}/> }
             </div>
         </div>

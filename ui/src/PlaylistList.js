@@ -11,7 +11,7 @@ const PlaylistList = ({playlists, title}) => {
                         <Link to ={`/playlist/${playlist._playlist_id}`}>
                             <h2>{ playlist._playlist_name }</h2>
                             <div>
-                                Uploaded by {playlist._user.username}
+                                Created by {playlist._user.username}
                             </div>
                         </Link>
                     </div>

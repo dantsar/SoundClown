@@ -169,81 +169,42 @@ const TrackDetails = (props) => {
 
 
     return (
-        <div className="track-details" style={{ marginTop: '20px', marginBottom: '20px', padding: '20px', border: '1px solid #ff5500', borderRadius: '5px' }}>
+        <div className="track-details-container">
             {isPending && <div>Loading...</div>}
             {error && <div>{error}</div>}
             {track && (
                 <article>
-                    <h2 style={{ marginBottom: '10px', color: '#ff5500' }}>Track: {track._track_name}</h2>
-                    <div style={{ marginBottom: '10px',  overflow: 'hidden' }}>
-                        <p style={{ float: "left" }}>Artist:&nbsp;</p>
+                    <h2 className="track-name">Track: {track._track_name}</h2>
+                    <div className="artist-details">
+                        <p className="artist-label">Artist:&nbsp;</p>
                         <User user_id={track._artist_id} />
                     </div>
-                    <p style={{ marginBottom: '10px' }}>Description: {track._description}</p>
-                    <p style={{ marginBottom: '10px' }}>Plays: {track._plays}</p>
+                    <p className="track-description">Description: {track._description}</p>
+                    <p className="track-plays">Plays: {track._plays}</p>
                     <div className="button-container">
                         <button
                             onClick={handlePlayButtonClick}
-                            style={{
-                                backgroundColor: '#ff5500',
-                                border: 'none',
-                                color: 'white',
-                                padding: '10px 20px',
-                                textAlign: 'center',
-                                textDecoration: 'none',
-                                display: 'inline-block',
-                                fontSize: '16px',
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                                marginRight: '10px',
-                            }}
+                            className="action-button"
                         >
                             Play
                         </button>
-                        {!liked && (
+                        {!liked ? (
                             <button
-                                className="like-button"
                                 onClick={handleLikeButtonClick}
-                                style={{
-                                    backgroundColor: '#2196F3',
-                                    border: 'none',
-                                    color: 'white',
-                                    padding: '10px 20px',
-                                    textAlign: 'center',
-                                    textDecoration: 'none',
-                                    display: 'inline-block',
-                                    fontSize: '16px',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                    marginRight: '10px',
-                                }}
+                                className="action-button like-button"
                             >
                                 Add this track to your likes!
                             </button>
-                        )}
-                        {liked && (
-                            <button
-                                className="unlike-button"
-                                onClick={handleUnlikeButtonClick}
-                                style={{
-                                    backgroundColor: '#f44336',
-                                    border: 'none',
-                                    color: 'white',
-                                    padding: '10px 20px',
-                                    textAlign: 'center',
-                                    textDecoration: 'none',
-                                    display: 'inline-block',
-                                    fontSize: '16px',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                    marginRight: '10px',
-                                }}
-                            >
-                                Remove this track from your likes!
-                            </button>
-                        )}
+                        ) : (
+                                <button
+                                    onClick={handleUnlikeButtonClick}
+                                    className="action-button unlike-button"
+                                >
+                                    Remove this track from your likes!
+                                </button>
+                            )}
                         {playlists && (
-                            <div>
+                            <div className="select-container">
                                 <select onChange={handlePlaylistChange}>
                                     <option value="">Select playlist</option>
                                     {playlists.map(playlist => (

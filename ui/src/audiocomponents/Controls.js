@@ -99,21 +99,21 @@ const Controls = (props) => {
     return (
         <div className="controls-wrapper">
             <div className="controls">
-                <button>
+                {/* <button>
                     <IoPlaySkipBackSharp />
                 </button>
                 <button>
                     <IoPlayBackSharp />
-                </button>
+                </button> */}
                 <button onClick = {togglePlayPause}>
                     {props.isPlaying ? <IoPauseSharp /> : <IoPlaySharp />}
                 </button>
-                <button>
+                {/* <button>
                     <IoPlayForwardSharp />
                 </button>
                 <button>
                     <IoPlaySkipForwardSharp />
-                </button>
+                </button> */}
             </div>
         </div>
     );
