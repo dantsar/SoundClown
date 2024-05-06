@@ -1,6 +1,7 @@
 package SoundClown.Controllers;
 
 import SoundClown.AudioPlayer.*;
+import SoundClown.ImagePlayer.*;
 import SoundClown.LikedTrack.*;
 import SoundClown.User.*;
 import SoundClown.Track.*;
@@ -33,7 +34,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
-@EnableConfigurationProperties(AudioStorageProperties.class)
+@EnableConfigurationProperties({AudioStorageProperties.class, ImageStorageProperties.class})
 @CrossOrigin(origins = "http://localhost:3000") // the origin of the frontend
 //@SessionAttributes("username")
 //@SessionAttributes({"username", "password"})
@@ -303,6 +304,7 @@ public class  WebController {
 
 		String track_name = inputMap.get("track_name");
 		String track_path = inputMap.get("track_path");
+		String image_path = inputMap.get("image_path");
 		String description = inputMap.get("description");
 
 		if (this.trackRepository.findTrackByTrackNameAndArtists(track_name, user) != null ) {
@@ -315,6 +317,7 @@ public class  WebController {
         return this.trackService.create_track(
 			track_name,
 			track_path,
+			image_path,
 			description,
 			user.get_user_id(),
 			user

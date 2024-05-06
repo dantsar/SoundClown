@@ -11,6 +11,7 @@ const Upload = () => {
     const [error, setError] = useState(null);
     const [description, setDescription] = useState('');
     const [selectedFile, setSelectedFile] = useState('');
+    const [selectedImageFile, setSelectedImageFile] = useState('');
     const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState("");
 
@@ -82,8 +83,39 @@ const Upload = () => {
                     track_id && fetch('http://localhost:8080/delete/track/' + track_id, {
                         method: 'POST'
                     })
+                    return;
                 }
             })
+
+            const image_file = new FormData();
+            image_file.append('image_file', selectedImageFile);
+            console.log(image_file)
+            setIsPending(true);
+            fetch('http://localhost:8080/upload-image/' + track_id, {
+                method: 'POST',
+                body: image_file
+            })
+            .then(res => {
+                if(!res.ok) {
+                    throw Error("could not fetch the data for that resource");
+                }
+            })
+            .catch(err => {
+                // make sure to delete the table entry if the uploading data has failed
+                if (err.name === 'AbortError') {
+                    //fetch aborted
+                } else {
+                    setIsPending(false);
+                    setError(err.message);
+
+                    track_id && fetch('http://localhost:8080/delete/track/' + track_id, {
+                        method: 'POST'
+                    })
+                    return;
+                }
+            })
+
+
             if (track_id < 0) {
                 if (track_id === -1) {
                     setError("Track already exists");
@@ -150,6 +182,13 @@ const Upload = () => {
                            name="file"
                            required
                            onChange={(e) => setSelectedFile(e.target.files[0])}
+                    />
+ 
+                    <input type="file" 
+                            id="image_file"
+                            name="image_file"
+                            required 
+                            onChange={(e) => setSelectedImageFile(e.target.files[0])}
                     />
 
                     <button>Submit</button>

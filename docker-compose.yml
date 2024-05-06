@@ -23,6 +23,7 @@ services:
       - 5005:5005 # for debugging
     volumes:
       - ./audio_files:/tmp/audio_files
+      - ./image_files:/tmp/image_files
     depends_on:
       - db
   #  ui:

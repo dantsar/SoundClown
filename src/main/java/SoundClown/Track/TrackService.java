@@ -23,6 +23,7 @@ public class TrackService {
 
     public Long create_track(String track_name,
                                 String track_path,
+                                String image_path,
                                 String description,
                                 Long   artist_id,
                                 User   artist) {
@@ -33,9 +34,11 @@ public class TrackService {
         track.set_description(description);
         track.set_artist(artist);
         track.set_track_path("temp"); // FIX: track_path cannot be NULL in database
+        track.set_image_path("temp");
         System.out.println(track);
         Track savedTrack = this.trackRepository.save(track);
         savedTrack.set_track_path("download/track_"+savedTrack.get_track_id()+".mp3");
+        savedTrack.set_image_path("download-image/image_"+savedTrack.get_track_id()+".png");
         this.trackRepository.save(savedTrack);
         System.out.println(savedTrack);
         return savedTrack.get_track_id();
