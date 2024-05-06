@@ -9,6 +9,8 @@ const AudioPlayer = (props) => {
     const { audioSrc, isLoading, error, resetError } = useFetchAudio(props.currentTrack._track_path ? 'http://localhost:8080/' + props.currentTrack._track_path : null);
     const [timeProgress, setTimeProgress] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [isMouseDown, setIsMouseDown] = useState(false);
+    const [sliderValue, setSliderValue] = useState(0);
     const audioRef = useRef();
     const progressBarRef = useRef();
 
@@ -37,12 +39,17 @@ const AudioPlayer = (props) => {
                     duration={duration}
                     setTimeProgress={setTimeProgress}
                     progressBarRef={progressBarRef}
+                    isMouseDown={isMouseDown}
+                    sliderValue={sliderValue}
                 />
                 <ProgressBar 
                     audioRef={audioRef}
                     duration={duration}
                     timeProgress={timeProgress}
                     progressBarRef={progressBarRef}
+                    isMouseDown={isMouseDown}
+                    setIsMouseDown={setIsMouseDown}
+                    setSliderValue={setSliderValue}
                 />
             </div>
         </div>
