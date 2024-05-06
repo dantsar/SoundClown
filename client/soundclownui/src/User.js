@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 
 const User =  React.memo(({user_id}) => {
-    const { data: user, isPending, error } = useFetch('http://localhost:8080/get/user/' + user_id);
+    const { data: user, isPending, error } = useFetch('http://18.222.225.165:8080/get/user/' + user_id);
     // console.log("User.js error:");
     // console.log(error);
 

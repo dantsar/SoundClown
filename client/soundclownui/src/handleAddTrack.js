@@ -3,7 +3,7 @@ const handleAddTrack = async (playlist_id, track_id, username,callback) => {
         return;
     }
     try {
-        const response = await fetch('http://localhost:8080/addtrack/playlist', {
+        const response = await fetch('http://18.222.225.165:8080/addtrack/playlist', {
             method: 'POST',
             headers: {
                 'dataType': 'text',

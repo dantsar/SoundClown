@@ -35,7 +35,7 @@ const CreatePlaylist = () => {
                 return; // Prevent further execution of the function
             }
         }
-        fetch('http://localhost:8080/create/playlist', {
+        fetch('http://18.222.225.165:8080/create/playlist', {
             method: 'POST',
             headers: { "dataType": "text" },
             body: JSON.stringify(playlist)

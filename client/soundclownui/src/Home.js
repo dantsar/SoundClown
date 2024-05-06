@@ -7,8 +7,8 @@ import RecTrackList from "./RecTrackList";
 
 const Home = () => {
     const username= Cookies.get('username');
-    const { data: likedTracks, likedTracksIsPending } = useFetch('http://localhost:8080/get/liked/tracks/' + username);
-    const { data: recTracks, recTracksIsPending} = useFetch('http://localhost:8080/get/recommended/tracks');
+    const { data: likedTracks, likedTracksIsPending } = useFetch('http://18.222.225.165:8080/get/liked/tracks/' + username);
+    const { data: recTracks, recTracksIsPending} = useFetch('http://18.222.225.165:8080/get/recommended/tracks');
     const [tracks, setTracks] = useState([]);
     const [trackName, setTrackName] = useState('');
     const [tracksIsPending, setTracksIsPending] = useState(false);
@@ -18,7 +18,7 @@ const Home = () => {
             console.log("Sending post");
             try {
                 setTracksIsPending(true);
-                const response = await fetch('http://localhost:8080/get/alltracks', {
+                const response = await fetch('http://18.222.225.165:8080/get/alltracks', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

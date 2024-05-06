@@ -9,9 +9,9 @@ import TrackList from "./TrackList";
 const UserDetails = () => {
     const { username } = useParams();
     const myUsername = Cookies.get("username");
-    const { data: user, error, isPending } = useFetch("http://localhost:8080/get/username/" + username);
-    const {data: playlists, isPlaylistsPending, userPlaylistsError} = useFetchUserPlaylists('http://localhost:8080/get/user/playlists/' + username);
-    const {data: tracks, isTracksPending, tracksError} = useFetchUserTracks('http://localhost:8080/get/user/tracks/' + username);
+    const { data: user, error, isPending } = useFetch("http://18.222.225.165:8080/get/username/" + username);
+    const {data: playlists, isPlaylistsPending, userPlaylistsError} = useFetchUserPlaylists('http://18.222.225.165:8080/get/user/playlists/' + username);
+    const {data: tracks, isTracksPending, tracksError} = useFetchUserTracks('http://18.222.225.165:8080/get/user/tracks/' + username);
     const navigate = useNavigate();
 
     const handleCreatePlaylistOnClick = () => {

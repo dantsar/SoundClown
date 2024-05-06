@@ -11,7 +11,7 @@ const PlaylistDetails = () => {
     const { playlist_id } = useParams();
     const [errorMsg, setErrorMsg] = useState("");
     const [showConfirmation, setShowConfirmation] = useState(false); // State for showing confirmation dialog
-    const { data: playlist, error, isPending } = useFetch("http://localhost:8080/get/user/playlist/" + playlist_id);
+    const { data: playlist, error, isPending } = useFetch("http://18.222.225.165:8080/get/user/playlist/" + playlist_id);
     const navigate = useNavigate();
 
     const handleDeleteConfirmation = () => {
@@ -21,7 +21,7 @@ const PlaylistDetails = () => {
 
     const handleDeletePlaylist = () => {
         // Call delete endpoint
-        fetch(`http://localhost:8080/delete/playlist/${playlist_id}`, {
+        fetch(`http://18.222.225.165:8080/delete/playlist/${playlist_id}`, {
             method: 'POST',
         })
         .then(response => {
@@ -37,7 +37,7 @@ const PlaylistDetails = () => {
     };
 
     const handleRemoveTrack = (trackId) => {
-        fetch('http://localhost:8080/removetrack/playlist', {
+        fetch('http://18.222.225.165:8080/removetrack/playlist', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

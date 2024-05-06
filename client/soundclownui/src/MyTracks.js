@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 
 const MyTracks = () => {
     const username = Cookies.get("username");
-    const {data: tracks, tracksIsPending, error} = useFetchUserTracks('http://localhost:8080/get/user/tracks/' + username);
+    const {data: tracks, tracksIsPending, error} = useFetchUserTracks('http://18.222.225.165:8080/get/user/tracks/' + username);
     const [track, setTrack] = useState('');
     const [deleteStatus, setDeleteStatus] = useState(null);
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const MyTracks = () => {
     }, []);
     const handleDeleteButtonClick = async () => {
         try {
-            const response = await fetch('http://localhost:8080/delete/track/', {
+            const response = await fetch('http://18.222.225.165:8080/delete/track/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

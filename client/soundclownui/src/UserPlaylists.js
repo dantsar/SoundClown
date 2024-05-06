@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 const UserPlaylists = () => {
     const {username} = useParams()
     const myUsername = Cookies.get("username");
-    const {data: playlists, isPlaylistsPending, error} = useFetchUserPlaylists('http://localhost:8080/get/user/playlists/' + username);
+    const {data: playlists, isPlaylistsPending, error} = useFetchUserPlaylists('http://18.222.225.165:8080/get/user/playlists/' + username);
     // const [playlist, setPlaylist] = useState('');
     // const [deleteStatus, setDeleteStatus] = useState(null);
     const navigate = useNavigate();

@@ -13,7 +13,7 @@ const CreateUser = () => {
         console.log("Handle submit?")
         event.preventDefault();
         const user = { user_name, password };
-        const response = await fetch('http://localhost:8080/register', {
+        const response = await fetch('http://18.222.225.165:8080/register', {
             method: 'POST',
             headers: { "dataType": "text" },
             body: JSON.stringify(user)
@@ -27,7 +27,7 @@ const CreateUser = () => {
             Cookies.set('username', user_name);
 
             // Proceed with login
-            fetch('http://localhost:8080/login', {
+            fetch('http://18.222.225.165:8080/login', {
                 method: 'POST',
                 'Content-Type': 'application/json',
                 body: JSON.stringify(user)

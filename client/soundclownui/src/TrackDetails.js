@@ -17,8 +17,8 @@ const TrackDetails = (props) => {
     const [selectedPlaylistId, setSelectedPlaylistId] = useState('');
     const [popupMessage, setPopupMessage] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
-    const { data: track, error, isPending } = useFetch("http://localhost:8080/get/track/" + track_id);
-    const {data: playlists, isPlaylistsPending, playlistError} = useFetchUserPlaylists('http://localhost:8080/get/user/playlists/' + username);
+    const { data: track, error, isPending } = useFetch("http://18.222.225.165:8080/get/track/" + track_id);
+    const {data: playlists, isPlaylistsPending, playlistError} = useFetchUserPlaylists('http://18.222.225.165:8080/get/user/playlists/' + username);
 
     useEffect(() => {
         if (username == null) {
@@ -26,7 +26,7 @@ const TrackDetails = (props) => {
         }
         const fetchLikedStatus = async () => {
             try {
-                const response = await fetch('http://localhost:8080/get/liked/track/', {
+                const response = await fetch('http://18.222.225.165:8080/get/liked/track/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const TrackDetails = (props) => {
 
     const handlePlayButtonClick = async () => {
         try {
-            const response = await fetch('http://localhost:8080/play/track/' + track_id, {
+            const response = await fetch('http://18.222.225.165:8080/play/track/' + track_id, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ const TrackDetails = (props) => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:8080/like/track/', {
+            const response = await fetch('http://18.222.225.165:8080/like/track/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ const TrackDetails = (props) => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:8080/unlike/track/', {
+            const response = await fetch('http://18.222.225.165:8080/unlike/track/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

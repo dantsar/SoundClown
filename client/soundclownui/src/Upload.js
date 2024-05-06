@@ -43,7 +43,7 @@ const Upload = () => {
                 return; // Prevent further execution of the function
             }
         }
-        fetch('http://localhost:8080/create/track', {
+        fetch('http://18.222.225.165:8080/create/track', {
             method: 'POST',
             headers: { "dataType": "text" },
             body: JSON.stringify(track)
@@ -62,7 +62,7 @@ const Upload = () => {
             const file = new FormData();
             file.append('file',selectedFile);
             setIsPending(true);
-            fetch('http://localhost:8080/upload/' + track_id, {
+            fetch('http://18.222.225.165:8080/upload/' + track_id, {
                 method: 'POST',
                 body: file
             })
@@ -79,7 +79,7 @@ const Upload = () => {
                     setIsPending(false);
                     setError(err.message);
 
-                    track_id && fetch('http://localhost:8080/delete/track/' + track_id, {
+                    track_id && fetch('http://18.222.225.165:8080/delete/track/' + track_id, {
                         method: 'POST'
                     })
                     return;
@@ -90,7 +90,7 @@ const Upload = () => {
             image_file.append('image_file', selectedImageFile);
             console.log(image_file)
             setIsPending(true);
-            fetch('http://localhost:8080/upload-image/' + track_id, {
+            fetch('http://18.222.225.165:8080/upload-image/' + track_id, {
                 method: 'POST',
                 body: image_file
             })
@@ -107,7 +107,7 @@ const Upload = () => {
                     setIsPending(false);
                     setError(err.message);
 
-                    track_id && fetch('http://localhost:8080/delete/track/' + track_id, {
+                    track_id && fetch('http://18.222.225.165:8080/delete/track/' + track_id, {
                         method: 'POST'
                     })
                     return;

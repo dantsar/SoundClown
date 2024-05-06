@@ -3,7 +3,7 @@ import logo from "./assets/soundclown.png";
 
 
 const TrackImage = ({ image_path }) => {
-    const { imageSrc, isLoading, error, resetError } = useFetchImage(`http://localhost:8080/${image_path}`);
+    const { imageSrc, isLoading, error, resetError } = useFetchImage(`http://18.222.225.165:8080/${image_path}`);
 
     return (
         <>
