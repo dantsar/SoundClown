@@ -1,8 +1,11 @@
 import { useParams } from "react-router-dom";
 import useFetch from './useFetch';
+import useFetchUserPlaylists from './useFetch';
+import handleAddTrack from "./handleAddTrack";
 import User from './User';
 import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
+import PopupMessage from './PopupMessage';
 import user from "./User";
 
 const TrackDetails = (props) => {
@@ -10,7 +13,11 @@ const TrackDetails = (props) => {
     const { track_id } = useParams();
     const [liked, setLiked] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
+    const [selectedPlaylistId, setSelectedPlaylistId] = useState('');
+    const [popupMessage, setPopupMessage] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
     const { data: track, error, isPending } = useFetch("http://localhost:8080/get/track/" + track_id);
+    const {data: playlists, isPlaylistsPending, playlistError} = useFetchUserPlaylists('http://localhost:8080/get/user/playlists/' + username);
 
     useEffect(() => {
         if (username == null) {
@@ -136,6 +143,31 @@ const TrackDetails = (props) => {
         }
         window.location.reload();
     };
+
+    const handlePlaylistChange = (event) => {
+        setSelectedPlaylistId(event.target.value);
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    }
+
+    const handleAddTrackCallback = (message) => {
+        setShowPopup(true);
+        setPopupMessage(message);
+    }
+
+    const handleAddToPlaylist = () => {
+        if (selectedPlaylistId && track && username) {
+            console.log(selectedPlaylistId)
+            console.log(track._track_id)
+            handleAddTrack(selectedPlaylistId,track._track_id, username, handleAddTrackCallback);
+        }
+    };
+
+
+
+
     return (
         <div className="track-details" style={{ marginTop: '20px', marginBottom: '20px', padding: '20px', border: '1px solid #ff5500', borderRadius: '5px' }}>
             {isPending && <div>Loading...</div>}
@@ -210,10 +242,22 @@ const TrackDetails = (props) => {
                                 Remove this track from your likes!
                             </button>
                         )}
+                        {playlists && (
+                            <div>
+                                <select onChange={handlePlaylistChange}>
+                                    <option value="">Select playlist</option>
+                                    {playlists.map(playlist => (
+                                        <option key={playlist._playlist_id} value={playlist._playlist_id}>{playlist._playlist_name}</option>
+                                    ))}
+                                </select>
+                                <button onClick={handleAddToPlaylist}>Add to playlist</button>
+                            </div>
+                        )}
                     </div>
                 </article>
             )}
             {errorMsg && <p className="error">{errorMsg}</p>}
+            {popupMessage && showPopup && <PopupMessage message={popupMessage} onClose={handleClosePopup}/>}
         </div>
     );
 }

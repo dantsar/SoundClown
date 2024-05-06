@@ -2,7 +2,7 @@ import TrackList from './TrackList';
 import LikedTrackList from './LikedTrackList';
 import useFetch from './useFetch';
 import Cookies from 'js-cookie';
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import RecTrackList from "./RecTrackList";
 
 const Home = () => {
@@ -13,38 +13,45 @@ const Home = () => {
     const [trackName, setTrackName] = useState('');
     const [tracksIsPending, setTracksIsPending] = useState(false);
 
-    const searchClick = async () => {
-        console.log("Sending post");
-        try {
-            setTracksIsPending(true);
-            const response = await fetch('http://localhost:8080/get/tracks/track_name/' + trackName, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Add any additional headers if needed
-                },
-            });
+    useEffect(() => {
+        const searchTracks = async () => {
+            console.log("Sending post");
+            try {
+                setTracksIsPending(true);
+                const response = await fetch('http://localhost:8080/get/alltracks', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Add any additional headers if needed
+                    },
+                });
+                // Handle the response
+                if (response.ok) {
+                    const allTracks = await response.json();
+                    console.log(allTracks)
 
-            // Handle the response
-            if (response.ok) {
-                const data = await response.json();
-                setTracks(data);
-            } else {
-                // Handle error response
+                    const filteredTracks = allTracks.filter(track => 
+                        track._track_name.toLowerCase().includes(trackName.toLowerCase())
+                    );
+                    setTracks(filteredTracks);
+                } else {
+                    // Handle error response
+                }
+            } catch (error) {
+                // Handle network error or any other errors
+                console.error('Error:', error);
+            } finally {
+                setTracksIsPending(false);
             }
-        } catch (error) {
-            // Handle network error or any other errors
-            console.error('Error:', error);
-        } finally {
-            setTracksIsPending(false);
+        };
+        // Only perform search if trackName is not empty
+        if (trackName.trim() !== '') {
+            searchTracks();
+        } else {
+            // If trackName is empty, reset tracks
+            setTracks([]);
         }
-    };
-
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            searchClick();
-        }
-    };
+    }, [trackName]);
 
     return (
         <div className="home">
@@ -58,12 +65,9 @@ const Home = () => {
                     onChange={(e) => setTrackName(e.target.value)}
                     placeholder="Enter track name..."
                     className="search-input"
-                    onKeyPress={handleKeyPress}
                 />
-                <button onClick={searchClick} className="search-button">Search</button>
             </div>
             <div className="search-results">
-                {tracksIsPending && <div>Loading...</div>}
                 {tracks.length > 0 && <TrackList tracks={tracks}/>}
             </div>
             {likedTracks && likedTracks.length > 0 ? (
