@@ -16,7 +16,7 @@ const WhoAmI = () => {
 
     const handleDeleteClick = async () => {
         try {
-            const response = await fetch('http://localhost:8080/clear/user/' +username , {
+            const response = await fetch('http://18.222.225.165:8080/clear/user/' +username , {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ const WhoAmI = () => {
                 throw new Error('Failed to delete');
             }
             try {
-                const response = await fetch('http://localhost:8080/delete/user/' +username , {
+                const response = await fetch('http://18.222.225.165:8080/delete/user/' +username , {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

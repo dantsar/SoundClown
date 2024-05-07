@@ -1,35 +1,24 @@
 # SoundClown
 This is a SoundCloud clone for [ECE366](https://cooper.edu/engineering/courses/electrical-and-computer-engineering-undergraduate/ece-366).
-This project intends to use the following frameworks and techonologies:
-* Backend: Java
-* Frontend: ReactJS
-* Database: PostgreSQL
 
+## Code of Ethics 
+___
+- 1.1 Contribute to society and to human well-being, acknowledging that all people are stakeholders in computing.
 
----
-# MORE TO COME
+- 1.4 Be fair and take action not to discriminate.
 
-# Build System
-You first need to create location to store database data
-```
-mkdir -p $HOME/srv/postgres
-```
+- 1.7 Honor confidentiality.
 
-Then run 
-```
-docker run --rm --name lil-postgres -e POSTGRES_PASSWORD=password -d -v $HOME/srv/postgres:/var/lib/postgresql/data -p 5432:5432 postgres
-```
+- 2.1 Strive to achieve high quality in both the processes and products of professional work.
 
-Run 
-```
-docker compose up
-```
+- 2.2 Maintain high standards of professional competence, conduct, and ethical practice.
 
-# Web App
+- 2.3 Know and respect existing rules pertaining to professional work.
 
-```sh
-# to build web app & install dependencies
-$ cd ./client/soundclownui/ && npm install
-# to start web app
-$ cd ./client/soundclownui/ && npm start
-```
+- 2.9 Design and implement systems that are robustly and usably secure.
+
+- 3.1 Ensure that the public good is the central concern during all professional computing work.
+ 
+- 3.3 Manage personnel and resources to enhance the quality of working life.
+
+- 3.6 Use care when modifying or retiring systems.

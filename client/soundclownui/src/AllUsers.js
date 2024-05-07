@@ -3,7 +3,7 @@ import TrackList from './TrackList';
 import useFetch from './useFetch';
 
 const AllUsers = () => {
-    const { data: users, isPending, error } = useFetch('http://localhost:8080/get/allusers');
+    const { data: users, isPending, error } = useFetch('http://18.222.225.165:8080/get/allusers');
 
     return (
         <div className="home">

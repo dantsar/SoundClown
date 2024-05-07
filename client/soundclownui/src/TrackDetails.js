@@ -1,8 +1,12 @@
 import { useParams } from "react-router-dom";
 import useFetch from './useFetch';
+import useFetchUserPlaylists from './useFetch';
+import handleAddTrack from "./handleAddTrack";
 import User from './User';
 import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
+import PopupMessage from './PopupMessage';
+import TrackImage from "./TrackImage";
 import user from "./User";
 
 const TrackDetails = (props) => {
@@ -10,7 +14,11 @@ const TrackDetails = (props) => {
     const { track_id } = useParams();
     const [liked, setLiked] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
-    const { data: track, error, isPending } = useFetch("http://localhost:8080/get/track/" + track_id);
+    const [selectedPlaylistId, setSelectedPlaylistId] = useState('');
+    const [popupMessage, setPopupMessage] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
+    const { data: track, error, isPending } = useFetch("http://18.222.225.165:8080/get/track/" + track_id);
+    const {data: playlists, isPlaylistsPending, playlistError} = useFetchUserPlaylists('http://18.222.225.165:8080/get/user/playlists/' + username);
 
     useEffect(() => {
         if (username == null) {
@@ -18,7 +26,7 @@ const TrackDetails = (props) => {
         }
         const fetchLikedStatus = async () => {
             try {
-                const response = await fetch('http://localhost:8080/get/liked/track/', {
+                const response = await fetch('http://18.222.225.165:8080/get/liked/track/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -47,7 +55,7 @@ const TrackDetails = (props) => {
 
     const handlePlayButtonClick = async () => {
         try {
-            const response = await fetch('http://localhost:8080/play/track/' + track_id, {
+            const response = await fetch('http://18.222.225.165:8080/play/track/' + track_id, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +87,7 @@ const TrackDetails = (props) => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:8080/like/track/', {
+            const response = await fetch('http://18.222.225.165:8080/like/track/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,7 +119,7 @@ const TrackDetails = (props) => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:8080/unlike/track/', {
+            const response = await fetch('http://18.222.225.165:8080/unlike/track/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -136,84 +144,83 @@ const TrackDetails = (props) => {
         }
         window.location.reload();
     };
+
+    const handlePlaylistChange = (event) => {
+        setSelectedPlaylistId(event.target.value);
+    };
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    }
+
+    const handleAddTrackCallback = (message) => {
+        setShowPopup(true);
+        setPopupMessage(message);
+    }
+
+    const handleAddToPlaylist = () => {
+        if (selectedPlaylistId && track && username) {
+            console.log(selectedPlaylistId)
+            console.log(track._track_id)
+            handleAddTrack(selectedPlaylistId,track._track_id, username, handleAddTrackCallback);
+        }
+    };
+
+
+
+
     return (
-        <div className="track-details" style={{ marginTop: '20px', marginBottom: '20px', padding: '20px', border: '1px solid #ff5500', borderRadius: '5px' }}>
+        <div className="track-details-container">
             {isPending && <div>Loading...</div>}
             {error && <div>{error}</div>}
             {track && (
                 <article>
-                    <h2 style={{ marginBottom: '10px', color: '#ff5500' }}>Track: {track._track_name}</h2>
-                    <div style={{ marginBottom: '10px',  overflow: 'hidden' }}>
-                        <p style={{ float: "left" }}>Artist:&nbsp;</p>
+                    <h2 className="track-name">Track: {track._track_name}</h2>
+                    <TrackImage image_path={track._image_path} />
+                    <div className="artist-details">
+                        <p className="artist-label">Artist:&nbsp;</p>
                         <User user_id={track._artist_id} />
                     </div>
-                    <p style={{ marginBottom: '10px' }}>Description: {track._description}</p>
-                    <p style={{ marginBottom: '10px' }}>Plays: {track._plays}</p>
+                    <p className="track-description">Description: {track._description}</p>
+                    <p className="track-plays">Plays: {track._plays}</p>
                     <div className="button-container">
                         <button
                             onClick={handlePlayButtonClick}
-                            style={{
-                                backgroundColor: '#ff5500',
-                                border: 'none',
-                                color: 'white',
-                                padding: '10px 20px',
-                                textAlign: 'center',
-                                textDecoration: 'none',
-                                display: 'inline-block',
-                                fontSize: '16px',
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                                marginRight: '10px',
-                            }}
+                            className="action-button"
                         >
                             Play
                         </button>
-                        {!liked && (
+                        {!liked ? (
                             <button
-                                className="like-button"
                                 onClick={handleLikeButtonClick}
-                                style={{
-                                    backgroundColor: '#2196F3',
-                                    border: 'none',
-                                    color: 'white',
-                                    padding: '10px 20px',
-                                    textAlign: 'center',
-                                    textDecoration: 'none',
-                                    display: 'inline-block',
-                                    fontSize: '16px',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                    marginRight: '10px',
-                                }}
+                                className="action-button like-button"
                             >
                                 Add this track to your likes!
                             </button>
-                        )}
-                        {liked && (
-                            <button
-                                className="unlike-button"
-                                onClick={handleUnlikeButtonClick}
-                                style={{
-                                    backgroundColor: '#f44336',
-                                    border: 'none',
-                                    color: 'white',
-                                    padding: '10px 20px',
-                                    textAlign: 'center',
-                                    textDecoration: 'none',
-                                    display: 'inline-block',
-                                    fontSize: '16px',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                    marginRight: '10px',
-                                }}
-                            >
-                                Remove this track from your likes!
-                            </button>
+                        ) : (
+                                <button
+                                    onClick={handleUnlikeButtonClick}
+                                    className="action-button unlike-button"
+                                >
+                                    Remove this track from your likes!
+                                </button>
+                            )}
+                        {playlists && (
+                            <div className="select-container">
+                                <select onChange={handlePlaylistChange}>
+                                    <option value="">Select playlist</option>
+                                    {playlists.map(playlist => (
+                                        <option key={playlist._playlist_id} value={playlist._playlist_id}>{playlist._playlist_name}</option>
+                                    ))}
+                                </select>
+                                <button onClick={handleAddToPlaylist}>Add to playlist</button>
+                            </div>
                         )}
                     </div>
                 </article>
             )}
             {errorMsg && <p className="error">{errorMsg}</p>}
+            {popupMessage && showPopup && <PopupMessage message={popupMessage} onClose={handleClosePopup}/>}
         </div>
     );
 }

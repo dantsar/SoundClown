@@ -1,21 +1,21 @@
-import React, { useState, } from 'react';
 import '../styles/progress-bar.css';
 
 const ProgressBar = (props) => {
-    const [isMouseUp, setIsMouseUp] = useState(false);
-
     const handleProgressChange = () => {
-        if (isMouseUp) {
-            props.audioRef.current.currentTime = props.progressBarRef.current.value;
+        if (props.isMouseDown) {
+            props.setSliderValue(props.progressBarRef.current.value);
         }
     };
 
     const handleMouseDown = () => {
-        setIsMouseUp(false);
+        props.setIsMouseDown(true);
     };
 
-    const handleMouseUp = () => {
-        setIsMouseUp(true);
+    const handleMouseUp = (event) => {
+        if (props.audioRef.current) {
+            props.audioRef.current.currentTime = event.target.value;
+        }
+        props.setIsMouseDown(false);
     };
 
     const formatTime = (time) => {
@@ -37,7 +37,6 @@ const ProgressBar = (props) => {
             <input
                 type="range"
                 ref={props.progressBarRef}
-                defaultValue="0"
                 onChange={handleProgressChange}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}

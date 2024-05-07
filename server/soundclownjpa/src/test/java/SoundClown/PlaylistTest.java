@@ -49,4 +49,3 @@ class PlaylistTest {
         assertEquals(1L, playlist.get_playlist_id());
     }
 }
-

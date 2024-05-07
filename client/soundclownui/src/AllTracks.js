@@ -5,7 +5,7 @@ import React from "react";
 
 const AllTracks = () => {
     const username= Cookies.get('username');
-    const { data: tracks, tracksIsPending } = useFetch('http://localhost:8080/get/alltracks');
+    const { data: tracks, tracksIsPending } = useFetch('http://18.222.225.165:8080/get/alltracks');
 
     return (
         <div className="all-tracks">

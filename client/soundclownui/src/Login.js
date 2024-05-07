@@ -13,7 +13,7 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const user = {user_name, password};
-        const response = await fetch('http://localhost:8080/login', {
+        const response = await fetch('http://18.222.225.165:8080/login', {
             method: 'POST',
             'Content-Type': 'application/json',
             body: JSON.stringify(user)

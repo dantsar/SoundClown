@@ -73,9 +73,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+<<<<<<< HEAD
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+=======
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>[0.4, 0.5)</version>
+>>>>>>> origin/mergefredjaku
         </dependency>
 
     </dependencies>

@@ -9,6 +9,10 @@ import WhoAmI from './WhoAmI';
 import Upload from './Upload';
 import MyTracks from './MyTracks';
 import AllTracks from './AllTracks';
+import MyPlaylists from './MyPlaylists';
+import CreatePlaylist from './CreatePlaylist';
+import PlaylistDetails from './PlaylistDetails';
+import UserPlaylists from './UserPlaylists.js';
 import AudioPlayer from './audiocomponents/AudioPlayer';
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import { useRef, useState, useCallback } from 'react';
@@ -45,7 +49,7 @@ function App() {
                             element={<AllTracks />}
                         />
                         <Route
-                            path="my-tracks"
+                            path="you/tracks"
                             element={<MyTracks />}
                         />
                         <Route
@@ -61,7 +65,7 @@ function App() {
                             element={<Upload />}
                         />
                         <Route
-                            path="user/:user_id"
+                            path="user/:username"
                             element={<UserDetails />}
                         />
                         <Route
@@ -71,6 +75,21 @@ function App() {
                         <Route
                             path="whoami"
                             element={<WhoAmI />}
+                        />
+                        <Route
+                            path="you/playlists" element={<MyPlaylists />}
+                        />
+                        <Route
+                            path="create-playlist"
+                            element={<CreatePlaylist />}
+                        />
+                        <Route
+                            path="playlist/:playlist_id"
+                            element={<PlaylistDetails />}
+                        />
+                        <Route
+                            path="user/:username/playlists"
+                            element={<UserPlaylists />}
                         />
                     </Routes>
                 </div>

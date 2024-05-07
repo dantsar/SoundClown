@@ -6,8 +6,11 @@ build
 
 target
 
-server/audio_files/*
-!server/audio_files/.gitkeep
+audio_files/*
+!audio_files/.gitkeep
+
+image_files/*
+!image_files/.gitkeep
 
 .envrc
 

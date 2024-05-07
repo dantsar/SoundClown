@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import TrackImage from '../TrackImage'
+import { Link } from 'react-router-dom';
 
 const DisplayTrack = (props) => {
     const onLoadedMetadata = () => {
@@ -14,7 +16,7 @@ const DisplayTrack = (props) => {
 
 
     return (
-        <div>
+        <div className='displaytrack'>
             { props.isLoading && <div>Loading...</div> }
             { props.error && <div>Unable to load track</div> }
             { props.audioSrc && <audio 
@@ -23,7 +25,18 @@ const DisplayTrack = (props) => {
                 type="audio/mpeg" 
                 onLoadedMetadata={onLoadedMetadata}
             /> }
-            { props.currentTrack && <div>{props.currentTrack._track_name}</div> }
+            {props.currentTrack && (
+                <div>
+                    <Link to={`/track/${props.currentTrack._track_id}`}>
+                        <div>
+                            <div>{props.currentTrack._track_name} by {props.currentTrack._artist.username}</div>
+                        </div>
+                        <div>
+                            <TrackImage image_path={props.currentTrack._image_path} />
+                        </div>
+                    </Link>
+                </div>
+            )}
         </div>
     );
 };

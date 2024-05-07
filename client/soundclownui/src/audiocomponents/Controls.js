@@ -20,15 +20,15 @@ const Controls = (props) => {
 
     const repeat = useCallback(() => {
         const currentTime = props.audioRef.current.currentTime;
-        props.setTimeProgress(currentTime);
-        props.progressBarRef.current.value = currentTime;
+
+        props.progressBarRef.current.value = props.isMouseDown ? props.sliderValue : currentTime;
+        props.setTimeProgress(props.progressBarRef.current.value);
         props.progressBarRef.current.style.setProperty(
             '--range-progress',
             `${(props.progressBarRef.current.value / props.duration) * 100}%`
         );
-
         playAnimationRef.current = requestAnimationFrame(repeat);
-    }, [props.audioRef, props.duration, props.progressBarRef, props.setTimeProgress]);
+    }, [props.sliderValue, props.isMouseDown, props.audioRef, props.duration, props.progressBarRef, props.setTimeProgress]);
 
     useEffect(() => {
         const storedTrack = sessionStorage.getItem('currentTrack');
@@ -99,21 +99,21 @@ const Controls = (props) => {
     return (
         <div className="controls-wrapper">
             <div className="controls">
-                <button>
+                {/* <button>
                     <IoPlaySkipBackSharp />
                 </button>
                 <button>
                     <IoPlayBackSharp />
-                </button>
+                </button> */}
                 <button onClick = {togglePlayPause}>
                     {props.isPlaying ? <IoPauseSharp /> : <IoPlaySharp />}
                 </button>
-                <button>
+                {/* <button>
                     <IoPlayForwardSharp />
                 </button>
                 <button>
                     <IoPlaySkipForwardSharp />
-                </button>
+                </button> */}
             </div>
         </div>
     );

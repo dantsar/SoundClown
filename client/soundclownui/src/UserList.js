@@ -2,17 +2,17 @@ import { Link } from 'react-router-dom';
 
 const UserList = ({users, title}) => {
     return (
-        <div className="user-list">
+        <div className='user-wrapper'>
             <h2>{ title }</h2>
-            {users.map((user) => (
-                <div className="user-preview" key={user._user_id}>
-                    <Link to ={`/user/${user._user_id}`}>
-                        <p>User: { user._user_name }</p>
-                        {/* <p>Password: { user._password }</p>
-                        <p>User ID: { user._user_id }</p> */}
-                    </Link>
-                </div>
-            ))}
+            <div className="user-list">
+                {users.map((user) => (
+                    <div className="user-preview" key={user._user_id}>
+                        <Link to ={`/user/${user._user_name}`}>
+                            <h2>{ user._user_name } </h2>
+                        </Link>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

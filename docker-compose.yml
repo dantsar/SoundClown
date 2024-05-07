@@ -23,6 +23,7 @@ services:
     - 8080:8080
     volumes:
       - ./audio_files:/tmp/audio_files
+      - ./image_files:/tmp/image_files
     environment:
     - POSTGRES_DB=postgres
     - POSTGRES_PASSWORD=password
