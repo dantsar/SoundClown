@@ -63,6 +63,10 @@ public class  WebController {
         return "registration.html";
     }
 
+    @GetMapping("/help")
+    public ResponseEntity<?> help() {
+        return ResponseEntity.ok().build();
+    }
 	/*
 	 User Functions
 	 */
@@ -361,7 +365,7 @@ public class  WebController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
         Long playlist_id = Long.parseLong(inputMap.get("playlist_id"));
-        Long track_id = Long.parseLong(inputMap.get("track_name"));
+        Long track_id = Long.parseLong(inputMap.get("track_id"));
 
         Playlist playlist = this.playlistRepository.findPlaylistByPlaylistId(playlist_id);
 
@@ -378,7 +382,7 @@ public class  WebController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> inputMap = objectMapper.readValue(json, Map.class);
         Long playlist_id = Long.parseLong(inputMap.get("playlist_id"));
-        Long track_id = Long.parseLong(inputMap.get("track_name"));
+        Long track_id = Long.parseLong(inputMap.get("track_id"));
 
         Playlist playlist = this.playlistRepository.findPlaylistByPlaylistId(playlist_id);
         Track track = this.trackRepository.findTrackByTrackId(track_id);

@@ -28,7 +28,6 @@ public class PlaylistService {
         Playlist playlist = new Playlist();
         playlist.set_user(user);
         playlist.set_playlist_name(playlist_name);
-        System.out.println(playlist);
         this.playlistRepository.save(playlist);
         return true;
     }

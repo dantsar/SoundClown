@@ -18,7 +18,6 @@ public class LikedTrackService {
         LikedTrack likedTrack = new LikedTrack();
         likedTrack.set_user(user);
         likedTrack.set_track(track);
-        System.out.println(likedTrack);
         this.likedTrackRepository.save(likedTrack);
         return true;
     }

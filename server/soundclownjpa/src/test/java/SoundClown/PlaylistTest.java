@@ -2,6 +2,7 @@ package SoundClown;
 
 import SoundClown.Playlist.Playlist;
 import SoundClown.Track.Track;
+import SoundClown.User.User;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;

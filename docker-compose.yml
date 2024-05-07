@@ -28,11 +28,11 @@ services:
     - POSTGRES_PASSWORD=password
     depends_on:
     - db
-  ui: 
-    build: client/soundclownui
-    image: soundclownacr.azurecr.io/ui
-    container_name: ui
-    ports:
-    - 80:80
-    depends_on:
-    - app
+  #  ui: 
+  #    build: client/soundclownui
+  #    image: soundclownacr.azurecr.io/ui
+  #    container_name: ui
+  #    ports:
+  #    - 80:80
+  #    depends_on:
+  #    - app

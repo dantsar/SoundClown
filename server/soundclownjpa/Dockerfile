@@ -9,8 +9,8 @@ ARG MODE=package
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 ADD . /project
 WORKDIR /project
-RUN mvn -T 4 -e -Dmaven.test.skip package
-# RUN mvn test
+# RUN mvn -T 4 -e -Dmaven.test.skip package
+RUN mvn test
 
 FROM eclipse-temurin:latest
 COPY --from=build /project/target /app/target

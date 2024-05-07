@@ -2,6 +2,7 @@ package SoundClown;
 
 import SoundClown.Playlist.*;
 import SoundClown.Track.Track;
+import SoundClown.User.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
