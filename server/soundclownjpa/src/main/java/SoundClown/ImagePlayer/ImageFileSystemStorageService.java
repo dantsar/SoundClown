@@ -128,12 +128,6 @@ public class ImageFileSystemStorageService implements ImageStorageService {
 
 	@Override
 	public void init() {
-		// try {
-		// 	Files.createDirectories(rootLocation);
-		// }
-		// catch (IOException e) {
-		// 	throw new ImageStorageException("Could not initialize storage", e);
-		// }
         System.out.println("Init ImageFileSystemStorageService");
 	}
 }

@@ -63,10 +63,6 @@ public class  WebController {
 		return "registration.html";
 	}
 
-    @GetMapping("/help")
-    public ResponseEntity<?> help() {
-        return ResponseEntity.ok().build();
-    }
 	/*
 	 User Functions
 	 */
@@ -190,7 +186,6 @@ public class  WebController {
 		this.userRepository.deleteUserByUsername(user_name);
 		return ResponseEntity.ok().build();
 	}
-	// Need to fix JPA constraint issue to resolve foreign key problem here
 
 	/*
 	 Track Functions
@@ -237,7 +232,6 @@ public class  WebController {
 		User user = this.userRepository.findUserByUsername(username);
 
 		if (user == null) {
-			// return error, you can't upload if you're not signed in
 			System.out.println("User doesn't exist");
 			return -2L;
 		}
@@ -248,7 +242,6 @@ public class  WebController {
 		String description = inputMap.get("description");
 
 		if (this.trackRepository.findTrackByTrackNameAndArtists(track_name, user) != null ) {
-			// return error, track doesnt exist
 			System.out.println("Track already exists");
 			return -1L;
 		}
@@ -306,7 +299,6 @@ public class  WebController {
 		}
 		return mostPlayed;
 
-		//return this.trackRepository.findMostPlayedTracks();
 	}
 
 	/*
@@ -402,7 +394,6 @@ public class  WebController {
 		this.playlistService.removeTrackFromPlaylist(playlist_id, track.get_track_id());
 	}
 
-	// Need to fix JPA constraint issue to resolve foreign key problem here
 	@PostMapping("/delete/playlist/{playlist_id}")
 	@ResponseBody
     public void deletePlaylist(@PathVariable("playlist_id") Long playlist_id) throws JsonProcessingException {

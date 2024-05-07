@@ -154,7 +154,7 @@ class WebControllerTest {
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/clear/user/{user_name}", username))
-                .andExpect(status().isOk()); // Expecting status code 200
+                .andExpect(status().isOk());
 
     }
 
@@ -165,22 +165,19 @@ class WebControllerTest {
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/delete/user/{user_name}", username))
-                .andExpect(status().isOk()); // Expecting status code 200
+                .andExpect(status().isOk());
     }
 
     @Test
     void testGetAllTracks_Success() throws Exception {
-        // Mock tracks
         List<Track> mockTracks = Arrays.asList(
                 new Track(),
                 new Track(),
                 new Track()
         );
 
-        // Mock the behavior of trackService to return mockTracks
         when(trackService.get_tracks()).thenReturn(mockTracks);
 
-        // Perform GET request to /get/alltracks
         mvc.perform(MockMvcRequestBuilders
                         .get("/get/alltracks")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -197,13 +194,10 @@ class WebControllerTest {
                 new Track()
         );
 
-        // Mock the behavior of userRepository to return mockUser
         when(userRepository.findUserByUsername("user")).thenReturn(mockUser);
 
-        // Mock the behavior of trackRepository to return mockTracks
         when(trackRepository.findTracksByArtistId(mockUser.get_user_id())).thenReturn(mockTracks);
 
-        // Perform GET request to /get/user/tracks/{username}
         mvc.perform(MockMvcRequestBuilders
                         .get("/get/user/tracks/{username}", "user")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -214,14 +208,11 @@ class WebControllerTest {
     void testFindTrack_Success() throws Exception {
         Long track_id = 1L;
 
-        // Mock track
         Track mockTrack = new Track();
         mockTrack.set_track_id(track_id);
 
-        // Mock the behavior of trackRepository to return mockTrack
         when(trackRepository.findTrackByTrackId(track_id)).thenReturn(mockTrack);
 
-        // Perform GET request to /get/track/{track_id}
         mvc.perform(MockMvcRequestBuilders
                         .get("/get/track/{track_id}", track_id)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -232,16 +223,12 @@ class WebControllerTest {
     void testFindTracksByTrackName_Success() throws Exception {
         String track_name = "testTrack";
 
-        // Mock list of tracks
         List<Track> mockTracks = new ArrayList<>();
         mockTracks.add(new Track());
         mockTracks.getFirst().set_track_name(track_name);
-        // Add more mock tracks as needed
 
-        // Mock the behavior of trackRepository to return mockTracks
         when(trackRepository.findTracksByTrackName(track_name)).thenReturn(mockTracks);
 
-        // Perform GET request to /get/tracks/track_name/{track_name}
         mvc.perform(MockMvcRequestBuilders
                         .get("/get/tracks/track_name/{track_name}", track_name)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -250,32 +237,27 @@ class WebControllerTest {
 
     @Test
     void testCreateTrack_Success() throws Exception {
-        // Mock input JSON payload
-        String username = "testUser";
-        String trackName = "testTrack";
-        String trackPath = "/path/to/track";
-        String description = "Test description";
+        String username = "user";
+        String track_name = "track_name";
+        String track_path = "track_path";
+        String description = "description";
 
         Map<String, String> userInput = new HashMap<>();
         userInput.put("username", username);
-        userInput.put("track_name", trackName);
-        userInput.put("track_path", trackPath);
+        userInput.put("track_name", track_name);
+        userInput.put("track_path", track_path);
         userInput.put("description", description);
         String inputJson = new ObjectMapper().writeValueAsString(userInput);
 
-        // Mock the behavior of userRepository to return a user with the provided username
         User mockUser = new User(/* user details */);
         when(userRepository.findUserByUsername(username)).thenReturn(mockUser);
 
-        // Mock the behavior of trackRepository to return null, indicating the track does not exist
-        when(trackRepository.findTrackByTrackNameAndArtists(trackName, mockUser)).thenReturn(null);
+        when(trackRepository.findTrackByTrackNameAndArtists(track_name, mockUser)).thenReturn(null);
 
-        // Mock the behavior of trackService to return a track ID
         Long mockTrackId = 1L;
-        when(trackService.create_track(trackName, trackPath, description, mockUser.get_user_id(), mockUser))
+        when(trackService.create_track(track_name, track_path, description, mockUser.get_user_id(), mockUser))
                 .thenReturn(mockTrackId);
 
-        // Perform POST request to /create/track endpoint
         mvc.perform(MockMvcRequestBuilders
                         .post("/create/track")
                         .content(inputJson)
@@ -286,14 +268,11 @@ class WebControllerTest {
 
     @Test
     void testPlayTrack_Success() throws Exception {
-        // Mock track ID
         Long track_id = 1L;
 
-        // Mock the behavior of trackRepository to return a mock track for the provided track ID
         Track mockTrack = new Track();
         when(trackRepository.findTrackByTrackId(track_id)).thenReturn(mockTrack);
 
-        // Perform POST request to /play/track/{track_id} endpoint
         mvc.perform(MockMvcRequestBuilders
                         .post("/play/track/{track_id}", track_id))
                 .andExpect(status().isOk());
@@ -301,17 +280,13 @@ class WebControllerTest {
 
     @Test
     void testRecommendedTracks_Success() throws Exception {
-        // Mock most played tracks
         List<Track> mostPlayedTracks = new ArrayList<>();
-        // Add some mock tracks to the list
         mostPlayedTracks.add(new Track());
         mostPlayedTracks.add(new Track());
         mostPlayedTracks.add(new Track());
 
-        // Mock the behavior of trackRepository to return the most played tracks
         when(trackRepository.findMostPlayedTracks()).thenReturn(mostPlayedTracks);
 
-        // Perform GET request to /get/recommended/tracks endpoint
         mvc.perform(MockMvcRequestBuilders
                         .get("/get/recommended/tracks")
                         .accept(MediaType.APPLICATION_JSON))
@@ -320,20 +295,16 @@ class WebControllerTest {
 
     @Test
     void testCreatePlaylist_Success() throws Exception {
-        // Mock input JSON
         Map<String, String> playlistData = new HashMap<>();
-        playlistData.put("user_id", "1"); // Assuming user_id exists in the database
+        playlistData.put("user_id", "1");
         playlistData.put("playlist_name", "Test Playlist");
         String inputJson = new ObjectMapper().writeValueAsString(playlistData);
 
-        // Mock the behavior of userRepository to return a user
-        User user = new User(/* user details */);
+        User user = new User();
         when(userRepository.findUserByUserId(1L)).thenReturn(user);
 
-        // Mock the behavior of playlistService to return true indicating successful creation
         when(playlistService.create_playlist(user, "Test Playlist")).thenReturn(true);
 
-        // Perform POST request to /create/playlist endpoint
         mvc.perform(MockMvcRequestBuilders
                         .post("/create/playlist")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -343,24 +314,19 @@ class WebControllerTest {
 
     @Test
     void testAddSongToPlaylist_Success() throws Exception {
-        // Mock input JSON
         Map<String, String> inputData = new HashMap<>();
-        inputData.put("playlist_id", "1"); // Assuming playlist_id exists in the database
-        inputData.put("track_id", "1"); // Assuming track_id exists in the database
+        inputData.put("playlist_id", "1");
+        inputData.put("track_id", "1"); 
         String inputJson = new ObjectMapper().writeValueAsString(inputData);
 
-        // Mock the behavior of playlistRepository to return a playlist
-        Playlist playlist = new Playlist(/* playlist details */);
+        Playlist playlist = new Playlist();
         when(playlistRepository.findPlaylistByPlaylistId(1L)).thenReturn(playlist);
 
-        // Mock the behavior of trackRepository to return a track
-        Track track = new Track(/* track details */);
+        Track track = new Track();
         when(trackRepository.findTrackByTrackId(1L)).thenReturn(track);
 
-        // Mock the behavior of playlistService to return true indicating successful update
         when(playlistService.update_playlist(playlist)).thenReturn(true);
 
-        // Perform POST request to /addsong/playlist endpoint
         mvc.perform(MockMvcRequestBuilders
                         .post("/addsong/playlist")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -370,21 +336,17 @@ class WebControllerTest {
 
     @Test
     void testRemoveTrackFromPlaylist_Success() throws Exception {
-        // Mock input JSON
         Map<String, String> inputData = new HashMap<>();
-        inputData.put("playlist_id", "1"); // Assuming playlist_id exists in the database
-        inputData.put("track_id", "1"); // Assuming track_id exists in the database
+        inputData.put("playlist_id", "1");
+        inputData.put("track_id", "1"); 
         String inputJson = new ObjectMapper().writeValueAsString(inputData);
 
-        // Mock the behavior of playlistRepository to return a playlist
-        Playlist playlist = new Playlist(/* playlist details */);
+        Playlist playlist = new Playlist();
         when(playlistRepository.findPlaylistByPlaylistId(1L)).thenReturn(playlist);
 
-        // Mock the behavior of trackRepository to return a track
-        Track track = new Track(/* track details */);
+        Track track = new Track();
         when(trackRepository.findTrackByTrackId(1L)).thenReturn(track);
 
-        // Perform POST request to /removetrack/playlist endpoint
         mvc.perform(MockMvcRequestBuilders
                         .post("/removetrack/playlist")
                         .contentType(MediaType.APPLICATION_JSON)

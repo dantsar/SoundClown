@@ -42,7 +42,6 @@ public class TrackService {
         this.trackRepository.save(savedTrack);
         System.out.println(savedTrack);
         return savedTrack.get_track_id();
-        // return true; // need to handle error handling at somepoint
     }
 
     public boolean update_track(Track track) {
