@@ -1,8 +1,6 @@
-version: '3'
 services:
   db:
-    image: soundclownacr.azurecr.io/db
-    build: db
+    image: postgres
     volumes:
     - $HOME/srv/postgres:/var/lib/postgresql/data
     environment:
@@ -15,15 +13,13 @@ services:
     restart: always
   app:
     build: server/soundclownjpa
-    image: soundclownacr.azurecr.io/app
-    container_name: app
     expose:
     - 8080:8080
     ports:
     - 8080:8080
+    - 5005:5005 # for debugging
     volumes:
       - ./audio_files:/tmp/audio_files
-      - ./image_files:/tmp/image_files
     environment:
     - POSTGRES_DB=postgres
     - POSTGRES_PASSWORD=password
@@ -31,9 +27,8 @@ services:
     - db
   ui: 
     build: client/soundclownui
-    image: soundclownacr.azurecr.io/ui
-    container_name: ui
     ports:
-    - 80:80
+    - 3000:3000
     depends_on:
     - app
+

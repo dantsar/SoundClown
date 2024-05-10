@@ -1,35 +1,36 @@
-# SoundClown
+# <img src="soundclown.png" alt="Image Alt Text" width="50" height="50"> SoundClown 
+
 This is a SoundCloud clone for [ECE366](https://cooper.edu/engineering/courses/electrical-and-computer-engineering-undergraduate/ece-366).
-This project intends to use the following frameworks and techonologies:
-* Backend: Java
-* Frontend: ReactJS
-* Database: PostgreSQL
 
+To start up the  server you first need to ssh into the AWS server hosting the website, so reach out to either:
+- andy.jaku@cooper.edu
+- fred.kim@cooper.edu
+- daniel.tsarev@cooper.edu
 
----
-# MORE TO COME
+From there, a `docker-compose up` will get the website running.
 
-# Build System
-You first need to create location to store database data
-```
-mkdir -p $HOME/srv/postgres
-```
+If you would instead prefer to run the project locally, go to `client/soundclownui` and change the `Dockerfile` to the `oldDocker`, you will also need to change the address of HTTP requests to `localhost:8080` instead of the server's IP address. Then perform `docker-compose build` and `docker-compose up`.
 
-Then run 
-```
-docker run --rm --name lil-postgres -e POSTGRES_PASSWORD=password -d -v $HOME/srv/postgres:/var/lib/postgresql/data -p 5432:5432 postgres
-```
+## Code of Ethics 
+- 1.1 Contribute to society and to human well-being, acknowledging that all people are stakeholders in computing.
 
-Run 
-```
-docker compose up
-```
+- 1.4 Be fair and take action not to discriminate.
 
-# Web App
+- 1.7 Honor confidentiality.
 
-```sh
-# to build web app & install dependencies
-$ cd ./client/soundclownui/ && npm install
-# to start web app
-$ cd ./client/soundclownui/ && npm start
-```
+- 2.1 Strive to achieve high quality in both the processes and products of professional work.
+
+- 2.2 Maintain high standards of professional competence, conduct, and ethical practice.
+
+- 2.3 Know and respect existing rules pertaining to professional work.
+
+- 2.9 Design and implement systems that are robustly and usably secure.
+
+- 3.1 Ensure that the public good is the central concern during all professional computing work.
+ 
+- 3.3 Manage personnel and resources to enhance the quality of working life.
+
+- 3.6 Use care when modifying or retiring systems.
+
+## Unit Test Coverage
+![Image Alt Text](test-coverage.png)
